@@ -1,0 +1,12 @@
+---
+layout: none
+---
+[{% for chart in site.data.slopegraph-data %}
+  {
+    "Tool": "{{ chart.Tool }}",
+    "Users": "{{ chart.Users }}",
+    "After": "{{ chart.After }}",
+    "Before": "{{ chart.Before }}",
+    "Comments": "{{ chart.Comments }}"
+  }{% if forloop.last == false %},{% endif %}
+{% endfor %}]

@@ -2,7 +2,7 @@
 title: 'Works of Chart'
 description: 'Making sense of data'
 keyword: 'data, data science, data visualization, python, R, scikit-learn, spark, d3.js, machine learning'
-url: 'http://mwburke.github.io' # your host
+url: 'http://worksofchart.com' # your host
 
 # if you don't need baseurl, you should leave this value blank.
 baseurl: ''
@@ -22,7 +22,7 @@ avatar: '/assets/img/profile.png'
 search: true
 
 # Night mode
-nightMode: true
+nightMode: false
 
 # Comments
 disqus: false
@@ -30,7 +30,7 @@ disqus_url: 'https://mwburke.disqus.com/embed.js'
 
 # Share
 social-share: false
-social-share-items: [twitter', 'linkedin', 'github']
+social-share-items: ['twitter', 'linkedin', 'github']
 
 # theme color 
 theme-color: 'default'  # pink or default
@@ -42,7 +42,7 @@ postPatterns: 'circuitBoard'
 sns:
   twitter: '//twitter.com/mattburkeley'
   linkedin: '//www.linkedin.com/in/matthew-burke-2017'
-  github: '//github.com/kaeyleo'
+  github: '//github.com/mwburke'
 
 # Tags 设置标签
 recommend-tags: true # whether or not display recommend-tags on the sidebar

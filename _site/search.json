@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Slopegraph vs Barchart",
+      "tags"     : "data-viz d3",
+      "url"      : "/2017/12/28/slopegraph-vs-barchart.html"
+    } ,
+  
+    {
       "title"    : "Why Make A Blog",
       "tags"     : "jekyll web",
       "url"      : "/2017/12/23/why-make-a-blog.html"

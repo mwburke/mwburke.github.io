@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Working with Jekyll and D3",
+      "tags"     : "jekyll d3",
+      "url"      : "/2017/12/29/jekyll-and-d3.html"
+    } ,
+  
+    {
       "title"    : "Slopegraph vs Barchart",
       "tags"     : "data-viz d3",
       "url"      : "/2017/12/28/slopegraph-vs-barchart.html"

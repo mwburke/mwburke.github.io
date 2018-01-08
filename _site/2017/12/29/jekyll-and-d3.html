@@ -43,7 +43,7 @@
 </header>
 
 
-<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default " data-theme="default">
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
     <div class="post-wrapper">
         <div class="post-tags">
             
@@ -61,9 +61,6 @@
         </div>
     </div>
     
-    <div class="filter"></div>
-    <div class="post-cover" style="background: url('') center no-repeat; background-size: cover;">
-    
 </header>
 
 <div class="post-content">
@@ -75,7 +72,7 @@
 
 <p>However, since it relies heavily on <a href="http://yaml.org/">YAML</a> configuration files and <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> rather than HTML and JSON, it doesn’t have many nice plug-n-play features with D3.</p>
 
-<p>Luckily there are smart people out there like the API Evangelist (who you should seriously <a href="http://apievangelist.com/">check out</a> sometime), who help us plebeians out. He had a <a href="https://apievangelist.com/2016/09/20/d3js-visualizations-using-yaml-and-jekyll/">super helpful post</a> about getting D3 visualizations working with Jekyll. The strategy is basically to generate two separate files: a yaml file and instructions on how to compile that yaml file into JSON, so that when you build your site, you end up with the original JSON file you were working with when prototyping in D3.</p>
+<p>Luckily there are smart people out there like the <a href="http://apievangelist.com/">API Evangelist</a> (who you should seriously check out sometime), who help us plebeians out. He had a <a href="https://apievangelist.com/2016/09/20/d3js-visualizations-using-yaml-and-jekyll/">super helpful post</a> about getting D3 visualizations working with Jekyll. The strategy is basically to generate two separate files: a yaml file and instructions on how to compile that yaml file into JSON, so that when you build your site, you end up with the original JSON file you were working with when prototyping in D3.</p>
 
 <h3 id="slopegraph-example">Slopegraph example</h3>
 
@@ -113,7 +110,7 @@
 
 <h4 id="conversion-definition-file">Conversion Definition File</h4>
 
-<p>The last step is to create a <a href="http://shopify.github.io/liquid/">Liquid</a> template definition on how to regenerate JSON from the YAML so the cycle is complete. The script looks like the following:</p>
+<p>The last step is to create a <a href="http://shopify.github.io/liquid/">Liquid</a> template definition on how to regenerate JSON line by line as it iterates through the YAML, and the cycle is complete. The script looks like the following:</p>
 
 <pre><code class="language-liquid">---
 layout: none
@@ -228,7 +225,7 @@ if __name__ == '__main__':
 </section>
 
 <footer class="g-footer">
-    <section>Works of Chart © 2017</section>
+    <section>Works of Chart © 2018</section>
     <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
 </footer>
 

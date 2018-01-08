@@ -3,7 +3,6 @@ layout: post
 title: 'Working with Jekyll and D3'
 date: 2017-12-29
 author: Matthew
-cover: ''
 tags: jekyll d3
 ---
 
@@ -13,7 +12,7 @@ Jekyll is a fantastic framework to get up and running quickly with a blog websit
 
 However, since it relies heavily on [YAML](http://yaml.org/) configuration files and [Markdown](https://en.wikipedia.org/wiki/Markdown) rather than HTML and JSON, it doesn't have many nice plug-n-play features with D3. 
 
-Luckily there are smart people out there like the API Evangelist (who you should seriously [check out](http://apievangelist.com/) sometime), who help us plebeians out. He had a [super helpful post](https://apievangelist.com/2016/09/20/d3js-visualizations-using-yaml-and-jekyll/) about getting D3 visualizations working with Jekyll. The strategy is basically to generate two separate files: a yaml file and instructions on how to compile that yaml file into JSON, so that when you build your site, you end up with the original JSON file you were working with when prototyping in D3. 
+Luckily there are smart people out there like the [API Evangelist](http://apievangelist.com/) (who you should seriously check out sometime), who help us plebeians out. He had a [super helpful post](https://apievangelist.com/2016/09/20/d3js-visualizations-using-yaml-and-jekyll/) about getting D3 visualizations working with Jekyll. The strategy is basically to generate two separate files: a yaml file and instructions on how to compile that yaml file into JSON, so that when you build your site, you end up with the original JSON file you were working with when prototyping in D3. 
 
 ### Slopegraph example
 
@@ -53,7 +52,7 @@ The initial way I generated the yaml file from JSON was using the [json2yaml](ht
 
 #### Conversion Definition File
 
-The last step is to create a [Liquid](http://shopify.github.io/liquid/) template definition on how to regenerate JSON from the YAML so the cycle is complete. The script looks like the following:
+The last step is to create a [Liquid](http://shopify.github.io/liquid/) template definition on how to regenerate JSON line by line as it iterates through the YAML, and the cycle is complete. The script looks like the following:
 
 ```liquid
 {% raw %}---

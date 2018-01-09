@@ -4,7 +4,7 @@ title: 'Why Make A Blog'
 date: 2017-12-23
 author: Matthew
 cover: 'http://on2171g4d.bkt.clouddn.com/jekyll-banner.png'
-tags: jekyll web
+tags: jekyll
 ---
 
 ### Does the world need another blog? 

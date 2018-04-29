@@ -6,7 +6,7 @@
     <title>Why Make A Blog - Works of Chart</title>
     <meta name="author"  content="Matthew Burke">
     <meta name="description" content="Why Make A Blog">
-    <meta name="keywords"  content="jekyll, web">
+    <meta name="keywords"  content="jekyll">
     <!-- Open Graph -->
     <meta property="og:title" content="Why Make A Blog - Works of Chart">
     <meta property="og:type" content="website">
@@ -19,6 +19,28 @@
     <link rel="stylesheet" href="/assets/css/prism.css">
     <link rel="stylesheet" href="/assets/css/share.min.css">
     <link rel="stylesheet" href="/assets/css/app.min.css">
+    
+    <!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+    
 </head>
 <body>
     <!--[if lt IE 10]>
@@ -49,8 +71,6 @@
             
             
             <a href="http://localhost:4000/tags#jekyll" class="post-tag">jekyll</a>
-            
-            <a href="http://localhost:4000/tags#web" class="post-tag">web</a>
             
             
         </div>
@@ -96,11 +116,11 @@
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+            <img src="http://localhost:4000/assets/img/other-profile.jpg" alt="">
         </div>
         <div class="author-name" rel="author">Matthew Burke</div>
         <div class="bio">
-            <p>Data scientist, UC Berkeley graduate, lover of funky music</p>
+            <p>Data Science, Data Viz, Web Stuff (sorta)</p>
         </div>
         
         <ul class="sns-links">

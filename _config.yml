@@ -15,8 +15,8 @@ nav:
 # Author
 author: 'Matthew Burke'
 nickname: ''
-bio: 'Data scientist, UC Berkeley graduate, lover of funky music'
-avatar: '/assets/img/profile.png'
+bio: 'Data Science, Data Viz, Web Stuff (sorta)'
+avatar: '/assets/img/other-profile.jpg'
 
 # Search
 search: true
@@ -27,6 +27,9 @@ nightMode: false
 # Comments
 disqus: false
 disqus_url: 'https://mwburke.disqus.com/embed.js'
+
+# MathJax
+mathjax: true
 
 # Share
 social-share: false
@@ -44,7 +47,7 @@ sns:
   linkedin: '//www.linkedin.com/in/matthew-burke-2017'
   github: '//github.com/mwburke'
 
-# Tags 设置标签
+# Tags
 recommend-tags: true # whether or not display recommend-tags on the sidebar
 recommend-condition-size: 12 # a tag will be recommended if the size of it is more than this value
 

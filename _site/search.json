@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Population Stability Index",
+      "tags"     : "python data-science ml",
+      "url"      : "/2018/04/29/population-stability-index.html"
+    } ,
+  
+    {
       "title"    : "Working with Jekyll and D3",
       "tags"     : "jekyll d3",
       "url"      : "/2017/12/29/jekyll-and-d3.html"
@@ -14,7 +20,7 @@
   
     {
       "title"    : "Why Make A Blog",
-      "tags"     : "jekyll web",
+      "tags"     : "jekyll",
       "url"      : "/2017/12/23/why-make-a-blog.html"
     } 
   

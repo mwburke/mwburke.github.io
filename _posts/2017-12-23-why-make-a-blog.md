@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Why Make A Blog'
+title: 'Why Make A Blog | worksofchart.com'
 date: 2017-12-23
 author: Matthew
 cover: 'http://on2171g4d.bkt.clouddn.com/jekyll-banner.png'

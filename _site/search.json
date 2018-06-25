@@ -1,25 +1,31 @@
 [
   
     {
-      "title"    : "Population Stability Index",
+      "title"    : "Stargazer: Multiple Regression Reporting | worksofchart.com",
+      "tags"     : "python regression stargazer r experiments",
+      "url"      : "/2018/06/24/stargazer-regression-reporting.html"
+    } ,
+  
+    {
+      "title"    : "Population Stability Index | worksofchart.com",
       "tags"     : "python data-science ml",
       "url"      : "/2018/04/29/population-stability-index.html"
     } ,
   
     {
-      "title"    : "Working with Jekyll and D3",
+      "title"    : "Working with Jekyll and D3 | worksofchart.com",
       "tags"     : "jekyll d3",
       "url"      : "/2017/12/29/jekyll-and-d3.html"
     } ,
   
     {
-      "title"    : "Slopegraph vs Barchart",
+      "title"    : "Slopegraph vs Barchart | worksofchart.com",
       "tags"     : "data-viz d3",
       "url"      : "/2017/12/28/slopegraph-vs-barchart.html"
     } ,
   
     {
-      "title"    : "Why Make A Blog",
+      "title"    : "Why Make A Blog | worksofchart.com",
       "tags"     : "jekyll",
       "url"      : "/2017/12/23/why-make-a-blog.html"
     } 

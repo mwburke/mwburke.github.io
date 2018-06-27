@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Slopegraph vs Barchart | worksofchart.com'
+title: 'Slopegraph vs Barchart'
 date: 2017-12-28
 author: Matthew
 cover: 'https://raw.githubusercontent.com/mwburke/ds-tools-2017-slopegraph/master/preview.png'

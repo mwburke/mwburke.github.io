@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Population Stability Index | worksofchart.com'
+title: 'Population Stability Index'
 date: 2018-04-29
 author: Matthew
 cover: 'https://raw.githubusercontent.com/mwburke/population-stability-index/master/images/distributions.png'

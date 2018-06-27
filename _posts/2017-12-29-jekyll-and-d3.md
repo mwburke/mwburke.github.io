@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Working with Jekyll and D3 | worksofchart.com'
+title: 'Working with Jekyll and D3'
 date: 2017-12-29
 author: Matthew
 tags: jekyll d3

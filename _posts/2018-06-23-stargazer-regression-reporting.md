@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Stargazer: Multiple Regression Reporting | worksofchart.com'
+title: 'Stargazer: Multiple Regression Reporting'
 date: 2018-06-24
 author: Matthew
 cover: 'https://i.stack.imgur.com/G0hV4.png'

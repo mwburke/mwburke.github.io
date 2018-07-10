@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Why Make A Blog - Works of Chart</title>
+    <title>p5js Generative Art - Works of Chart</title>
     <meta name="author"  content="Matthew Burke">
-    <meta name="description" content="Why Make A Blog">
-    <meta name="keywords"  content="jekyll">
+    <meta name="description" content="p5js Generative Art">
+    <meta name="keywords"  content="javascript, p5js">
     <!-- Open Graph -->
-    <meta property="og:title" content="Why Make A Blog - Works of Chart">
+    <meta property="og:title" content="p5js Generative Art - Works of Chart">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://localhost:4000/2017/12/23/why-make-a-blog.html">
+    <meta property="og:url" content="http://localhost:4000/2018/07/09/generative-art-p5js.html">
     <meta property="og:description" content="Making sense of data">
     <meta property="og:site_name" content="Works of Chart">
     <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
@@ -70,44 +70,41 @@ refer to:
         <div class="post-tags">
             
             
-            <a href="http://localhost:4000/tags#jekyll" class="post-tag">jekyll</a>
+            <a href="http://localhost:4000/tags#javascript" class="post-tag">javascript</a>
+            
+            <a href="http://localhost:4000/tags#p5js" class="post-tag">p5js</a>
             
             
         </div>
-        <h1>Why Make A Blog</h1>
+        <h1>p5js Generative Art</h1>
         <div class="post-meta">
             <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">Matthew</a></></span>
-            <time class="post-meta-item" datetime="17-12-23"><i class="iconfont icon-date"></i>23 Dec 2017</time>
+            <time class="post-meta-item" datetime="18-07-09"><i class="iconfont icon-date"></i>09 Jul 2018</time>
         </div>
     </div>
     
     <div class="filter"></div>
-    <div class="post-cover" style="background: url('http://on2171g4d.bkt.clouddn.com/jekyll-banner.png') center no-repeat; background-size: cover;">
+    <div class="post-cover" style="background: url('/assets/img/generative-art.png') center no-repeat; background-size: cover;">
     
 </header>
 
 <div class="post-content">
     
     <article class="markdown-body">
-        <h3 id="does-the-world-need-another-blog">Does the world need another blog?</h3>
+        <h1 id="what-is-generative-art">What is generative art?</h1>
 
-<p>Short answer, no. There are enough smart, experienced people out there writing blogs about data science and the next greatest thing, and we all know there are more than enough opinions on the internet.</p>
+<p>Generative art is procedurally generated art for those of us who are less traditionally artistically inclined. More specifically, those who have no skill but still have enough appreciation for art and mathematical princples to automate the creation of things that look snice.</p>
 
-<h3 id="then-why-make-this-blog">Then why make this blog?</h3>
+<h1 id="javascript-libraries">Javascript Libraries</h1>
 
-<p>This blog is mostly for myself (but I’m glad you’re here if you’re reading this), because I wanted a structured way to motivate myself to pick up new skills, do interesting projects and hopefully share what I’ve learned with others.</p>
+<p>The go-to library for web-based mathematical visualization is <a href="d3js.org">d3</a>, and many visualization libraries are based upon it. However, recently I stumbled across <a href="https://processing.org/">processing</a>, and it’s javascript equivalent <a href="https://p5js.org/">p5js</a>, which are amazing for creating procedurally generated visualizations. It’s inherently build to support an initialization process with the <code>setup</code> function and a function to update the visualization frame-by-frame with the <code>draw</code> function.</p>
 
-<h3 id="what-is-it-running-on">What is it running on?</h3>
+<p>It’s easy to pick up and get going and create somethign really quickly, and it’s only been a few days since I’ve heard about it, and I’ve already had tons of fun learning the API and using the basics to create some “art” I’m happy with. I highly encourage you to check it out and maybe some of the stuff I’ve made recently <a href="http://worksofchart.com/generative-art/7.html">here</a>.</p>
 
-<p>I’m using <a href="https://jekyllrb.com/">Jekyll</a> to generate the site and am hosting it on <a href="https://pages.github.com/">Github Pages</a>, since it is a great (read: free) way to host websites and it integrates directly with Jekyll. Once you’ve set up your website framework and configurations, all you need to do to add posts is create a Markdown file for it, rebuild the site and push it to your repo.</p>
+<p>If you are too lazy to click on the link, here’s an example of one of the static visualizations as well as the one in the post header.</p>
 
-<p>The theme I’m using <a href="https://github.com/kaeyleo/jekyll-theme-H2O">can be found here</a>. It uses <a href="http://prismjs.com/index.html">Prism.js</a> for code highlighting with code styling taken from <a href="https://github.com/LukeAskew/prism-github">here</a> since I wasn’t totally happy with the default themes.</p>
+<p><img src="/assets/img/generative-art-2.png" alt="" /></p>
 
-<p>I’m not a web developer soooo please bear with any issues you may discover and feel free to let me know what I can do to improve!</p>
-
-<h3 id="will-i-think-up-a-paragraph-title-thats-not-a-question">Will I think up a paragraph title that’s not a question?</h3>
-
-<p>We can only hope.</p>
 
     </article>
     
@@ -148,18 +145,18 @@ refer to:
     </section>
     <section class="post-footer-item read-next">
         
+        
         <div class="read-next-item">
-            <a href="/2017/12/28/slopegraph-vs-barchart.html" class="read-next-link"></a>
+            <a href="/2018/06/24/stargazer-regression-reporting.html" class="read-next-link"></a>
             <section>
-                <span>Slopegraph vs Barchart</span>
-                <p>Slopegraphs are great (…sometimes)A slopegraph is a relat...</p>
+                <span>Stargazer: Multiple Regression Reporting</span>
+                <p>Introducing the Stargazer Python Package:I really like th...</p>
             </section>
             
             <div class="filter"></div>
-            <img src="https://raw.githubusercontent.com/mwburke/ds-tools-2017-slopegraph/master/preview.png" alt="">
+            <img src="https://i.stack.imgur.com/G0hV4.png" alt="">
             
         </div>
-        
         
     </section>
     

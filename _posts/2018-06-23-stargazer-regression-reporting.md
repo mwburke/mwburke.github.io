@@ -33,7 +33,7 @@ You are correct, but aren't tables just charts of text....? The answer is no, bu
 
 The main situation that people tend to use the R version of stargazer is in reporting regression results in academic papers. It easily allows you to compare multiple regression results, and this lends itself to comparing results between models that have experimentally imposed effects and those that don't. this easily allows the user to view the differences in coefficients, statistical significance and the effects of the new variable introduced by the experiment. 
 
-I'm hoping to update it over the next (*insert period of time here*) to support LaTeX and Markdown, but until them we have HTML for online reporting purposes. 
+It currently supports LaTeX and HTML output, but my goal is eventually support Markdown and ASCII text as well. 
 
 ## How do I use it?
 

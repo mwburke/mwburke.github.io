@@ -35,7 +35,7 @@ mathjax: true
 social-share: false
 social-share-items: ['twitter', 'linkedin', 'github']
 
-# theme color 
+# theme color
 theme-color: 'default'  # pink or default
 
 # Post header background patterns (when the post no cover): circuitBoard, overlappingCircles, food, glamorous, ticTacToe, seaOfClouds

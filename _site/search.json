@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Quantile Regression: Interpretable Linear Modeling",
+      "tags"     : "python regression data-science ml",
+      "url"      : "/2018/08/24/quantile-regression.html"
+    } ,
+  
+    {
       "title"    : "p5js Generative Art",
       "tags"     : "javascript p5js",
       "url"      : "/2018/07/09/generative-art-p5js.html"

@@ -3,7 +3,7 @@ layout: post
 title: 'p5js Generative Art'
 date: 2018-07-09
 author: Matthew
-cover: /assets/img/generative-art.png
+cover: /assets/img/generative-art-10.png
 tags: javascript p5js
 ---
 
@@ -17,6 +17,10 @@ The go-to library for web-based mathematical visualization is [d3](d3js.org), an
 
 It's easy to pick up and get going and create somethign really quickly, and it's only been a few days since I've heard about it, and I've already had tons of fun learning the API and using the basics to create some "art" I'm happy with. I highly encourage you to check it out and maybe some of the stuff I've made recently [here](http://worksofchart.com/generative-art/posts/007.html). 
 
-If you are too lazy to click on the link, here's an example of one of the static visualizations as well as the one in the post header. 
+If you are too lazy to click on the link, here's a few examples of the static visualizations as well as the one in the post header. 
 
 <a href="http://worksofchart.com/generative-art/posts/002.html">![](/assets/img/generative-art-2.png)</a>
+
+<a href="https://worksofchart.com/generative/art/posts/010.html">![](/assets/img/generative-art-10.png)</a>
+
+<a href="https://worksofchart.com/generative/art/posts/011.html">![](/assets/img/generative-art-11.png)</a>

@@ -1,0 +1,120 @@
+---
+layout: default
+home-title: About
+---
+
+{% include header.html %}
+
+<div class="g-banner home-banner {{ site.theme-color | prepend: 'banner-theme-' }}" data-theme="{{ site.theme-color }}">
+    <h2>{{ page.home-title }}</h2>
+    <h3>{{ page.description }}</h3>
+    {% if page.header-img %}
+    <img class="header-img" src="{{ page.header-img | prepend: site.baseurl }}" alt="">
+    {% endif %}
+</div>
+
+<main class="g-container home-content">
+
+
+                    <div class="post-content">
+                        <article class="markdown-body">
+                        <h2>About the Author</h2>
+                        <p>
+                            My name is Matthew Burke, and I'm a data scientist with a passion for the intersection of machine learning, optimization and data visualization.
+                        </p>
+                        <h3>Education</h3>
+                        <p>Masters in Information and Data Science, UC Berkeley</p>
+                        <p>B.S. Industrial Engineering and Operations Research, UC Berkeley</p>
+                        <h3>Why "Works of Chart"?</h3>
+                        <p>
+                            Visualization can be a powerful tool to summarize information in an easily digestible format, and so I have been forced to delve in to the world of web development in order to communicate these ideas. Fortunately, there are a lot of great resources to reduce the complexities of getting up and running, like Jekyll which is used to power this blog. 
+                        </p>
+                        <h3>Contact</h3>
+                        <p>Please don't hesitate to reach out if you have any feedback on the website, ideas you'd like to see visualized, or anything else data related. The best way to do that is probably through <a href="https://www.linkedin.com/in/matthew-burke-2017/">LinkedIn</a>.
+                        </p>
+                        
+                        <h2>Projects</h2>
+                        <p>
+                            Here are some projects I work on that may or may not be featured on the blog, but you might find helpful or interesting:
+                        </p>
+                       
+                        <h3><a href="https://github.com/mwburke/stargazer">Stargazer</a></h3>
+                        <p>
+                            A python implementation of the R stargazer regression reporting package
+                        </p>
+                        <h3><a href="https://github.com/mwburke/cluster-stability">Cluster Stability Metric</a></h3>
+                        <p>Python implementation of an interesting clustering stability measurement strategy by comparing similarity of cluster assignments from performing clustering on subsets of the data</p>
+                        <h3><a href="https://github.com/mwburke/ds-resources">DS Resources</a></h3>
+                        <p>
+                            A collection of helpful data related resources on a variety of algorithms / methods
+                        </p>
+                        <h3><a href="https://github.com/mwburke/sklearn-utilities">Scikit-learn Utilities</a></h3>
+                        <p>
+                            Any random scikit-learn compatible data transformation/feature selection tools I end up finding useful during model development
+                        </p>
+                        <h3><a href="https://github.com/mwburke/population-stability-index">Population Stability Index</a></h3>
+                        <p>
+                            Python implementation of the population stability index
+                        </p>
+                        <h3><a href="https://github.com/mwburke/ds-tools-2017-slopegraph">D3 Slopegraph</a></h3>
+                        <p>
+                            Example slopegraph created using D3.js
+                        </p>
+                         <h3><a href="http://worksofchart.com/generative-art">Generative Art Stuff</a></h3>                        
+                         <p>
+                            I create some generative art in my free time, inspired by all the great work at <a href="openprocessing.org">openprocessing.org</a>
+                        </p>
+
+                    </article>
+
+
+
+
+    <aside class="g-sidebar-wrapper">
+        <div class="g-sidebar">
+            <section class="author-card">
+                <div class="avatar">
+                    <img src="{{ site.avatar | prepend: site.baseurl }}" alt="">
+                </div>
+                <div class="author-name" rel="author">{{ site.author }}</div>
+                <div class="bio">
+                    <p>{{ site.bio }}</p>
+                </div>
+                {% if site.sns.size > 0 %}
+                <ul id="sns-links" class="sns-links">
+                    {% for s in site.sns %}
+                    <li>
+                        <a href="{{ s[1] }}" target="_blank">
+                            <i class="iconfont icon-{{ s[0] }}"></i>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </section>
+
+            {% if site.recommend-tags and site.tags.size>0 %}
+            <section class="tags-card">
+                {% for tag in site.tags %}
+                    {% if forloop.index > site.recommend-condition-size %}
+                        {% break %}
+                    {% endif %}
+                    <a href="{{ "tags.html#" | append: tag[0] | prepend: site.baseurl }}" class="tag">{{ tag[0]}}</a>
+                {% endfor %}
+            </section>
+            {% endif %}
+        </div>
+
+        {% if site.search %}
+        <div class="search-card">
+            <input id="search_input" type="text" placeholder="Search...">
+            <i class="iconfont icon-search"></i>
+            <div class="search_result"></div>
+        </div>
+        {% endif %}
+
+    </aside>
+
+</main>
+
+{% include footer.html %}

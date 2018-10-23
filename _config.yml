@@ -45,7 +45,7 @@ postPatterns: 'circuitBoard'
 # SNS settings url: weibo, zhihu, twitter, instagram, juejin, github, douban, facebook, dribble, uicn, jianshu, medium, linkedin
 sns:
   twitter: '//twitter.com/mattburkeley'
-  linkedin: '//www.linkedin.com/in/matthew-burke-2017'
+  linkedin: '//www.linkedin.com/in/matthew-burke-data-science'
   github: '//github.com/mwburke'
 
 # Tags

@@ -1,7 +1,7 @@
 # Site settings
 title: 'Works of Chart'
 description: 'Making sense of data'
-keyword: 'data, data science, data visualization, python, R, scikit-learn, spark, d3.js, machine learning'
+keyword: 'data, data science, data visualization, python,scikit-learn, spark, d3.js, machine learning'
 url: 'http://worksofchart.com' # your host
 
 # if you don't need baseurl, you should leave this value blank.
@@ -16,7 +16,7 @@ nav:
 # Author
 author: 'Matthew Burke'
 nickname: ''
-bio: 'Data Science, Data Viz, Web Stuff (sorta)'
+bio: 'Data Visualization, Machine Learning, Optimization'
 avatar: '/assets/img/other-profile.jpg'
 
 # Search

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 'Working with Jekyll and D3'
+subtitle: 'Integration for Data-Oriented Blogging'
 date: 2017-12-29
 author: Matthew
 tags: jekyll d3
@@ -8,11 +9,11 @@ tags: jekyll d3
 
 ### Getting tools to play nice
 
-Jekyll is a fantastic framework to get up and running quickly with a blog website, and adding posts through markdown files abstracts a lot of the complexity for me, leaving more time to spend writing. 
+Jekyll is a fantastic framework to get up and running quickly with a blog website, and adding posts through markdown files abstracts a lot of the complexity for me, leaving more time to spend writing.
 
-However, since it relies heavily on [YAML](http://yaml.org/) configuration files and [Markdown](https://en.wikipedia.org/wiki/Markdown) rather than HTML and JSON, it doesn't have many nice plug-n-play features with D3. 
+However, since it relies heavily on [YAML](http://yaml.org/) configuration files and [Markdown](https://en.wikipedia.org/wiki/Markdown) rather than HTML and JSON, it doesn't have many nice plug-n-play features with D3.
 
-Luckily there are smart people out there like the [API Evangelist](http://apievangelist.com/) (who you should seriously check out sometime), who help us plebeians out. He had a [super helpful post](https://apievangelist.com/2016/09/20/d3js-visualizations-using-yaml-and-jekyll/) about getting D3 visualizations working with Jekyll. The strategy is basically to generate two separate files: a yaml file and instructions on how to compile that yaml file into JSON, so that when you build your site, you end up with the original JSON file you were working with when prototyping in D3. 
+Luckily there are smart people out there like the [API Evangelist](http://apievangelist.com/) (who you should seriously check out sometime), who help us plebeians out. He had a [super helpful post](https://apievangelist.com/2016/09/20/d3js-visualizations-using-yaml-and-jekyll/) about getting D3 visualizations working with Jekyll. The strategy is basically to generate two separate files: a yaml file and instructions on how to compile that yaml file into JSON, so that when you build your site, you end up with the original JSON file you were working with when prototyping in D3.
 
 ### Slopegraph example
 
@@ -23,7 +24,7 @@ In a [previous post](http://worksofchart.com/2017/12/28/slopegraph-vs-barchart.h
 	{"Tool":"Python",
 	 "Users":1516,
 	 "After":52.6,
-	 "Before":45.8, 
+	 "Before":45.8,
 	 "Comments": "Python is growing in popularity"
 	},
 	{"Tool":"R",

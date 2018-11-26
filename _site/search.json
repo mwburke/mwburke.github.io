@@ -1,20 +1,20 @@
 [
   
     {
-      "title"    : "Quantile Regression: Interpretable Linear Modeling",
-      "tags"     : "python regression data-science ml",
+      "title"    : "Quantile Regression",
+      "tags"     : "python regression ml",
       "url"      : "/2018/08/24/quantile-regression.html"
     } ,
   
     {
-      "title"    : "p5js Generative Art",
-      "tags"     : "javascript p5js",
+      "title"    : "Generative Art",
+      "tags"     : "javascript processing",
       "url"      : "/2018/07/09/generative-art-p5js.html"
     } ,
   
     {
-      "title"    : "Stargazer: Multiple Regression Reporting",
-      "tags"     : "python regression stargazer r experiments",
+      "title"    : "Stargazer Python Library",
+      "tags"     : "python regression stargazer experiments",
       "url"      : "/2018/06/24/stargazer-regression-reporting.html"
     } ,
   

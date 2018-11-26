@@ -62,7 +62,7 @@ video {
 }
 
 body {
-    font-family: -apple-system, Verdana, "PingFang SC", "Helvetica Neue", Arial, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    font-family: -apple-system, Verdana, "Helvetica Neue", Arial, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     color: #656565;
     -webkit-font-smoothing: antialiased;
     background-color: #f7f8fa
@@ -191,7 +191,7 @@ a {
 }
 
 .g-banner {
-    height: 300px;
+    height: 400px;
     background-color: #2f3139;
     color: #fff;
     padding: 0 40px
@@ -201,7 +201,8 @@ a {
     position: relative;
     text-align: center;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 38, 55, .16)
+    box-shadow: 0 4px 20px rgba(0, 38, 55, .16);
+    height: 200px;
 }
 
 .home-banner h2,
@@ -212,13 +213,13 @@ a {
 }
 
 .home-banner h2 {
-    padding-top: 100px;
+    padding-top: 50px;
     line-height: 38px;
     font-size: 42px;
     font-family: Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
     font-weight: 700;
     letter-spacing: 2px;
-    line-height: 52px
+    line-height: 45px
 }
 
 .home-banner h3 {
@@ -1302,10 +1303,10 @@ a {
 
 @media screen and (min-width:1920px) {
     .home-banner {
-        height: 600px
+        height: 300px
     }
     .home-banner h2 {
-        padding-top: 260px;
+        padding-top: 150px;
         font-size: 42px
     }
     .home-banner h3 {

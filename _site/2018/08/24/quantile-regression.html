@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantile Regression: Interpretable Linear Modeling - Works of Chart</title>
+    <title>Quantile Regression - Works of Chart</title>
     <meta name="author"  content="Matthew Burke">
-    <meta name="description" content="Quantile Regression: Interpretable Linear Modeling">
-    <meta name="keywords"  content="python, regression, data-science, ml">
+    <meta name="description" content="Quantile Regression">
+    <meta name="keywords"  content="python, regression, ml">
     <!-- Open Graph -->
-    <meta property="og:title" content="Quantile Regression: Interpretable Linear Modeling - Works of Chart">
+    <meta property="og:title" content="Quantile Regression - Works of Chart">
     <meta property="og:type" content="website">
     <meta property="og:url" content="http://localhost:4000/2018/08/24/quantile-regression.html">
     <meta property="og:description" content="Making sense of data">
@@ -42,6 +42,7 @@ refer to:
 
     
 </head>
+
 <body>
     <!--[if lt IE 10]>
 <div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
@@ -76,13 +77,11 @@ refer to:
             
             <a href="http://localhost:4000/tags#regression" class="post-tag">regression</a>
             
-            <a href="http://localhost:4000/tags#data-science" class="post-tag">data-science</a>
-            
             <a href="http://localhost:4000/tags#ml" class="post-tag">ml</a>
             
             
         </div>
-        <h1>Quantile Regression: Interpretable Linear Modeling</h1>
+        <h1>Quantile Regression</h1>
         <div class="post-meta">
             <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">Matthew</a></></span>
             <time class="post-meta-item" datetime="18-08-24"><i class="iconfont icon-date"></i>24 Aug 2018</time>
@@ -96,8 +95,10 @@ refer to:
 
 <div class="post-content">
     
+    <h2 class="post-subtitle">Interpretable Linear Modeling</h2>
+    
     <article class="markdown-body">
-        <h1 id="black-box-machine-learning">Black Box Machine Learning</h1>
+        <h2 id="black-box-machine-learning">Black Box Machine Learning</h2>
 
 <p>The trend in machine learning these days seems to be heading more and more towards deep learning and extensive tree-based ensemble algorithms, which in turn results in a lot of models becoming <a href="https://en.wikipedia.org/wiki/Black_box">black box</a> algorithms, which nobody can fully explain. In the past, researchers were forced to use more simple, explainable techniques due to lack of compute power, but now with the advent of cloud computing and the ability to spin up clusters of high-powered CPUs and GPUs, those limitations have been removed and people have to trust that their cross-validation ensures applicability to unseen data.</p>
 
@@ -107,7 +108,7 @@ refer to:
 
 <p><a href="https://en.wikipedia.org/wiki/Quantile_regression">Quantile regression</a> is one of those techniques my colleagues and I have looked into that fulfills these requirements by fitting multiple linear regressions locally at different quantile points in the data.</p>
 
-<p>This method captures the non-linear relationships between the covariates tne response variable close to each quantile while still having linear coefficients that are easily understandable from a human researcher for any given point. This has the potential to increase model performance drastically, especially for problems that have normally distributed response variables, where linear models tend to perform poorly outside of the mean.</p>
+<p>This method captures the non-linear relationships between the covariates and the response variable close to each quantile while still having linear coefficients that are easily understandable from a human researcher for any given point. This has the potential to increase model performance drastically, especially for problems that have normally distributed response variables, where linear models tend to perform poorly outside of the mean.</p>
 
 <h2 id="housing-example">Housing Example</h2>
 
@@ -162,7 +163,7 @@ refer to:
 
 <h3 id="extra-note">Extra Note</h3>
 
-<p>If you are allows even a little more flexibility than that, I’d highly recommend checking out <a href="https://en.wikipedia.org/wiki/Generalized_additive_model">generalized additive models</a>, which supports non-linear modeling of linear predictors while remaining interpretability and allowing many customizations such as monotonic constraints and smoothing parameters. Stitch Fix has a <a href="https://multithreaded.stitchfix.com/blog/2015/07/30/gam/">fantastic article</a> on it, and there’s a convenient <a href="https://github.com/dswah/pyGAM">python library</a> you might find helpful as well in getting up and running quickly.</p>
+<p>If you aren’t constrained to linear modeling but still would prefer a powerful model with high interpretability, I’d highly recommend checking out <a href="https://en.wikipedia.org/wiki/Generalized_additive_model">generalized additive models</a>, which supports non-linear modeling of linear predictors while easily displaying relationships between variables and allowing many customizations such as monotonic constraints and smoothing parameters. Stitch Fix has a <a href="https://multithreaded.stitchfix.com/blog/2015/07/30/gam/">fantastic article</a> on it, and there’s a convenient <a href="https://github.com/dswah/pyGAM">python library</a> you might find helpful as well in getting up and running quickly.</p>
 
 <h2 id="additional-resources">Additional Resources</h2>
 
@@ -185,7 +186,7 @@ refer to:
         </div>
         <div class="author-name" rel="author">Matthew Burke</div>
         <div class="bio">
-            <p>Data Science, Data Viz, Web Stuff (sorta)</p>
+            <p>Data Visualization, Machine Learning, Optimization</p>
         </div>
         
         <ul class="sns-links">
@@ -217,7 +218,7 @@ refer to:
         <div class="read-next-item">
             <a href="/2018/07/09/generative-art-p5js.html" class="read-next-link"></a>
             <section>
-                <span>p5js Generative Art</span>
+                <span>Generative Art</span>
                 <p>What is generative art?Generative art is procedurally gen...</p>
             </section>
             

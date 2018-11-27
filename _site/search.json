@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Probablity Calibration",
+      "tags"     : "probability ml",
+      "url"      : "/2018/11/26/probability-calibration.html"
+    } ,
+  
+    {
       "title"    : "Quantile Regression",
       "tags"     : "python regression ml",
       "url"      : "/2018/08/24/quantile-regression.html"

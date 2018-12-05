@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Introdution to Idyll",
+      "tags"     : "data-visualization d3.js",
+      "url"      : "/2018/12/04/idyll-pumpkin-taste-test.html"
+    } ,
+  
+    {
       "title"    : "Probablity Calibration",
       "tags"     : "probability ml",
       "url"      : "/2018/11/26/probability-calibration.html"

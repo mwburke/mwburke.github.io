@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdution to Idyll - Works of Chart</title>
+    <meta name="author"  content="Matthew Burke">
+    <meta name="description" content="Introdution to Idyll">
+    <meta name="keywords"  content="data-visualization, d3.js">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Introdution to Idyll - Works of Chart">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2018/12/04/idyll-pumpkin-taste-test.html">
+    <meta property="og:description" content="Making sense of data">
+    <meta property="og:site_name" content="Works of Chart">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <link rel="stylesheet" href="/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="/assets/css/prism.css">
+    <link rel="stylesheet" href="/assets/css/share.min.css">
+    <link rel="stylesheet" href="/assets/css/app.min.css">
+    
+    <!--
+Author: Ray-Eldath
+refer to:
+ - http://docs.mathjax.org/en/latest/options/index.html
+-->
+
+	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+		jax: ["input/TeX", "output/HTML-CSS"],
+		tex2jax: {
+			inlineMath: [ ["$", "$"] ],
+			displayMath: [ ["$$", "$$"] ],
+			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+		},
+		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+      });
+    </script>
+
+    
+</head>
+
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="false">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+            <li><a href="/about.html">about</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default " data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#data-visualization" class="post-tag">data-visualization</a>
+            
+            <a href="http://localhost:4000/tags#d3.js" class="post-tag">d3.js</a>
+            
+            
+        </div>
+        <h1>Introdution to Idyll</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">Matthew</a></></span>
+            <time class="post-meta-item" datetime="18-12-04"><i class="iconfont icon-date"></i>04 Dec 2018</time>
+        </div>
+    </div>
+    
+    <div class="filter"></div>
+    <div class="post-cover" style="background: url('/assets/img/idyll_intro_votes.png') center no-repeat; background-size: cover;">
+    
+</header>
+
+<div class="post-content">
+    
+    <h2 class="post-subtitle">Visualizing Pumpkin Pie Taste Test Results</h2>
+    
+    <article class="markdown-body">
+        <p>Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.</p>
+
+<h1 id="idyll"><a href="https://idyll-lang.org/">Idyll</a></h1>
+
+<p><a href="https://idyll-lang.org/">Idyll</a> is, according to their website, “a toolkit for creating data-driven stories and explorable explanations” that makes it simple and quick to create interactive visualizations, and in my opinion, it’s the easiest tool out there to get involved with the communication medium of <a href="https://pudding.cool/process/responsive-scrollytelling/">“scrollytelling”</a>. The base <code>.idyll</code> file that renders into the final webpage is based on Markdown, but it has a few features that make it an extremely effective tool to prototype quickly but still support more advanced work.</p>
+
+<h3 id="react-integration">React Integration</h3>
+
+<p>One of the most powerful aspects is that it is integrated with React so enable the easy inclusion of pre-made components. It natively has support for a set of simple graphs generated from csv or json files. I wasn’t able to generate what I wanted with these, so I went ahead and added <a href="https://vega.github.io/vega-lite/">vega-lite</a> through npm and within a few minutes had a new chart from my existing data source.</p>
+
+<p><img src="/assets/img/idyll_intro_votes.png" alt="" /></p>
+
+<p>Additionally, it’s fairly straightforward to take existing d3 visualizations, make a few minor modifications, wrap them in a React component and them embed onto your page. In my test, I included a <a href="https://en.wikipedia.org/wiki/Parallel_coordinates">parallel coordinates chart</a>  taken directly <a href="https://beta.observablehq.com/@jerdak/parallel-coordinates-d3-v4">an Observable notebook</a>, changed a few lines of CSS and had a working chart much faster than I expected.</p>
+
+<p><img src="/assets/img/idyll_parallel_coordinates.png" alt="" /></p>
+
+<h3 id="property-management">Property Management</h3>
+
+<p>The other fantastic feature of Idyll is the ability to create and manage variables with properties you can both acacess in your different components as wlel as recalculate in real time based on user input.</p>
+
+<p>For example, I can have a variable that can be modified from a variety of pre-made source  including a button, slider, text, scroll trigger, etc that can in turn update any visualizations on the page with the new properties. I don’t have to write any additional event listeners and can reuse these properties wherever I want to on the page. I didn’t leverage a ton of these features other than reusing some of my data files and visualization configuration parameters such as width/height, but the possibilities really are endless.</p>
+
+<h2 id="getting-started-with-idyll">Getting Started with Idyll</h2>
+
+<p>If you would also like to get started with Idyll for your own projects, you can take a look at the <a href="/idyll-test-pumpkin/">full post I created with Idyll</a> and <a href="https://github.com/mwburke/idyll-test-pumpkin">the underlying code</a> to see how it was generated, and then head on over to Idyll’s <a href="https://idyll-lang.org/gallery">Example Gallery</a> page to see amazing work on how far you can take this framework.</p>
+
+<h3 id="whats-the-catch">What’s the Catch?</h3>
+
+<p>Tools always have tradeoffs and Idyll embraces a markdown-like language which allows quick development. For more advanced visualizations and custom triggers, it may be worth choosing a more flexible for time-consuming framework to get the exact effects you want.</p>
+
+<p>Additionally, the work only supports single-post rendering as of now, and the user has to create their own process for hosting multiple posts on a single website/platform. There are a few options out there trying to deal with this, but <a href="https://github.com/idyll-lang/idyll/issues/421">according to this github issue</a>, it looks like they’re beginning development to support this.</p>
+
+<h3 id="further-reading">Further Reading</h3>
+
+<p>Here are some great sites to understand the potential of what can really be done with interactive visualization for storytelling and data communication.</p>
+<ul>
+  <li><a href="https://pudding.cool/">The Pudding</a></li>
+  <li><a href="https://fivethirtyeight.com/">FiveThirtyEight</a></li>
+  <li><a href="https://www.informationisbeautifulawards.com/news/118-the-nyt-s-best-data-visualizations-of-the-year">The NY Times</a></li>
+</ul>
+
+    </article>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/other-profile.jpg" alt="">
+        </div>
+        <div class="author-name" rel="author">Matthew Burke</div>
+        <div class="bio">
+            <p>Data Visualization, Machine Learning, Optimization</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//twitter.com/mattburkeley" target="_blank">
+                    <i class="iconfont icon-twitter"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//www.linkedin.com/in/matthew-burke-data-science" target="_blank">
+                    <i class="iconfont icon-linkedin"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/mwburke" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        
+        <div class="read-next-item">
+            <a href="/2018/11/26/probability-calibration.html" class="read-next-link"></a>
+            <section>
+                <span>Probablity Calibration</span>
+                <p>Predictions As ConfidenceAs you may already know, classif...</p>
+            </section>
+            
+            <div class="filter"></div>
+            <img src="/assets/img/calibration_curve_2.png" alt="">
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>Works of Chart © 2018</section>
+    <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['twitter','linkedin','github'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://mwburke.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="/assets/js/prism.js"></script>
+<script src="/assets/js/index.min.js"></script>
+</body>
+</html>

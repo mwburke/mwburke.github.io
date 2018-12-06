@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Introdution to Idyll'
+title: 'Introduction to Idyll'
 subtitle: 'Visualizing Pumpkin Pie Taste Test Results'
 date: 2018-12-04
 author: Matthew

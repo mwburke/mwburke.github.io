@@ -5,7 +5,7 @@ subtitle: 'Multiple Regression Reporting'
 date: 2018-06-24
 author: Matthew
 cover: 'https://i.stack.imgur.com/G0hV4.png'
-tags: python regression stargazer experiments
+tags: python
 ---
 
 <script>

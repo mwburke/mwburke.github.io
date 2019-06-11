@@ -167,7 +167,8 @@ a {
     letter-spacing: 1px;
     color: #fff;
     padding: 0 12px;
-    opacity: .7
+    // opacity: .7;
+    font-weight: 600;
 }
 
 .g-header .g-nav>ul>li>a:hover {

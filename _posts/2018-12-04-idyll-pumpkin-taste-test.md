@@ -5,7 +5,7 @@ subtitle: 'Visualizing Pumpkin Pie Taste Test Results'
 date: 2018-12-04
 author: Matthew
 cover: /assets/img/idyll_intro_votes.png
-tags: data-visualization d3.js
+tags: data-viz d3
 ---
 
 Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.
@@ -36,13 +36,13 @@ If you would also like to get started with Idyll for your own projects, you can 
 
 ### What's the Catch?
 
-Tools always have tradeoffs and Idyll embraces a markdown-like language which allows quick development. For more advanced visualizations and custom triggers, it may be worth choosing a more flexible for time-consuming framework to get the exact effects you want. 
+Tools always have tradeoffs and Idyll embraces a markdown-like language which allows quick development. For more advanced visualizations and custom triggers, it may be worth choosing a more flexible for time-consuming framework to get the exact effects you want.
 
 Additionally, the work only supports single-post rendering as of now, and the user has to create their own process for hosting multiple posts on a single website/platform. There are a few options out there trying to deal with this, but [according to this github issue](https://github.com/idyll-lang/idyll/issues/421), it looks like they're beginning development to support this.
 
 ### Further Reading
 
-Here are some great sites to understand the potential of what can really be done with interactive visualization for storytelling and data communication.  
+Here are some great sites to understand the potential of what can really be done with interactive visualization for storytelling and data communication.
 * [The Pudding](https://pudding.cool/)
 * [FiveThirtyEight](https://fivethirtyeight.com/)
 * [The NY Times](https://www.informationisbeautifulawards.com/news/118-the-nyt-s-best-data-visualizations-of-the-year)

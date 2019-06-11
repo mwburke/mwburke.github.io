@@ -5,7 +5,7 @@ subtitle: 'Interpretable Linear Modeling'
 date: 2018-08-24
 author: Matthew
 cover: /assets/img/quantile_slope_values.png
-tags: python regression ml
+tags: python ml
 ---
 
 ## Black Box Machine Learning

@@ -5,7 +5,7 @@ subtitle: 'Quantifying Population Drift'
 date: 2018-04-29
 author: Matthew
 cover: 'https://raw.githubusercontent.com/mwburke/population-stability-index/master/images/distributions.png'
-tags: python data-science ml
+tags: python ml
 ---
 
 ## What is the population stability index (PSI)?

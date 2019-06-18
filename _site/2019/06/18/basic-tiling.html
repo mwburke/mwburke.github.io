@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generative Art - Works of Chart</title>
+    <title>Basic Geometric Tiling - Works of Chart</title>
     <meta name="author"  content="Matthew Burke">
-    <meta name="description" content="Generative Art">
-    <meta name="keywords"  content="javascript, creative-coding, p5js">
+    <meta name="description" content="Basic Geometric Tiling">
+    <meta name="keywords"  content="creative-coding, p5js">
     <!-- Open Graph -->
-    <meta property="og:title" content="Generative Art - Works of Chart">
+    <meta property="og:title" content="Basic Geometric Tiling - Works of Chart">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://localhost:4000/2018/07/09/generative-art-p5js.html">
+    <meta property="og:url" content="http://localhost:4000/2019/06/18/basic-tiling.html">
     <meta property="og:description" content="Creating information from data">
     <meta property="og:site_name" content="Works of Chart">
     <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
@@ -83,48 +83,68 @@ refer to:
         <div class="post-tags">
             
             
-            <a href="http://localhost:4000/tags#javascript" class="post-tag">javascript</a>
-            
             <a href="http://localhost:4000/tags#creative-coding" class="post-tag">creative-coding</a>
             
             <a href="http://localhost:4000/tags#p5js" class="post-tag">p5js</a>
             
             
         </div>
-        <h1>Generative Art</h1>
+        <h1>Basic Geometric Tiling</h1>
         <div class="post-meta">
             <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">Matthew</a></></span>
-            <time class="post-meta-item" datetime="18-07-09"><i class="iconfont icon-date"></i>09 Jul 2018</time>
+            <time class="post-meta-item" datetime="19-06-18"><i class="iconfont icon-date"></i>18 Jun 2019</time>
         </div>
     </div>
     
     <div class="filter"></div>
-    <div class="post-cover" style="background: url('/assets/img/generative-art-10.png') center no-repeat; background-size: cover;">
+    <div class="post-cover" style="background: url('/assets/img/italy_mosaic_2.png') center no-repeat; background-size: cover;">
     
 </header>
 
 <div class="post-content">
     
-    <h2 class="post-subtitle">In-Browser Art with p5.js</h2>
+    <h2 class="post-subtitle">Inspiration from Italian Mosaics</h2>
     
     <article class="markdown-body">
-        <h1 id="what-is-generative-art">What is generative art?</h1>
+        <h2 id="geometric-tiling">Geometric Tiling</h2>
 
-<p>Generative art is procedurally generated art for those of us who are less traditionally artistically inclined. More specifically, those who have no skill but still have enough appreciation for art and mathematical principles to automate the creation of things that look snice.</p>
+<p>I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:</p>
 
-<h1 id="javascript-libraries">Javascript Libraries</h1>
+<p><img src="/assets/img/italy_mosaic_1.png" alt="" /></p>
 
-<p>The go-to library for web-based mathematical visualization is <a href="d3js.org">d3</a>, and many visualization libraries are based upon it. However, recently I stumbled across <a href="https://processing.org/">processing</a>, and it’s javascript equivalent <a href="https://p5js.org/">p5js</a>, which are amazing for creating procedurally generated visualizations. It’s inherently build to support an initialization process with the <code>setup</code> function and a function to update the visualization frame-by-frame with the <code>draw</code> function.</p>
+<p><img src="/assets/img/italy_mosaic_2.png" alt="" /></p>
 
-<p>It’s easy to pick up and get going and create something really quickly, and it’s only been a few days since I’ve heard about it, and I’ve already had tons of fun learning the API and using the basics to create some “art” I’m happy with. I highly encourage you to check it out and maybe some of the stuff I’ve made recently <a href="http://worksofchart.com/generative-art/posts/007.html">here</a>.</p>
+<p>If these piqued your interest, I’d recommend checking out more <a href="https://mwburke.github.io/generative-art/posts/030.html">at my generative art site</a>, or much better, go visit Florence yourself and get inspired!</p>
 
-<p>If you are too lazy to click on the link, here’s a few examples of the static visualizations as well as the one in the post header.</p>
+<p>Of course, once I returned home and was talking about how beautiful the tiling was, I was informed about <a href="https://en.wikipedia.org/wiki/Islamic_geometric_patterns">Islamic geometric patterns</a>, which blew Italy out of the water in terms of complexity and creativity. I definitely will be reviewing my future travel plans in light of this discovery, and in the meantime, I hopefully can learn more about their theory and history to get a better appreciation of them.</p>
 
-<p><a href="http://worksofchart.com/generative-art/posts/002.html"><img src="/assets/img/generative-art-2.png" alt="" /></a></p>
+<h2 id="organic-tiling-truchet-patterns">Organic Tiling: Truchet Patterns</h2>
 
-<p><a href="https://worksofchart.com/generative/art/posts/010.html"><img src="/assets/img/generative-art-10.png" alt="" /></a></p>
+<p>While geometric patterns are always awesome, I had recently run into <a href="https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/">this article</a> talking about truchet patterns, and wanted to try something a little more rounded and actually generative to see if it had a more “organic” feel about it.</p>
 
-<p><a href="https://worksofchart.com/generative/art/posts/011.html"><img src="/assets/img/generative-art-11.png" alt="" /></a></p>
+<p>The idea behind them, is that they are square tiles with round internal paths/connections that can be connected to any other tile pattern. It didn’t take long to create each one of them, but after just generating a random tileset, the results are rather unsatisfying:</p>
+
+<p><img src="/assets/img/truchet_pattern_4.png" alt="" /></p>
+
+<p>This is pretty much inline with what I have been viewing and reading from well-known generative artists, and so I took a stab at creating a little more structure into the process by nesting squares of patterns within each other and was quite pleased:</p>
+
+<p><img src="/assets/img/truchet_pattern_1.png" alt="" /></p>
+
+<p><img src="/assets/img/truchet_pattern_3.png" alt="" /></p>
+
+<p>I took it a step further, and while still limiting the available tiles and placing them diagonally, I allowed the rotation vary. These might be some of my favorite results in that they’re not so random as to be without structure, but it seems more natural:</p>
+
+<p><img src="/assets/img/truchet_pattern_2.png" alt="" /></p>
+
+<p>There’s definitely more work I could do with utilizing the smaller subtiling and larger amount of tiles, but I’ll put that ahead for future work. If you’re interested in seeing more of these patterns, you can <a href="https://mwburke.github.io/generative-art/posts/032.html">do so here</a> and create as many as you want!</p>
+
+<p>I hope to do some more work on hexagonal tiling with connections based on node-based growth algorithms, which I think have a lot of potential for walking the line between structure and chaos.</p>
+
+<h3 id="resources">Resources:</h3>
+
+<ul>
+  <li><a href="https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/">Multi-Sscale Truchet Patterns - Christopher Carlson</a></li>
+</ul>
 
     </article>
     
@@ -165,28 +185,16 @@ refer to:
     </section>
     <section class="post-footer-item read-next">
         
+        
         <div class="read-next-item">
-            <a href="/2018/08/24/quantile-regression.html" class="read-next-link"></a>
+            <a href="/2018/12/04/idyll-pumpkin-taste-test.html" class="read-next-link"></a>
             <section>
-                <span>Quantile Regression</span>
-                <p>Black Box Machine LearningThe trend in machine learning t...</p>
+                <span>Introduction to Idyll</span>
+                <p>Over Thanksgiving, some friends of mine set out to find t...</p>
             </section>
             
             <div class="filter"></div>
-            <img src="/assets/img/quantile_slope_values.png" alt="">
-            
-        </div>
-        
-        
-        <div class="read-next-item">
-            <a href="/2018/06/24/stargazer-regression-reporting.html" class="read-next-link"></a>
-            <section>
-                <span>Stargazer Python Library</span>
-                <p>Introducing the Stargazer Python Package:I really like th...</p>
-            </section>
-            
-            <div class="filter"></div>
-            <img src="https://i.stack.imgur.com/G0hV4.png" alt="">
+            <img src="/assets/img/idyll_intro_votes.png" alt="">
             
         </div>
         

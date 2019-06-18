@@ -1,7 +1,7 @@
 # Site settings
 title: 'Works of Chart'
-description: 'Creating art from data'
-keyword: 'data, data science, data visualization, python,scikit-learn, spark, d3.js, machine learning'
+description: 'Creating information from data'
+keyword: 'data,data science,data visualization,statistics,creative coding,generative art,python,scikit-learn,d3.js,machine learning'
 url: 'http://mwburke.github.io' # your host
 
 # if you don't need baseurl, you should leave this value blank.
@@ -16,7 +16,7 @@ nav:
 # Author
 author: 'Matthew Burke'
 nickname: ''
-bio: 'Leave chaos as is but cause it to evolve. -Toshiyuki Inoko'
+bio: 'Data science, data visualization, generative art, bad puns'
 avatar: '/assets/img/other-profile.jpg'
 
 # Search

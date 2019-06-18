@@ -5,7 +5,7 @@ subtitle: 'In-Browser Art with p5.js'
 date: 2018-07-09
 author: Matthew
 cover: /assets/img/generative-art-10.png
-tags: javascript creative-coding
+tags: javascript creative-coding p5js
 ---
 
 # What is generative art?

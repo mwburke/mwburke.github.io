@@ -1,6 +1,12 @@
 [
   
     {
+      "title"    : "Basic Geometric Tiling",
+      "tags"     : "creative-coding p5js",
+      "url"      : "/2019/06/18/basic-tiling.html"
+    } ,
+  
+    {
       "title"    : "Introduction to Idyll",
       "tags"     : "data-viz d3",
       "url"      : "/2018/12/04/idyll-pumpkin-taste-test.html"
@@ -20,7 +26,7 @@
   
     {
       "title"    : "Generative Art",
-      "tags"     : "javascript creative-coding",
+      "tags"     : "javascript creative-coding p5js",
       "url"      : "/2018/07/09/generative-art-p5js.html"
     } ,
   

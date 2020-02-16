@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Basic Geometric Tiling | Matthew’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Basic Geometric Tiling" />
+<meta name="author" content="Matthew Burke" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Inspiration from Italian Mosaics" />
+<meta property="og:description" content="Inspiration from Italian Mosaics" />
+<link rel="canonical" href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" />
+<meta property="og:url" content="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" />
+<meta property="og:site_name" content="Matthew’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-06-18T00:00:00-07:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="twitter:title" content="Basic Geometric Tiling" />
+<meta name="twitter:site" content="@mattburkeley" />
+<meta name="twitter:creator" content="@mattburkeley" />
+<script type="application/ld+json">
+{"description":"Inspiration from Italian Mosaics","author":{"@type":"Person","name":"Matthew Burke"},"@type":"BlogPosting","url":"http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew Burke"},"image":{"thumbnail":"/images/italy_mosaic_2_thumbnail.png","url":"http://localhost:4000/images/placeholder.png","@type":"imageObject"},"headline":"Basic Geometric Tiling","dateModified":"2019-06-18T00:00:00-07:00","datePublished":"2019-06-18T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew&#39;s Blog" href="/atom.xml">
+<!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  basic-geometric-tiling">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Matthew's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew's Blog">
+      </a>
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/placeholder.png" class="entry-feature-image u-photo" alt="Basic Geometric Tiling" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Basic Geometric Tiling
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/matthew-burke-photo.jpg" class="author-avatar u-photo" alt="Matthew Burke"><div class="author-info"><div class="author-name">
+        <span class="p-name">Matthew Burke</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-lg" title="Instagram"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/mwburke"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li></ul>
+    <time class="page-date dt-published" datetime="2019-06-18T00:00:00-07:00"><a class="u-url" href="">June 18, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#generative-art" title="Pages filed under Generative Art">Generative Art</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#p5js" title="Pages tagged p5js" rel="tag">p5js</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <h1 id="geometric-tiling">Geometric Tiling</h1>
+
+<p>I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:</p>
+
+<p><img src="/images/italy_mosaic_1.png" alt="" /></p>
+
+<p><img src="/images/italy_mosaic_2.png" alt="" /></p>
+
+<p>If these piqued your interest, I’d recommend checking out more <a href="https://mwburke.github.io/generative-art/posts/030.html">at my generative art site</a>, or much better, go visit Florence yourself and get inspired!</p>
+
+<p>Of course, once I returned home and was talking about how beautiful the tiling was, I was informed about <a href="https://en.wikipedia.org/wiki/Islamic_geometric_patterns">Islamic geometric patterns</a>, which blew Italy out of the water in terms of complexity and creativity. I definitely will be reviewing my future travel plans in light of this discovery, and in the meantime, I hopefully can learn more about their theory and history to get a better appreciation of them.</p>
+
+<h2 id="organic-tiling-truchet-patterns">Organic Tiling: Truchet Patterns</h2>
+
+<p>While geometric patterns are always awesome, I had recently run into <a href="https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/">this article</a> talking about truchet patterns, and wanted to try something a little more rounded and actually generative to see if it had a more “organic” feel about it.</p>
+
+<p>The idea behind them, is that they are square tiles with round internal paths/connections that can be connected to any other tile pattern. It didn’t take long to create each one of them, but after just generating a random tileset, the results are rather unsatisfying:</p>
+
+<p><img src="/images/truchet_pattern_4.png" alt="" /></p>
+
+<p>This is pretty much inline with what I have been viewing and reading from well-known generative artists, and so I took a stab at creating a little more structure into the process by nesting squares of patterns within each other and was quite pleased:</p>
+
+<p><img src="/images/truchet_pattern_1.png" alt="" /></p>
+
+<p><img src="/images/truchet_pattern_3.png" alt="" /></p>
+
+<p>I took it a step further, and while still limiting the available tiles and placing them diagonally, I allowed the rotation vary. These might be some of my favorite results in that they’re not so random as to be without structure, but it seems more natural:</p>
+
+<p><img src="/images/truchet_pattern_2.png" alt="" /></p>
+
+<p>There’s definitely more work I could do with utilizing the smaller subtiling and larger amount of tiles, but I’ll put that ahead for future work. If you’re interested in seeing more of these patterns, you can <a href="https://mwburke.github.io/generative-art/posts/032.html">do so here</a> and create as many as you want!</p>
+
+<p>I hope to do some more work on hexagonal tiling with connections based on node-based growth algorithms, which I think have a lot of potential for walking the line between structure and chaos.</p>
+
+<h3 id="resources">Resources:</h3>
+
+<ul>
+  <li><a href="https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/">Multi-Sscale Truchet Patterns - Christopher Carlson</a></li>
+</ul>
+
+        </div>
+
+        
+          <div class="page-share">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2019%2F06%2F18%2Fbasic-tiling.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--facebook btn--small"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> <span>Share</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Basic+Geometric+Tiling%20http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2019%2F06%2F18%2Fbasic-tiling.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--twitter btn--small"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> <span>Tweet</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2019%2F06%2F18%2Fbasic-tiling.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--linkedin btn--small"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> <span>LinkedIn</span></a>
+  <a href="https://reddit.com/submit?title=Basic+Geometric+Tiling&url=http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2019%2F06%2F18%2Fbasic-tiling.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--reddit btn--small"><i class="fab fa-fw fa-reddit" aria-hidden="true"></i> <span>Reddit</span></a>
+</div>
+
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Introduction to Idyll
+
+      </span>
+    </a>
+  
+
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2020 Matthew's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

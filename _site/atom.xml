@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-02-15T17:29:18-08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
+
+&lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/italy_mosaic_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/italy_mosaic_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If these piqued your interest, I’d recommend checking out more &lt;a href=&quot;https://mwburke.github.io/generative-art/posts/030.html&quot;&gt;at my generative art site&lt;/a&gt;, or much better, go visit Florence yourself and get inspired!&lt;/p&gt;
+
+&lt;p&gt;Of course, once I returned home and was talking about how beautiful the tiling was, I was informed about &lt;a href=&quot;https://en.wikipedia.org/wiki/Islamic_geometric_patterns&quot;&gt;Islamic geometric patterns&lt;/a&gt;, which blew Italy out of the water in terms of complexity and creativity. I definitely will be reviewing my future travel plans in light of this discovery, and in the meantime, I hopefully can learn more about their theory and history to get a better appreciation of them.&lt;/p&gt;
+
+&lt;h2 id=&quot;organic-tiling-truchet-patterns&quot;&gt;Organic Tiling: Truchet Patterns&lt;/h2&gt;
+
+&lt;p&gt;While geometric patterns are always awesome, I had recently run into &lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;this article&lt;/a&gt; talking about truchet patterns, and wanted to try something a little more rounded and actually generative to see if it had a more “organic” feel about it.&lt;/p&gt;
+
+&lt;p&gt;The idea behind them, is that they are square tiles with round internal paths/connections that can be connected to any other tile pattern. It didn’t take long to create each one of them, but after just generating a random tileset, the results are rather unsatisfying:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is pretty much inline with what I have been viewing and reading from well-known generative artists, and so I took a stab at creating a little more structure into the process by nesting squares of patterns within each other and was quite pleased:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I took it a step further, and while still limiting the available tiles and placing them diagonally, I allowed the rotation vary. These might be some of my favorite results in that they’re not so random as to be without structure, but it seems more natural:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There’s definitely more work I could do with utilizing the smaller subtiling and larger amount of tiles, but I’ll put that ahead for future work. If you’re interested in seeing more of these patterns, you can &lt;a href=&quot;https://mwburke.github.io/generative-art/posts/032.html&quot;&gt;do so here&lt;/a&gt; and create as many as you want!&lt;/p&gt;
+
+&lt;p&gt;I hope to do some more work on hexagonal tiling with connections based on node-based growth algorithms, which I think have a lot of potential for walking the line between structure and chaos.&lt;/p&gt;
+
+&lt;h3 id=&quot;resources&quot;&gt;Resources:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;Multi-Sscale Truchet Patterns - Christopher Carlson&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Generative Art" /><category term="p5js" /><summary type="html">Inspiration from Italian Mosaics</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Idyll</title><link href="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html" rel="alternate" type="text/html" title="Introduction to Idyll" /><published>2018-12-04T00:00:00-08:00</published><updated>2018-12-04T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">&lt;p&gt;Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.&lt;/p&gt;
+
+&lt;h1 id=&quot;idyll&quot;&gt;&lt;a href=&quot;https://idyll-lang.org/&quot;&gt;Idyll&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://idyll-lang.org/&quot;&gt;Idyll&lt;/a&gt; is, according to their website, “a toolkit for creating data-driven stories and explorable explanations” that makes it simple and quick to create interactive visualizations, and in my opinion, it’s the easiest tool out there to get involved with the communication medium of &lt;a href=&quot;https://pudding.cool/process/responsive-scrollytelling/&quot;&gt;“scrollytelling”&lt;/a&gt;. The base &lt;code class=&quot;highlighter-rouge&quot;&gt;.idyll&lt;/code&gt; file that renders into the final webpage is based on Markdown, but it has a few features that make it an extremely effective tool to prototype quickly but still support more advanced work.&lt;/p&gt;
+
+&lt;h2 id=&quot;react-integration&quot;&gt;React Integration&lt;/h2&gt;
+
+&lt;p&gt;One of the most powerful aspects is that it is integrated with React so enable the easy inclusion of pre-made components. It natively has support for a set of simple graphs generated from csv or json files. I wasn’t able to generate what I wanted with these, so I went ahead and added &lt;a href=&quot;https://vega.github.io/vega-lite/&quot;&gt;vega-lite&lt;/a&gt; through npm and within a few minutes had a new chart from my existing data source.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/idyll_intro_votes.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Additionally, it’s fairly straightforward to take existing d3 visualizations, make a few minor modifications, wrap them in a React component and them embed onto your page. In my test, I included a &lt;a href=&quot;https://en.wikipedia.org/wiki/Parallel_coordinates&quot;&gt;parallel coordinates chart&lt;/a&gt;  taken directly &lt;a href=&quot;https://beta.observablehq.com/@jerdak/parallel-coordinates-d3-v4&quot;&gt;an Observable notebook&lt;/a&gt;, changed a few lines of CSS and had a working chart much faster than I expected.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/idyll_parallel_coordinates.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;property-management&quot;&gt;Property Management&lt;/h2&gt;
+
+&lt;p&gt;The other fantastic feature of Idyll is the ability to create and manage variables with properties you can both acacess in your different components as wlel as recalculate in real time based on user input.&lt;/p&gt;
+
+&lt;p&gt;For example, I can have a variable that can be modified from a variety of pre-made source  including a button, slider, text, scroll trigger, etc that can in turn update any visualizations on the page with the new properties. I don’t have to write any additional event listeners and can reuse these properties wherever I want to on the page. I didn’t leverage a ton of these features other than reusing some of my data files and visualization configuration parameters such as width/height, but the possibilities really are endless.&lt;/p&gt;
+
+&lt;h1 id=&quot;getting-started-with-idyll&quot;&gt;Getting Started with Idyll&lt;/h1&gt;
+
+&lt;p&gt;If you would also like to get started with Idyll for your own projects, you can take a look at the &lt;a href=&quot;/idyll-test-pumpkin/&quot;&gt;full post I created with Idyll&lt;/a&gt; and &lt;a href=&quot;https://github.com/mwburke/idyll-test-pumpkin&quot;&gt;the underlying code&lt;/a&gt; to see how it was generated, and then head on over to Idyll’s &lt;a href=&quot;https://idyll-lang.org/gallery&quot;&gt;Example Gallery&lt;/a&gt; page to see amazing work on how far you can take this framework.&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-the-catch&quot;&gt;What’s the Catch?&lt;/h2&gt;
+
+&lt;p&gt;Tools always have tradeoffs and Idyll embraces a markdown-like language which allows quick development. For more advanced visualizations and custom triggers, it may be worth choosing a more flexible for time-consuming framework to get the exact effects you want.&lt;/p&gt;
+
+&lt;p&gt;Additionally, the work only supports single-post rendering as of now, and the user has to create their own process for hosting multiple posts on a single website/platform. There are a few options out there trying to deal with this, but &lt;a href=&quot;https://github.com/idyll-lang/idyll/issues/421&quot;&gt;according to this github issue&lt;/a&gt;, it looks like they’re beginning development to support this.&lt;/p&gt;
+
+&lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
+
+&lt;p&gt;Here are some great sites to understand the potential of what can really be done with interactive visualization for storytelling and data communication.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pudding.cool/&quot;&gt;The Pudding&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://fivethirtyeight.com/&quot;&gt;FiveThirtyEight&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.informationisbeautifulawards.com/news/118-the-nyt-s-best-data-visualizations-of-the-year&quot;&gt;The NY Times&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><summary type="html">Visualizing Pumpkin Pie Taste Test Results</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Probability Calibration</title><link href="http://localhost:4000/data%20science/2018/11/26/probability-calibration.html" rel="alternate" type="text/html" title="Probability Calibration" /><published>2018-11-26T00:00:00-08:00</published><updated>2018-11-26T00:00:00-08:00</updated><id>http://localhost:4000/data%20science/2018/11/26/probability-calibration</id><content type="html" xml:base="http://localhost:4000/data%20science/2018/11/26/probability-calibration.html">&lt;h1 id=&quot;predictions-as-confidence&quot;&gt;Predictions As Confidence&lt;/h1&gt;
+
+&lt;p&gt;As you may already know, classification problems in machine learning commonly (though not always) use algorithms that output a &lt;em&gt;predicted probability&lt;/em&gt; value that can be used to gauge confidence in how sure your model is that the input belongs to one particular class.&lt;/p&gt;
+
+&lt;h1 id=&quot;setting-probability-thresholds&quot;&gt;Setting Probability Thresholds&lt;/h1&gt;
+
+&lt;p&gt;In introductory ML courses, a default value of 0.50 is usually used as the prediction cutoff for making the decision to consider a binary classification output as either positive or negative class, but in industry, selecting the right cutoff threshold is critical to making good business decisions.&lt;/p&gt;
+
+&lt;p&gt;If the cost associated with false negatives is large, it may be optimal to use a lower probability decision threshold to capture more positive users at the expense of including more false positives, and vice versa, and the data scientist will work with the business units to balance this tradeoff in order to minimize cost or maximize the benefit. Ultimately, this causes the predictions to act more as a ranking system for applications that require binary classifications as the final output than actually leveraging the values themselves.&lt;/p&gt;
+
+&lt;h1 id=&quot;interpretation-problems&quot;&gt;Interpretation Problems&lt;/h1&gt;
+
+&lt;h2 id=&quot;model-as-ranking&quot;&gt;Model As Ranking&lt;/h2&gt;
+
+&lt;p&gt;This model-as-ranking system works fine in many situations, but what happens when your predicted probability does not actually represent the probability and the business unit consuming your predictions assumes that they are? An example of this might be the likelihood of conversion for a given user, which is then multiplied by potential LTV to prioritize leads for a sales organization based on expected ROI. If a model tends to over/underestimate probabilities at the lower/upper ends of the predicted probability spectrum respctively (as random forest models have been known to do), you can end up spending effort on individuals who are less worth the team’s time, wasting resources and potentially losing revenue.&lt;/p&gt;
+
+&lt;p&gt;Scikit-learn has a great overview on some common algorithms that result in biased predicted probabilities. I’ve taken the liberty of displaying the chart from that overview here. Visit &lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/calibration/plot_compare_calibration.html&quot;&gt;this link&lt;/a&gt; to get the full code used to generate the plot or just look at the documentation for the &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.calibration.calibration_curve.html&quot;&gt;sklearn.calibration.calibration_curve&lt;/a&gt; function&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/calibration_curve_1.png&quot; alt=&quot;https://scikit-learn.org/stable/auto_examples/calibration/plot_compare_calibration.html&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;parallel-model-consumption&quot;&gt;Parallel Model Consumption&lt;/h2&gt;
+
+&lt;p&gt;Additionally, models can be used in conjunction with one another to provide targets in context. Going back to our expected LTV example, a business may have separate conversion likelihood models for different segments of their customer population, with every user being assigned a conversion probability from a single model. If not all models produce well-calibrated predicted probabilities, one could end up dominating the others while still having good metrics when considered individually.&lt;/p&gt;
+
+&lt;h3 id=&quot;auroc-can-be-misleading&quot;&gt;AUROC Can Be Misleading&lt;/h3&gt;
+
+&lt;p&gt;One common performance metric that is used to measure the effectiveness of the model across the range of predicted probabilities is the area under the receiving operating characteristic (ROC) curve. In case you aren’t familiar with the ROC curve, it is a plot of the model’s true positive rate vs the false positive rate as the probability is varied from 0 to 1, and as such, it is considered more of a robust metric than accuracy alone in cases where classes are imbalanced or the cost of true/false positives are unknown as of yet.&lt;/p&gt;
+
+&lt;p&gt;While it is a good metric, it is &lt;strong&gt;not&lt;/strong&gt; sensitive to the absolute value of the predicted probabilities, only the performance at every probability point. If all of the predicted probabilities are multiplied by a constant, the value of the AUROC does not change, which may mislead the modeler into believing their probabilities are good to use, while in fact, they are consistently over/underestimating the results.&lt;/p&gt;
+
+&lt;p&gt;For example, the three predicted probability density distributions below are just scaled versions of the output from the same model. Their distributions are obviously very different from one another, but because they are scaled by a constant, they all have an equivalent AUROC score.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pred_probs_scaled.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;validation-with-additional-scoring-methods&quot;&gt;Validation with Additional Scoring Methods&lt;/h1&gt;
+
+&lt;p&gt;As with most modeling, it’s impossible to represent overall performance with a single number, and if you have concerns about validating probability calibration, it seems wise to include additional scores alongside AUROC that are more representative of actual differences in calibration such as log loss or the brier score.&lt;/p&gt;
+
+&lt;p&gt;Log loss is a common loss function, but &lt;a href=&quot;https://en.wikipedia.org/wiki/Brier_score&quot;&gt;brier score&lt;/a&gt; was new to me, and according to wikipedia “can be thought of as… a measure of the ‘calibration’ of a set of probabilistic predictions”. It essentially is the average squared difference between the probability that was forecast and the actual outcome of the event. This makes its interpretation analogous to the RMSE for regression problems, and does take into account the scale of the predictions.&lt;/p&gt;
+
+&lt;h1 id=&quot;sampling-bias&quot;&gt;Sampling Bias&lt;/h1&gt;
+
+&lt;p&gt;Many problems have imbalanced datasets in terms of the target variable with a significant portion of the records belonging to one class. Various techniques have been developed to counteract these problem, including oversampling the minority class, downsampling the majority class and generating synthetic samples from the minority class to closer achieve class number parity. However, these techniques can result in increased AUROC scores while biasing the predicted probabilities to be less calibrated to actual.&lt;/p&gt;
+
+&lt;p&gt;Here is an example of how a generally well calibrated classifier (Logistic Regression) can be biased depending upon the ratio of the positive to negative class in the training dataset:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/calibration_curve_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;further-research&quot;&gt;Further Research&lt;/h2&gt;
+
+&lt;p&gt;Scikit-learn has implemented the &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.calibration.CalibratedClassifierCV.html&quot;&gt;CalibratedClassifierCV&lt;/a&gt; class to adjust your classifiers to be more calibrated either during training, or to adjust the predictions by calibrating the classifier post-training.&lt;/p&gt;
+
+&lt;p&gt;It has two options for doing so:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Platt_scaling&quot;&gt;Platt Scaling&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Isotonic_regression&quot;&gt;Isotonic Regression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="probability" /><category term="ml" /><summary type="html">Predictions As Actual Probabilities</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Quantile Regression</title><link href="http://localhost:4000/data%20science/2018/08/24/quantile-regression.html" rel="alternate" type="text/html" title="Quantile Regression" /><published>2018-08-24T00:00:00-07:00</published><updated>2018-08-24T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2018/08/24/quantile-regression</id><content type="html" xml:base="http://localhost:4000/data%20science/2018/08/24/quantile-regression.html">&lt;h1 id=&quot;black-box-machine-learning&quot;&gt;Black Box Machine Learning&lt;/h1&gt;
+
+&lt;p&gt;The trend in machine learning these days seems to be heading more and more towards deep learning and extensive tree-based ensemble algorithms, which in turn results in a lot of models becoming &lt;a href=&quot;https://en.wikipedia.org/wiki/Black_box&quot;&gt;black box&lt;/a&gt; algorithms, which nobody can fully explain. In the past, researchers were forced to use more simple, explainable techniques due to lack of compute power, but now with the advent of cloud computing and the ability to spin up clusters of high-powered CPUs and GPUs, those limitations have been removed and people have to trust that their cross-validation ensures applicability to unseen data.&lt;/p&gt;
+
+&lt;p&gt;My current job places a lot of emphasis on interpretability of models that get put into production, eliminating that inherent need to rely on algorithms or using methods to explain local behavior of models at specific points such as &lt;a href=&quot;https://arxiv.org/pdf/1602.04938.pdf&quot;&gt;LIME&lt;/a&gt;. This has caused me to approach problem solving in a different way and look for methods that tow the line between performance and interpretability.&lt;/p&gt;
+
+&lt;h1 id=&quot;quantile-regression&quot;&gt;Quantile Regression&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Quantile_regression&quot;&gt;Quantile regression&lt;/a&gt; is one of those techniques my colleagues and I have looked into that fulfills these requirements by fitting multiple linear regressions locally at different quantile points in the data.&lt;/p&gt;
+
+&lt;p&gt;This method captures the non-linear relationships between the covariates and the response variable close to each quantile while still having linear coefficients that are easily understandable from a human researcher for any given point. This has the potential to increase model performance drastically, especially for problems that have normally distributed response variables, where linear models tend to perform poorly outside of the mean.&lt;/p&gt;
+
+&lt;h1 id=&quot;housing-example&quot;&gt;Housing Example&lt;/h1&gt;
+
+&lt;p&gt;I used the &lt;a href=&quot;https://www.kaggle.com/c/boston-housing&quot;&gt;Boston housing dataset&lt;/a&gt; to do a quick benchmark of standard linear regression versus quantile regression based on its non-uniform distribution of the median house price (target variable):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/quantile_target_distribution.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It appears as if there is a normal distribution with some outliers at the high end that may cap the median house value at 50.&lt;/p&gt;
+
+&lt;p&gt;I trained a standard OLS model on the data as well as a quantile regression model made up of individual regressions performed locally at each 0.05 quantile from 0 to 1 and compared the accuracy results below:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Metric&lt;/th&gt;
+      &lt;th&gt;Base Regression&lt;/th&gt;
+      &lt;th&gt;Quantile Regression&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MAE&lt;/td&gt;
+      &lt;td&gt;3.271&lt;/td&gt;
+      &lt;td&gt;2.95&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MSE&lt;/td&gt;
+      &lt;td&gt;21.895&lt;/td&gt;
+      &lt;td&gt;16.257&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;
+      &lt;td&gt;0.741&lt;/td&gt;
+      &lt;td&gt;0.807&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The results show a definite increase in overall error reduction as well as more variance explained by the quantile regression. Additionally, if you look at the plot below, you can see that the blue points (simple OLS model) tend to have larger errors around the upper and lower points of the target variable, which is consistent with our expectations.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/quantile_comparison.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is all great, but how is this interpretable if we have 19 individual models fit, each with their own sets of coefficients with intercepts, slopes and confidence intervals? One easy way would be to plot the values for each covariate independently as a function of the quantile on which they were trained to see how the relationships vary in terms of the response variable. Below is a quick example comparing the simple OLS model slopes vs each of the covariates’ quantile regression results:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/quantile_slope_values.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you take a look at the &lt;a href=&quot;https://github.com/mwburke/mwburke.github.io/tree/master/scripts/quantile_regression.py&quot;&gt;file used to create these plots/calculations&lt;/a&gt;, you can look at how I have done these calculations and probably augment the charts to include upper/lower bounds as well as intercept values to get an even fuller picture of how your models are functioning, to the point where you could explain to management, your mom, unwilling friends, etc…&lt;/p&gt;
+
+&lt;h1 id=&quot;summary&quot;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;Although quantile regression doesn’t move past the basic linear approaches of OLS, it does allow some flexibility and can be a good compromise being stuck with the most basic techniques and being able to eek out a little extra accuracy for your models without sacrificing interpretability.&lt;/p&gt;
+
+&lt;h2 id=&quot;extra-note&quot;&gt;Extra Note&lt;/h2&gt;
+
+&lt;p&gt;If you aren’t constrained to linear modeling but still would prefer a powerful model with high interpretability, I’d highly recommend checking out &lt;a href=&quot;https://en.wikipedia.org/wiki/Generalized_additive_model&quot;&gt;generalized additive models&lt;/a&gt;, which supports non-linear modeling of linear predictors while easily displaying relationships between variables and allowing many customizations such as monotonic constraints and smoothing parameters. Stitch Fix has a &lt;a href=&quot;https://multithreaded.stitchfix.com/blog/2015/07/30/gam/&quot;&gt;fantastic article&lt;/a&gt; on it, and there’s a convenient &lt;a href=&quot;https://github.com/dswah/pyGAM&quot;&gt;python library&lt;/a&gt; you might find helpful as well in getting up and running quickly.&lt;/p&gt;
+
+&lt;h2 id=&quot;additional-resources&quot;&gt;Additional Resources&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.oreilly.com/learning/introduction-to-local-interpretable-model-agnostic-explanations-lime&quot;&gt;Introduction to local Interpretable Model-agnostic Explanations (O’Reilly)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/pdf/1602.04938.pdf&quot;&gt;“Why Should I Trust You?” Explaining the Predictions of Any Classifier&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://christophm.github.io/interpretable-ml-book/&quot;&gt;Interpretable Machine Learning: A Guide for Making Black Box Models Explainable&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://data.library.virginia.edu/getting-started-with-quantile-regression/&quot;&gt;Getting Started With Quantile Regression&lt;/a&gt;&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><summary type="html">Interpretable Linear Modeling</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">My Intro to Generative Art</title><link href="http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js.html" rel="alternate" type="text/html" title="My Intro to Generative Art" /><published>2018-07-09T00:00:00-07:00</published><updated>2018-07-09T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js</id><content type="html" xml:base="http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js.html">&lt;h1 id=&quot;what-is-generative-art&quot;&gt;What is generative art?&lt;/h1&gt;
+
+&lt;p&gt;Generative art is procedurally generated art for those of us who are less traditionally artistically inclined. More specifically, those who have no skill but still have enough appreciation for art and mathematical principles to automate the creation of things that look snice.&lt;/p&gt;
+
+&lt;h1 id=&quot;javascript-libraries&quot;&gt;Javascript Libraries&lt;/h1&gt;
+
+&lt;p&gt;The go-to library for web-based mathematical visualization is &lt;a href=&quot;d3js.org&quot;&gt;d3&lt;/a&gt;, and many visualization libraries are based upon it. However, recently I stumbled across &lt;a href=&quot;https://processing.org/&quot;&gt;processing&lt;/a&gt;, and it’s javascript equivalent &lt;a href=&quot;https://p5js.org/&quot;&gt;p5js&lt;/a&gt;, which are amazing for creating procedurally generated visualizations. It’s inherently build to support an initialization process with the &lt;code class=&quot;highlighter-rouge&quot;&gt;setup&lt;/code&gt; function and a function to update the visualization frame-by-frame with the &lt;code class=&quot;highlighter-rouge&quot;&gt;draw&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;p&gt;It’s easy to pick up and get going and create something really quickly, and it’s only been a few days since I’ve heard about it, and I’ve already had tons of fun learning the API and using the basics to create some “art” I’m happy with. I highly encourage you to check it out and maybe some of the stuff I’ve made recently &lt;a href=&quot;http://mwburke.github.io.com/generative-art&quot;&gt;at my interactive generative art website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you are too lazy to click on the link, here’s a few examples of the static visualizations as well as the one in the post header.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://worksofchart.com/generative-art/posts/002.html&quot;&gt;&lt;img src=&quot;/images/generative-art-2.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://worksofchart.com/generative/art/posts/010.html&quot;&gt;&lt;img src=&quot;/images/generative-art-10.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://worksofchart.com/generative/art/posts/011.html&quot;&gt;&lt;img src=&quot;/images/generative-art-11.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Generative Art" /><category term="javascript" /><category term="p5js" /><summary type="html">In-Browser Art with p5.js</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Stargazer Python Library</title><link href="http://localhost:4000/data%20science/2018/06/24/stargazer-regression-reporting.html" rel="alternate" type="text/html" title="Stargazer Python Library" /><published>2018-06-24T00:00:00-07:00</published><updated>2018-06-24T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2018/06/24/stargazer-regression-reporting</id><content type="html" xml:base="http://localhost:4000/data%20science/2018/06/24/stargazer-regression-reporting.html">&lt;script&gt;
+	var element = document.getElementsByClassName(&quot;stargazer&quot;);
+	element.classList.remove('markdown-body')
+&lt;/script&gt;
+
+&lt;h2 id=&quot;introducing-the-stargazer-python-package&quot;&gt;Introducing the Stargazer Python Package:&lt;/h2&gt;
+
+&lt;p&gt;I really like the &lt;a href=&quot;https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf&quot;&gt;stargazer package in R&lt;/a&gt;. It’s a fantastic library for creating beautiful, publication worthy regression tables, and I was bummed when they didn’t have a version in Python which is what I’m primarily working in these days. So.. naturally I created my own implementation and figured I would share it since there must be some others who love both R and Python out there and are looking for feature parity between the two. It  probably has a few bugs but I figured something was better than nothing. Here’s an example of the output from my current version (with my blog styling automatically applied).&lt;/p&gt;
+&lt;div&gt;
+
+&lt;table class=&quot;stargazer&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;em&gt;Dependent variable:&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(1)&lt;/td&gt;&lt;td&gt;(2)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;ABP&lt;/td&gt;&lt;td&gt;416.674&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;397.583&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(69.495)&lt;/td&gt;&lt;td&gt;(70.87)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Age&lt;/td&gt;&lt;td&gt;37.241&lt;sup&gt;&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;24.704&lt;sup&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(64.117)&lt;/td&gt;&lt;td&gt;(65.411)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;BMI&lt;/td&gt;&lt;td&gt;787.179&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;789.742&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(65.424)&lt;/td&gt;&lt;td&gt;(66.887)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;S1&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;197.852&lt;sup&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(143.812)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;S2&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-169.251&lt;sup&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(142.744)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Sex&lt;/td&gt;&lt;td&gt;-106.578&lt;sup&gt;*&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;-82.862&lt;sup&gt;&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(62.125)&lt;/td&gt;&lt;td&gt;(64.851)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;const&lt;/td&gt;&lt;td&gt;152.133&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;152.133&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(2.853)&lt;/td&gt;&lt;td&gt;(2.853)&lt;/td&gt;&lt;/tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Observations&lt;/td&gt;&lt;td&gt;442.0&lt;/td&gt;&lt;td&gt;442.0&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.4&lt;/td&gt;&lt;td&gt;0.403&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;0.395&lt;/td&gt;&lt;td&gt;0.395&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Residual Std. Error&lt;/td&gt;&lt;td&gt;59.976(df = 437.0)&lt;/td&gt;&lt;td&gt;59.982(df = 435.0)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;F Statistic&lt;/td&gt;&lt;td&gt;72.913&lt;sup&gt;***&lt;/sup&gt;(df = 4.0; 437.0)&lt;/td&gt;&lt;td&gt;48.915&lt;sup&gt;***&lt;/sup&gt;(df = 6.0; 435.0)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;Note:&lt;/td&gt;&lt;td colspan=&quot;2&quot; style=&quot;text-align: right&quot;&gt;&lt;em&gt;p&amp;lt;0.1&lt;/em&gt;; &lt;b&gt;p&amp;lt;0.05&lt;/b&gt;; p&amp;lt;0.01&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Here’s an example of a raw example without any styling I generated using the package:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/stargazer_example.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;when-would-i-use-these&quot;&gt;When would I use these?&lt;/h2&gt;
+
+&lt;p&gt;The main situation that people tend to use the R version of stargazer is in reporting regression results in academic papers. It easily allows you to compare multiple regression results, and this lends itself to comparing results between models that have experimentally imposed effects and those that don’t. this easily allows the user to view the differences in coefficients, statistical significance and the effects of the new variable introduced by the experiment.&lt;/p&gt;
+
+&lt;p&gt;It currently supports LaTeX and HTML output, but my goal is eventually support Markdown and ASCII text as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-do-i-use-it&quot;&gt;How do I use it?&lt;/h2&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://github.com/mwburke/stargazer&quot;&gt;github repo&lt;/a&gt; or download using &lt;code class=&quot;highlighter-rouge&quot;&gt;pip install stargazer&lt;/code&gt;, and please let me know if you have any feedback/feature requests!&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><summary type="html">Multiple Regression Reporting</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Population Stability Index</title><link href="http://localhost:4000/data%20science/2018/04/29/population-stability-index.html" rel="alternate" type="text/html" title="Population Stability Index" /><published>2018-04-29T00:00:00-07:00</published><updated>2018-04-29T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2018/04/29/population-stability-index</id><content type="html" xml:base="http://localhost:4000/data%20science/2018/04/29/population-stability-index.html">&lt;h1 id=&quot;what-is-the-population-stability-index-psi&quot;&gt;What is the population stability index (PSI)?&lt;/h1&gt;
+
+&lt;p&gt;PSI is a measure of how much a population has shifted over time or between two different samples of a population in a single number. It does this by bucketing the two distributions and comparing the percents of items in each of the buckets, resulting in a single number you can use to understand how different the populations are. The common interpretations of the PSI result are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;PSI &amp;lt; 0.1&lt;/strong&gt;: no significant population change&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PSI &amp;lt; 0.2&lt;/strong&gt;: moderate population change&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PSI &amp;gt;= 0.2&lt;/strong&gt;: significant population change&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;how-is-psi-used&quot;&gt;How is PSI used?&lt;/h1&gt;
+
+&lt;p&gt;There are two different ways PSI can be used to make good decisions in a machine learning model building context:&lt;/p&gt;
+
+&lt;h2 id=&quot;reactive-re-training-triggers&quot;&gt;Reactive Re-training Triggers&lt;/h2&gt;
+
+&lt;p&gt;After a deploying a ML model into production, it will continue to provide estimates on the population it was trained on. As the population shifts over time, the estimates become less accurate and relevant to the current population, and monitoring the PSI score from the time of model training to current time can be used as automatic triggers to re-train the model when PSI passes a certain threshold (0.2 for example).&lt;/p&gt;
+
+&lt;h2 id=&quot;proactive-feature-selection&quot;&gt;Proactive Feature Selection&lt;/h2&gt;
+
+&lt;p&gt;When choosing features to go into a model, certain features may have a lot of predictive power at the time of training, but if a feature is prone to rapid changes in distribution, it may not be a wise decision to include it in the model or it may prompt more frequent monitoring once deployed. PSI is an easy way to check the volatility of population changes for features by comparing populations for several previous time periods.&lt;/p&gt;
+
+&lt;h1 id=&quot;example-walkthrough&quot;&gt;Example Walkthrough&lt;/h1&gt;
+
+&lt;p&gt;Here’s a quick example of walking through the steps of a PSI calculation for two (mostly) normal distributions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/psi_large.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see above, the slightly left-skewed initial population (blue) has flattened out a bit to have more of a flat top of the bell curve in the new population (green). From a visual inspection, it looks as if the population is shifting, but I would like a quantitative way to measure how much the shift is rather than qualitatively guessing how much I should be concerned. PSI is a great way to come up with a single metric to measure this.&lt;/p&gt;
+
+&lt;p&gt;To calculate the PSI we first divide the initial population range into 10 buckets (an arbitrary number I chose), and count the number of values in each of those buckets for the initial and new populations, and then divide those by the total values in each population to get the percents in each bucket. As expected, plotting the percents ends up looking like a discretized version of the original chart:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/psi_hist.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;From here, we perform the actual PSI calculation for each bucket, and them sum them all up to get the overall PSI values for the distributions.&lt;/p&gt;
+
+&lt;h2 id=&quot;psi-formula&quot;&gt;PSI Formula:&lt;/h2&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;PSI = \sum{}\Big(\big(Actual \% - Expected \%\big) \times ln\big(\dfrac{Actual \%}{Expected \%}\big)\Big)&lt;/script&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Breakpoint Value&lt;/th&gt;
+      &lt;th&gt;Bucket&lt;/th&gt;
+      &lt;th&gt;Initial Count&lt;/th&gt;
+      &lt;th&gt;New Count&lt;/th&gt;
+      &lt;th&gt;Initial Percent&lt;/th&gt;
+      &lt;th&gt;New Percent&lt;/th&gt;
+      &lt;th&gt;PSI&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-2.330642&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.01&lt;/td&gt;
+      &lt;td&gt;0.001000&lt;/td&gt;
+      &lt;td&gt;0.020723&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-1.801596&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0.01&lt;/td&gt;
+      &lt;td&gt;0.025000&lt;/td&gt;
+      &lt;td&gt;0.013744&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-1.272550&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;0.04&lt;/td&gt;
+      &lt;td&gt;0.050000&lt;/td&gt;
+      &lt;td&gt;0.002231&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-0.743504&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;0.08&lt;/td&gt;
+      &lt;td&gt;0.125000&lt;/td&gt;
+      &lt;td&gt;0.020083&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-0.214458&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;27&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+      &lt;td&gt;0.27&lt;/td&gt;
+      &lt;td&gt;0.150000&lt;/td&gt;
+      &lt;td&gt;0.070534&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0.314588&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;22&lt;/td&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;0.22&lt;/td&gt;
+      &lt;td&gt;0.191667&lt;/td&gt;
+      &lt;td&gt;0.003906&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0.843633&lt;/td&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;16&lt;/td&gt;
+      &lt;td&gt;26&lt;/td&gt;
+      &lt;td&gt;0.16&lt;/td&gt;
+      &lt;td&gt;0.216667&lt;/td&gt;
+      &lt;td&gt;0.017181&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1.372679&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;12&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;0.12&lt;/td&gt;
+      &lt;td&gt;0.116667&lt;/td&gt;
+      &lt;td&gt;0.000094&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1.901725&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;0.06&lt;/td&gt;
+      &lt;td&gt;0.075000&lt;/td&gt;
+      &lt;td&gt;0.003347&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2.430771&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0.03&lt;/td&gt;
+      &lt;td&gt;0.025000&lt;/td&gt;
+      &lt;td&gt;0.000912&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;interpretation&quot;&gt;Interpretation:&lt;/h2&gt;
+
+&lt;p&gt;We get a final PSI value of &lt;strong&gt;0.153&lt;/strong&gt;, which indicates that there’s a chance our population is shifting, and we may want to monitor it going forwards. Of course, this is just one way of calculating PSI by using equal size binning of 10 buckets. If we keep the 10 buckets but change our binning strategy to quantile bins, we end up with a different percent distribution and an overall lower estimate of &lt;strong&gt;0.129&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/psi_hist_bins.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h1&gt;
+
+&lt;p&gt;PSI seems to be a metric primarily used in the financial industry, but I think it can have a lot of useful applications in the wider ML community when used widely and consistently.&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://www.lexjansen.com/wuss/2017/47_Final_Paper_PDF.pdf&lt;/li&gt;
+  &lt;li&gt;https://www.listendata.com/2015/05/population-stability-index.html&lt;/li&gt;
+  &lt;li&gt;https://www.quora.com/What-is-population-stability-index&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;python-implementation&quot;&gt;Python Implementation&lt;/h2&gt;
+
+&lt;p&gt;Check out my python implementation of PSI and a corresponding python notebook going through the example above at &lt;a href=&quot;https://github.com/mwburke/population-stability-index&quot;&gt;this repo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some assumptions the code makes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Numpy is the only non-standard library dependency&lt;/li&gt;
+  &lt;li&gt;Assumes continuous variables (categorical variables are handled differently in PSI)&lt;/li&gt;
+  &lt;li&gt;Replaces bins in the new population that have 0 count with 0.001 percent to avoid divide by zero errors without affecting overall calculation too much&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew</name></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="metrics" /><summary type="html">Quantifying Population Drift</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Slopegraph vs Barchart</title><link href="http://localhost:4000/data%20visualization/2017/12/28/slopegraph-vs-barchart.html" rel="alternate" type="text/html" title="Slopegraph vs Barchart" /><published>2017-12-28T00:00:00-08:00</published><updated>2017-12-28T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2017/12/28/slopegraph-vs-barchart</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2017/12/28/slopegraph-vs-barchart.html">&lt;h1 id=&quot;slopegraphs-are-great-sometimes&quot;&gt;Slopegraphs are great …sometimes&lt;/h1&gt;
+
+&lt;p&gt;A slopegraph is a relatively underused chart with two sets of values on the left and right hand side, connected by lines. I know this sounds like a line chart with two values… and it kind of is… but trust me it has its uses.&lt;/p&gt;
+
+&lt;p&gt;Slopegraphs were first developed by the illustrious Edward Tufte, and you can see an example of one in his book &lt;a href=&quot;https://www.edwardtufte.com/tufte/books_vdqi&quot;&gt;&lt;em&gt;The Visual Display of Quantitative Information&lt;/em&gt;&lt;/a&gt; below:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://www.edwardtufte.com/bboard/images/0003nk-10289.gif&quot; alt=&quot;https://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0003nk&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The slopegraph is successful in accomplishing the following communication goals:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Showing relative rankings of items&lt;/li&gt;
+  &lt;li&gt;Identifying magnitude of changes&lt;/li&gt;
+  &lt;li&gt;Allowing comparison of changes among items&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;slopegraph-vs-bar-chart&quot;&gt;Slopegraph vs bar chart&lt;/h2&gt;
+
+&lt;p&gt;Although these tasks could be accomplished by reading a bar chart, I believe a slopegraph is a more appropriate visualization in some cases.&lt;/p&gt;
+
+&lt;p&gt;One example is taken from &lt;a href=&quot;https://www.kdnuggets.com/2017/05/poll-analytics-data-science-machine-learning-software-leaders.html&quot;&gt;KDnuggets poll&lt;/a&gt; of data science software usage in recent years. From their bar chart below, you can get see trends by looking at each piece of software individually, but it’s difficult to compare across all of them.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://www.kdnuggets.com/images/top-analytics-data-science-machine-learning-software-2015-2017.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To illustrate how this could be improved, I created a slopegraph for the some of the top items in D3 and posted a screenshot below.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Data Science Tools % Usage: &lt;strong&gt;2016&lt;/strong&gt; to &lt;strong&gt;2017&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/slopegraph-preview.png&quot; alt=&quot;center-aligned-image&quot; class=&quot;align-center&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;slopegraph-pros&quot;&gt;Slopegraph pros&lt;/h2&gt;
+
+&lt;p&gt;The slopegraph makes better use of color to draw the reader’s eyes to significant changes, and immediately informs them of the increase or decrease. In the previous chart, the colors held no inherent meaning, and therefore added visual complexity for no additional benefit to the reader.&lt;/p&gt;
+
+&lt;p&gt;Additionally, I think the sloepgraph gives a better sense of the overall average trends through the line angles.&lt;/p&gt;
+
+&lt;h2 id=&quot;slopegraph-cons&quot;&gt;Slopegraph cons&lt;/h2&gt;
+
+&lt;p&gt;One of the primary shortcomings of the chart is the overlap of items with similar values. I had to add some extra logic in order to avoid this and still ended up with the SQL/Excel abomination, whereas if I used a bar chart, I would never have this problem.&lt;/p&gt;
+
+&lt;p&gt;The human brain is more suited to make comparisons between values based on length rather than angle, and I wouldn’t be able to determine whether a line reprsented a 7% or 8% increase innately, which is why you need to add in each of the percents on both sides of the chart.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Every visualization tool has bar chart capabilities and every powerpoint will inevitably have at least one bar chart mainly because you won’t have to explain to your boss how to read a bar chart. They just work.&lt;/p&gt;
+
+&lt;p&gt;That being said, they don’t always work as well as they could, and I think putting in a little extra time coding up a custom slopegraph visualization in something like &lt;a href=&quot;https://d3js.org/&quot;&gt;D3&lt;/a&gt; can make a significant difference in guiding people to the insights you’ve dug up.&lt;/p&gt;
+
+&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+
+&lt;p&gt;The code for the above slopegraph made with D3.js can be found &lt;a href=&quot;https://github.com/mwburke/ds-tools-2017-slopegraph&quot;&gt;in this github repo&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You can view a live version &lt;a href=&quot;http://bl.ocks.org/mwburke/9873c09ac6c21d6ac9153e54892cf5ec&quot;&gt;in this block&lt;/a&gt;&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><category term="javascript" /><summary type="html">Slopegraphs are great ...sometimes</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why Make A Blog</title><link href="http://localhost:4000/2017/12/23/why-make-a-blog.html" rel="alternate" type="text/html" title="Why Make A Blog" /><published>2017-12-23T00:00:00-08:00</published><updated>2017-12-23T00:00:00-08:00</updated><id>http://localhost:4000/2017/12/23/why-make-a-blog</id><content type="html" xml:base="http://localhost:4000/2017/12/23/why-make-a-blog.html">&lt;h2 id=&quot;does-the-world-need-another-blog&quot;&gt;Does the world need another blog?&lt;/h2&gt;
+
+&lt;p&gt;Short answer, no. There are enough smart, experienced people out there writing blogs about data science and the next greatest thing, and we all know there are more than enough opinions on the internet.&lt;/p&gt;
+
+&lt;h2 id=&quot;then-why-make-this-blog&quot;&gt;Then why make this blog?&lt;/h2&gt;
+
+&lt;p&gt;This blog is mostly for myself (but I’m glad you’re here if you’re reading this), because I wanted a structured way to motivate myself to pick up new skills, do interesting projects and hopefully share what I’ve learned with others.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-it-running-on&quot;&gt;What is it running on?&lt;/h2&gt;
+
+&lt;p&gt;I’m using &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; to generate the site and am hosting it on &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt;, since it is a great (read: free) way to host websites and it integrates directly with Jekyll. Once you’ve set up your website framework and configurations, all you need to do to add posts is create a Markdown file for it, rebuild the site and push it to your repo.&lt;/p&gt;
+
+&lt;p&gt;I actually migrated from my original theme that &lt;a href=&quot;https://github.com/kaeyleo/jekyll-theme-H2O&quot;&gt;can be found here&lt;/a&gt; and switched to the &lt;a href=&quot;https://github.com/mmistakes/so-simple-theme&quot;&gt;oh so simple&lt;/a&gt; jekyll theme.&lt;/p&gt;
+
+&lt;p&gt;I’m not a web developer soooo please bear with any issues you may discover and feel free to let me know what I can do to improve!&lt;/p&gt;
+
+&lt;h2 id=&quot;will-i-think-up-a-paragraph-title-thats-not-a-question&quot;&gt;Will I think up a paragraph title that’s not a question?&lt;/h2&gt;
+
+&lt;p&gt;We can only hope.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="jekyll" /><summary type="html">Does the world need another blog?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

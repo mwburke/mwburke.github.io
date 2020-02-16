@@ -1,217 +1,223 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Why Make A Blog - Works of Chart</title>
-    <meta name="author"  content="Matthew Burke">
-    <meta name="description" content="Why Make A Blog">
-    <meta name="keywords"  content="jekyll">
-    <!-- Open Graph -->
-    <meta property="og:title" content="Why Make A Blog - Works of Chart">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="http://localhost:4000/2017/12/23/why-make-a-blog.html">
-    <meta property="og:description" content="Creating information from data">
-    <meta property="og:site_name" content="Works of Chart">
-    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
-    <link rel="stylesheet" href="/assets/css/github-markdown.css">
-    <link rel="stylesheet" href="/assets/css/prism.css">
-    <link rel="stylesheet" href="/assets/css/share.min.css">
-    <link rel="stylesheet" href="/assets/css/app.min.css">
-    
-    <!--
-Author: Ray-Eldath
-refer to:
- - http://docs.mathjax.org/en/latest/options/index.html
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
 -->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
 
-	<script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-	
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-		jax: ["input/TeX", "output/HTML-CSS"],
-		tex2jax: {
-			inlineMath: [ ["$", "$"] ],
-			displayMath: [ ["$$", "$$"] ],
-			skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-		},
-		"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-      });
-    </script>
-
+  
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112640723-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Why Make A Blog | Matthew’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Why Make A Blog" />
+<meta name="author" content="Matthew Burke" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Does the world need another blog?" />
+<meta property="og:description" content="Does the world need another blog?" />
+<link rel="canonical" href="http://localhost:4000/2017/12/23/why-make-a-blog.html" />
+<meta property="og:url" content="http://localhost:4000/2017/12/23/why-make-a-blog.html" />
+<meta property="og:site_name" content="Matthew’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-23T00:00:00-08:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="twitter:title" content="Why Make A Blog" />
+<meta name="twitter:site" content="@mattburkeley" />
+<meta name="twitter:creator" content="@mattburkeley" />
+<script type="application/ld+json">
+{"description":"Does the world need another blog?","author":{"@type":"Person","name":"Matthew Burke"},"@type":"BlogPosting","url":"http://localhost:4000/2017/12/23/why-make-a-blog.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew Burke"},"image":{"thumbnail":"/images/jekyll-logo.png","url":"http://localhost:4000/images/placeholder.png","@type":"imageObject"},"headline":"Why Make A Blog","dateModified":"2017-12-23T00:00:00-08:00","datePublished":"2017-12-23T00:00:00-08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/12/23/why-make-a-blog.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
 
-      gtag('config', 'UA-112640723-1');
-    </script>
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew&#39;s Blog" href="/atom.xml">
+<!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
 
 </head>
 
-<body>
-    <!--[if lt IE 10]>
-<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
-<![endif]-->
-<input id="nm-switch" type="hidden" value="false">
 
-<header class="g-header">
-    <div class="g-logo">
-      <a href="/"></a>
-    </div>
-    <i id="menu-toggle" class="iconfont icon-menu"></i>
-    <nav class="g-nav">
-        <ul>
-            
-            <li><a href="/">home</a></li>
-            
-            <li><a href="/tags.html">tags</a></li>
-            
-            <li><a href="/about.html">about</a></li>
-            
-        </ul>
+  <body class="layout--post  why-make-a-blog">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li></ul>
     </nav>
-</header>
+  </div><!-- /.navigation-wrapper -->
 
 
-<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default " data-theme="default">
-    <div class="post-wrapper">
-        <div class="post-tags">
-            
-            
-            <a href="http://localhost:4000/tags#jekyll" class="post-tag">jekyll</a>
-            
-            
-        </div>
-        <h1>Why Make A Blog</h1>
-        <div class="post-meta">
-            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">Matthew</a></></span>
-            <time class="post-meta-item" datetime="17-12-23"><i class="iconfont icon-date"></i>23 Dec 2017</time>
-        </div>
-    </div>
+    <header class="masthead">
+  <div class="wrap">
     
-    <div class="filter"></div>
-    <div class="post-cover" style="background: url('http://on2171g4d.bkt.clouddn.com/jekyll-banner.png') center no-repeat; background-size: cover;">
+      <a href="/" class="site-logo" rel="home" title="Matthew's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew's Blog">
+      </a>
     
-</header>
+    
+    
+  </div>
+</header><!-- /.masthead -->
 
-<div class="post-content">
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
     
-    <article class="markdown-body">
-        <h3 id="does-the-world-need-another-blog">Does the world need another blog?</h3>
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/placeholder.png" class="entry-feature-image u-photo" alt="Why Make A Blog" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Why Make A Blog
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/matthew-burke-photo.jpg" class="author-avatar u-photo" alt="Matthew Burke"><div class="author-info"><div class="author-name">
+        <span class="p-name">Matthew Burke</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-lg" title="Instagram"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/mwburke"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li></ul>
+    <time class="page-date dt-published" datetime="2017-12-23T00:00:00-08:00"><a class="u-url" href="">December 23, 2017</a>
+</time>
+
+  </div>
+</div>
+
+        
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#jekyll" title="Pages tagged jekyll" rel="tag">jekyll</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <h2 id="does-the-world-need-another-blog">Does the world need another blog?</h2>
 
 <p>Short answer, no. There are enough smart, experienced people out there writing blogs about data science and the next greatest thing, and we all know there are more than enough opinions on the internet.</p>
 
-<h3 id="then-why-make-this-blog">Then why make this blog?</h3>
+<h2 id="then-why-make-this-blog">Then why make this blog?</h2>
 
 <p>This blog is mostly for myself (but I’m glad you’re here if you’re reading this), because I wanted a structured way to motivate myself to pick up new skills, do interesting projects and hopefully share what I’ve learned with others.</p>
 
-<h3 id="what-is-it-running-on">What is it running on?</h3>
+<h2 id="what-is-it-running-on">What is it running on?</h2>
 
 <p>I’m using <a href="https://jekyllrb.com/">Jekyll</a> to generate the site and am hosting it on <a href="https://pages.github.com/">Github Pages</a>, since it is a great (read: free) way to host websites and it integrates directly with Jekyll. Once you’ve set up your website framework and configurations, all you need to do to add posts is create a Markdown file for it, rebuild the site and push it to your repo.</p>
 
-<p>The theme I’m using <a href="https://github.com/kaeyleo/jekyll-theme-H2O">can be found here</a>. It uses <a href="http://prismjs.com/index.html">Prism.js</a> for code highlighting with code styling taken from <a href="https://github.com/LukeAskew/prism-github">here</a> since I wasn’t totally happy with the default themes.</p>
+<p>I actually migrated from my original theme that <a href="https://github.com/kaeyleo/jekyll-theme-H2O">can be found here</a> and switched to the <a href="https://github.com/mmistakes/so-simple-theme">oh so simple</a> jekyll theme.</p>
 
 <p>I’m not a web developer soooo please bear with any issues you may discover and feel free to let me know what I can do to improve!</p>
 
-<h3 id="will-i-think-up-a-paragraph-title-thats-not-a-question">Will I think up a paragraph title that’s not a question?</h3>
+<h2 id="will-i-think-up-a-paragraph-title-thats-not-a-question">Will I think up a paragraph title that’s not a question?</h2>
 
 <p>We can only hope.</p>
 
-    </article>
-    
+        </div>
+
+        
+          <div class="page-share">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2017%2F12%2F23%2Fwhy-make-a-blog.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--facebook btn--small"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> <span>Share</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Why+Make+A+Blog%20http%3A%2F%2Flocalhost%3A4000%2F2017%2F12%2F23%2Fwhy-make-a-blog.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--twitter btn--small"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> <span>Tweet</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2017%2F12%2F23%2Fwhy-make-a-blog.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--linkedin btn--small"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> <span>LinkedIn</span></a>
+  <a href="https://reddit.com/submit?title=Why+Make+A+Blog&url=http%3A%2F%2Flocalhost%3A4000%2F2017%2F12%2F23%2Fwhy-make-a-blog.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--reddit btn--small"><i class="fab fa-fw fa-reddit" aria-hidden="true"></i> <span>Reddit</span></a>
 </div>
 
-<section class="author-detail">
-    <section class="post-footer-item author-card">
-        <div class="avatar">
-            <img src="http://localhost:4000/assets/img/other-profile.jpg" alt="">
-        </div>
-        <div class="author-name" rel="author">Matthew Burke</div>
-        <div class="bio">
-            <p>Data science, data visualization, generative art, bad puns</p>
-        </div>
         
-        <ul class="sns-links">
-            
-            <li>
-                <a href="//twitter.com/mattburkeley" target="_blank">
-                    <i class="iconfont icon-twitter"></i>
-                </a>
-            </li>
-            
-            <li>
-                <a href="//www.linkedin.com/in/matthew-burke-data-science" target="_blank">
-                    <i class="iconfont icon-linkedin"></i>
-                </a>
-            </li>
-            
-            <li>
-                <a href="//github.com/mwburke" target="_blank">
-                    <i class="iconfont icon-github"></i>
-                </a>
-            </li>
-            
-        </ul>
-        
-    </section>
-    <section class="post-footer-item read-next">
-        
-        <div class="read-next-item">
-            <a href="/2017/12/28/slopegraph-vs-barchart.html" class="read-next-link"></a>
-            <section>
-                <span>Slopegraph vs Barchart</span>
-                <p>Slopegraphs are great (…sometimes)A slopegraph is a relat...</p>
-            </section>
-            
-            <div class="filter"></div>
-            <img src="https://raw.githubusercontent.com/mwburke/ds-tools-2017-slopegraph/master/preview.png" alt="">
-            
-        </div>
-        
-        
-    </section>
-    
-</section>
 
-<footer class="g-footer">
-    <section>Works of Chart © 2019</section>
-    <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+
+  
+    <a class="page-next" href="/data%20visualization/2017/12/28/slopegraph-vs-barchart.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Slopegraph vs Barchart
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2020 Matthew's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
 </footer>
 
-<script src="/assets/js/social-share.min.js"></script>
-<script>
-    socialShare('.social-share', {
-        sites: ['twitter','linkedin','github'],
-        wechatQrcodeTitle: "分享到微信朋友圈",
-        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
-    });
-</script>
-<script>
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-/*写入自己的disqus信息*/
-s.src = 'https://mwburke.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-<script src="/assets/js/prism.js"></script>
-<script src="/assets/js/index.min.js"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
 </html>

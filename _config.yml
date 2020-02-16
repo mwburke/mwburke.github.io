@@ -1,71 +1,134 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
 # Site settings
-title: 'Works of Chart'
-description: 'Creating information from data'
-keyword: 'data,data science,data visualization,statistics,creative coding,generative art,python,scikit-learn,d3.js,machine learning'
-url: 'http://mwburke.github.io' # your host
-
-# if you don't need baseurl, you should leave this value blank.
-baseurl: ''
-
-# Navigation links
-nav:
-  home: '/'
-  tags: '/tags.html'
-  about: '/about.html'
-
-# Author
-author: 'Matthew Burke'
-nickname: ''
-bio: 'Data science, data visualization, generative art, bad puns'
-avatar: '/assets/img/other-profile.jpg'
-
-# Search
-search: true
-
-# Night mode
-nightMode: false
-
-# Comments
-disqus: false
-disqus_url: 'https://mwburke.disqus.com/embed.js'
-
-# MathJax
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+theme: jekyll-theme-so-simple
+# remote_theme: mmistakes/so-simple-theme
+skin: "/assets/css/skins/light.css"  # "/assets/css/skins/default.css", could also switch to custom.scss
+locale: en-US
+title: "Matthew's Blog"
+description: "Data science, generative art and other stuff"
+baseurl: "" # the subpath of your site, e.g. "/blog"
+url: https://mwburke.github.io  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+logo: "/images/generative-art-31.png" # path of site logo, e.g. "/assets/images/logo.png"
+date_format: "%B %-d, %Y"
+read_time: false
+words_per_minute: 200
 mathjax: true
+google_fonts:
+  - name: "Source Sans Pro"
+    weights: "400,400i,700,700i"
+  - name: "Lora"
+    weights: "400,400i,700,700i"
+google_analytics: UA-112640723-1  # Google Analytics id, e.g. "UA-NNNNNNNN-N"
+disqus:
+  shortname: # Disqus shortname, e.g. "my_disqus_shortname"
+twitter:
+  username: mattburkeley # site's Twitter username
 
-# Share
-social-share: false
-social-share-items: ['twitter', 'linkedin', 'github']
-
-# theme color
-theme-color: 'default'  # pink or default
-
-# Post header background patterns (when the post no cover): circuitBoard, overlappingCircles, food, glamorous, ticTacToe, seaOfClouds
-postPatterns: 'circuitBoard'
-
-# SNS settings url: weibo, zhihu, twitter, instagram, juejin, github, douban, facebook, dribble, uicn, jianshu, medium, linkedin
-sns:
-  twitter: '//twitter.com/mattburkeley'
-  linkedin: '//www.linkedin.com/in/matthew-burke-data-science'
-  github: '//github.com/mwburke'
-
-# Tags
-recommend-tags: true # whether or not display recommend-tags on the sidebar
-recommend-condition-size: 12 # a tag will be recommended if the size of it is more than this value
+# Liquid
+liquid:
+  error_mode: strict
 
 # Build settings
-paginate: 6
-paginate_path: 'page:num'
-exclude: ['node_modules', 'dev', 'package.json', 'gulpfile.js', '.gitignore', 'README.md']
-
-# Markdown
 markdown: kramdown
-#highlighter: rouge
-kramdown:
-  input: GFM
-  syntax_highlighter_opts:
-    disable: true
+feed:
+  path: atom.xml
 
-RSS: false
+# Pagination - https://jekyllrb.com/docs/pagination/
+paginate: 10
+paginate_path: /page:num/
 
-# Plugins
-plugins: [jekyll-paginate]
+# Search
+search_full_content: false
+
+# Taxonomy pages
+category_archive_path: "/categories/#"
+tag_archive_path: "/tags/#"
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-paginate
+
+# Collections example
+# One to create later would be elevator/RL series of posts
+# collections:
+#   recipes:
+#     output: true
+#     permalink: /:collection/:path/
+
+# Front Matter Defaults
+defaults:
+  # Post defaults
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: post
+      comments: true
+      share: true
+  # Recipe collection defaults
+  # - scope:
+  #     path: "_recipes"
+  #     type: recipes
+  #   values:
+  #     layout: post
+  #     comments: true
+  #     share: true
+
+# Site Author
+author:
+  name: Matthew Burke
+  picture: /images/matthew-burke-photo.jpg
+  email: matthew.wesley.burke@gmail.com
+  twitter: mattburkeley
+  links:
+    - title: Twitter
+      url: https://twitter.com/mattburkeley
+      icon: fab fa-twitter-square
+    - title: Instagram
+      url: https://instagram.com/mattburkeley
+      icon: fab fa-instagram
+    - title: GitHub
+      url: https://github.com/mwburke
+      icon: fab fa-github-square
+
+# Footer Links
+footer_links:
+  - title: Twitter
+    url: https://twitter.com/mattburkeley
+    icon: fab fa-twitter-square
+  - title: Instagram
+    url: https://instagram.com/mattburkeley
+    icon: fab fa-instagram
+  - title: GitHub
+    url: https://github.com/mwburke
+    icon: fab fa-github-square
+  - title: Feed
+    url: atom.xml
+    icon: fas fa-rss-square

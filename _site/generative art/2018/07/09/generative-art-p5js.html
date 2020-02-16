@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>My Intro to Generative Art | Matthew’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="My Intro to Generative Art" />
+<meta name="author" content="Matthew Burke" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In-Browser Art with p5.js" />
+<meta property="og:description" content="In-Browser Art with p5.js" />
+<link rel="canonical" href="http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js.html" />
+<meta property="og:url" content="http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js.html" />
+<meta property="og:site_name" content="Matthew’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-07-09T00:00:00-07:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="twitter:title" content="My Intro to Generative Art" />
+<meta name="twitter:site" content="@mattburkeley" />
+<meta name="twitter:creator" content="@mattburkeley" />
+<script type="application/ld+json">
+{"description":"In-Browser Art with p5.js","author":{"@type":"Person","name":"Matthew Burke"},"@type":"BlogPosting","url":"http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew Burke"},"image":{"thumbnail":"/images/generative-art-10.png","url":"http://localhost:4000/images/placeholder.png","@type":"imageObject"},"headline":"My Intro to Generative Art","dateModified":"2018-07-09T00:00:00-07:00","datePublished":"2018-07-09T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/generative%20art/2018/07/09/generative-art-p5js.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew&#39;s Blog" href="/atom.xml">
+<!-- start custom head snippets -->
+
+<!-- insert favicons. use http://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+</head>
+
+
+  <body class="layout--post  my-intro-to-generative-art">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Matthew's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew's Blog">
+      </a>
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/placeholder.png" class="entry-feature-image u-photo" alt="My Intro to Generative Art" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">My Intro to Generative Art
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/matthew-burke-photo.jpg" class="author-avatar u-photo" alt="Matthew Burke"><div class="author-info"><div class="author-name">
+        <span class="p-name">Matthew Burke</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-lg" title="Instagram"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/mwburke"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li></ul>
+    <time class="page-date dt-published" datetime="2018-07-09T00:00:00-07:00"><a class="u-url" href="">July 9, 2018</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#generative-art" title="Pages filed under Generative Art">Generative Art</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#javascript" title="Pages tagged javascript" rel="tag">javascript</a></li><li class="page-taxonomy"><a href="/tags/#p5js" title="Pages tagged p5js" rel="tag">p5js</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <h1 id="what-is-generative-art">What is generative art?</h1>
+
+<p>Generative art is procedurally generated art for those of us who are less traditionally artistically inclined. More specifically, those who have no skill but still have enough appreciation for art and mathematical principles to automate the creation of things that look snice.</p>
+
+<h1 id="javascript-libraries">Javascript Libraries</h1>
+
+<p>The go-to library for web-based mathematical visualization is <a href="d3js.org">d3</a>, and many visualization libraries are based upon it. However, recently I stumbled across <a href="https://processing.org/">processing</a>, and it’s javascript equivalent <a href="https://p5js.org/">p5js</a>, which are amazing for creating procedurally generated visualizations. It’s inherently build to support an initialization process with the <code class="highlighter-rouge">setup</code> function and a function to update the visualization frame-by-frame with the <code class="highlighter-rouge">draw</code> function.</p>
+
+<p>It’s easy to pick up and get going and create something really quickly, and it’s only been a few days since I’ve heard about it, and I’ve already had tons of fun learning the API and using the basics to create some “art” I’m happy with. I highly encourage you to check it out and maybe some of the stuff I’ve made recently <a href="http://mwburke.github.io.com/generative-art">at my interactive generative art website</a>.</p>
+
+<p>If you are too lazy to click on the link, here’s a few examples of the static visualizations as well as the one in the post header.</p>
+
+<p><a href="http://worksofchart.com/generative-art/posts/002.html"><img src="/images/generative-art-2.png" alt="" /></a></p>
+
+<p><a href="https://worksofchart.com/generative/art/posts/010.html"><img src="/images/generative-art-10.png" alt="" /></a></p>
+
+<p><a href="https://worksofchart.com/generative/art/posts/011.html"><img src="/images/generative-art-11.png" alt="" /></a></p>
+
+        </div>
+
+        
+          <div class="page-share">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2018%2F07%2F09%2Fgenerative-art-p5js.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--facebook btn--small"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> <span>Share</span></a>
+  <a href="https://twitter.com/intent/tweet?text=My+Intro+to+Generative+Art%20http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2018%2F07%2F09%2Fgenerative-art-p5js.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--twitter btn--small"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> <span>Tweet</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2018%2F07%2F09%2Fgenerative-art-p5js.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--linkedin btn--small"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> <span>LinkedIn</span></a>
+  <a href="https://reddit.com/submit?title=My+Intro+to+Generative+Art&url=http%3A%2F%2Flocalhost%3A4000%2Fgenerative%2520art%2F2018%2F07%2F09%2Fgenerative-art-p5js.html" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" class="btn btn--reddit btn--small"><i class="fab fa-fw fa-reddit" aria-hidden="true"></i> <span>Reddit</span></a>
+</div>
+
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/data%20science/2018/06/24/stargazer-regression-reporting.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Stargazer Python Library
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/data%20science/2018/08/24/quantile-regression.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        Quantile Regression
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2020 Matthew's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

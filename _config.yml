@@ -21,7 +21,7 @@ locale: en-US
 title: "Matthew's Blog"
 description: "Data science, generative art and other stuff"
 baseurl: "" # the subpath of your site, e.g. "/blog"
-url: https://mwburke.github.io  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url: "https://mwburke.github.io"  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 logo: "/images/generative-art-31.png" # path of site logo, e.g. "/assets/images/logo.png"
 date_format: "%B %-d, %Y"
 read_time: false
@@ -32,11 +32,11 @@ google_fonts:
     weights: "400,400i,700,700i"
   - name: "Lora"
     weights: "400,400i,700,700i"
-google_analytics: UA-112640723-1  # Google Analytics id, e.g. "UA-NNNNNNNN-N"
+google_analytics: "UA-112640723-1"  # Google Analytics id, e.g. "UA-NNNNNNNN-N"
 disqus:
   shortname: # Disqus shortname, e.g. "my_disqus_shortname"
 twitter:
-  username: mattburkeley # site's Twitter username
+  username: "mattburkeley" # site's Twitter username
 
 # Liquid
 liquid:

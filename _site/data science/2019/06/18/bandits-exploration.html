@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Multi-Armed Bandits Exploration | Matthew’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Multi-Armed Bandits Exploration" />
+<meta name="author" content="Matthew Burke" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Benchmark Comparisons and UCB Visualization" />
+<meta property="og:description" content="Benchmark Comparisons and UCB Visualization" />
+<link rel="canonical" href="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html" />
+<meta property="og:url" content="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html" />
+<meta property="og:site_name" content="Matthew’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-06-18T00:00:00-07:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="twitter:title" content="Multi-Armed Bandits Exploration" />
+<meta name="twitter:site" content="@mattburkeley" />
+<meta name="twitter:creator" content="@mattburkeley" />
+<script type="application/ld+json">
+{"description":"Benchmark Comparisons and UCB Visualization","author":{"@type":"Person","name":"Matthew Burke"},"@type":"BlogPosting","url":"http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew Burke"},"image":{"thumbnail":"/images/eps_greedy_rewards.png","url":"http://localhost:4000/images/placeholder.png","@type":"imageObject"},"headline":"Multi-Armed Bandits Exploration","dateModified":"2019-06-18T00:00:00-07:00","datePublished":"2019-06-18T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew&#39;s Blog" href="/atom.xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#31ac94">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#31ac94">
+
+</head>
+
+
+  <body class="layout--post  multi-armed-bandits-exploration">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li><li><a href="/about">About</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Matthew's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew's Blog">
+      </a>
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/placeholder.png" class="entry-feature-image u-photo" alt="Multi-Armed Bandits Exploration" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Multi-Armed Bandits Exploration
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/matthew-burke-photo.jpg" class="author-avatar u-photo" alt="Matthew Burke"><div class="author-info"><div class="author-name">
+        <span class="p-name">Matthew Burke</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-lg" title="Twitter"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-lg" title="Instagram"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/mwburke"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li></ul>
+
+<span class="read-time">7 min read</span>
+
+    <time class="page-date dt-published" datetime="2019-06-18T00:00:00-07:00"><a class="u-url" href="">June 18, 2019</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#data-science" title="Pages filed under Data Science">Data Science</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#python" title="Pages tagged python" rel="tag">python</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <h2 id="multi-armed-bandit-overview">Multi-Armed Bandit Overview</h2>
+
+<p>A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown:</p>
+
+<p>Pretend you are a someone who’s looking to go gambling, and there are X number of slot machines (aka bandits, don’t worry about why) you can choose from. Your goal is (obviously) to make the most amount of money from putting coins into them. However, given that you can only try one bandit at a time, how do you find the bandit(s) that give you the most bang for your buck without wasting time machines that just eat your money?</p>
+
+<p>That’s essentially what the multi-armed bandit problem is. How do we maximize rewards by <em>exploring</em> new bandits we don’t know much about (have only played zero or a few times), while still <em>exploiting</em> (or taking advantage of) the bandits we already know give us good rewards?</p>
+
+<p>Alright, now that we’ve covered that, we can jump into some code and ways I explored common algorithms used to maximize profits in this scenario.</p>
+
+<h2 id="bandit-definitions">Bandit Definitions</h2>
+
+<p>But first, let’s look again at how the bandits themselves are defined. I played around with two types:</p>
+
+<ol>
+  <li><strong>Bernoulli Bandit</strong>: each bandit has a set probability each time it’s pulled of returning a reward of 1 or 0</li>
+  <li><strong>Gaussian Bandit</strong>: each bandit has a mean and standard deviation that define a gaussian distribution. When pulled, it samples from that distribution to return a reward.</li>
+</ol>
+
+<p>Here’s a quick visualization of means and a standard deviation away from those means to get an idea of the potential overlap in rewards you may get from the gaussian bandits. The x axis is the bandit number, and the y axis is the reward distribution.</p>
+
+<p><img src="/images/gaussian_rewards.png" alt="" /></p>
+
+<p>Clearly bandits 3-4 are the highest ones, but their rewards still overlap greatly with 2, and it would be tricky to tell which one is best, given the amount of noise when sampling.</p>
+
+<h2 id="execution">Execution</h2>
+
+<p>The methods to choose arms in a programmatic away could be called methods or algorithms or whatever, but since I’ve been exploring reinforcement learning recently, I’m going to call them agents.</p>
+
+<p>At each timestep a few things happen:</p>
+
+<ol>
+  <li>The agent evaluates its current stored information and chooses a bandit to interact with</li>
+  <li>The agent pulls the chosen bandit and receives a reward in return</li>
+  <li>The agent makes updates to its stored information based on the reward</li>
+</ol>
+
+<h3 id="evaluation-procedure">Evaluation Procedure</h3>
+
+<p>In the following section, I compare agents with different parameters to each other by running an agent against a particular set of bandits for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.</p>
+
+<p>Naturally, we should see lower average rewards earlier on since we are still exploring and are uncertain of which bandits provide the best value, but what we hope to see is a gradual increase in rewards until we identify the optimal arm, at which point the rewards should flatten out to the average of the optimal arm’s reward.</p>
+
+<p>The two plots I include each with the comparisons track both of the metrics over time:</p>
+
+<ol>
+  <li>Average reward at each timestep</li>
+  <li>Percent of times the agent chose the optimal arm at that timestep</li>
+</ol>
+
+<p>As you will see, the former can be a rather noisy chart (especially with gaussian reward functions), but the latter results in a smoother chart.</p>
+
+<h2 id="agents">Agents</h2>
+
+<h3 id="epsilon-greedy">Epsilon Greedy</h3>
+
+<p>The epsilon greedy agent is an agent is defined by two parameters: epsilon and epsilon decay.</p>
+
+<p>Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random bandit. Otherwise, it chooses the bandit with the highest average reward (breaking ties randomly), thus exploiting what it knows.</p>
+
+<p>A higher epsilon results in more exploration (random arm selections), and a lower epsilon results in more exploitation.</p>
+
+<p>Because we may not want to keep the same epsilon over the life of our problem, we introduce the epsilon decay parameter, which decreases the value of epsilon after each timestep. This naturally lends itself towards a high explore approach at the beginning when we are unsure of the bandit rewards, and a high exploit approach later on once we have more information.</p>
+
+<p>In theory, this seems like a good idea, but in practice (with noisy bandit rewards), decaying epsilon seems to have slightly lower performance. However, I did not implement a minimum epsilon, which could help by preventing a fully-exploit scenario.</p>
+
+<p>Below is a comparison of some different parameters of epsilon greedy agents:</p>
+
+<p><img src="/images/eps_greedy_rewards.png" alt="" /></p>
+
+<p><img src="/images/eps_greedy_optimal_arms.png" alt="" /></p>
+
+<p>Here is a comparison of the best decay rate I found (ratio of 0.9999 per timestep) with different starting epsilon values.</p>
+
+<p><img src="/images/eps_greedy_decay.png" alt="" /></p>
+
+<h3 id="ucb">UCB</h3>
+
+<p>The upper confidence bound (UCB) agent tracks the average reward for each bandit similar to epsilon greedy, but rather than encoding its exploration as a binary random chance, it attempts to measure uncertainty in terms of how long it has been since a bandit has been chosen.</p>
+
+<p>Each timestep, the agent chooses the arm with the highest average reward plus “uncerainty”, and the uncertainty for each arm not chosen increases a little bit.</p>
+
+<p>Earlier on, every timestep where a bandit is not chosen increases uncertainty by a significant amount. As the system time grows, the uncertainty contributed by each timestep decreases since we should have more accurate estimates of rewards as time progresses.</p>
+
+<p>An important note is that this uncertainty is not what we normally think of in statistics and is <strong>not related to the variance of the reward estimates</strong>.</p>
+
+<p>The influence of the uncertainty factor is determined by a parameter C. Below is a comparison of some runs with different values of C:</p>
+
+<p><img src="/images/ucb_pct_arms.png" alt="" /></p>
+
+<p>One of the main purposes of this repo was to help visualize the UCB agent, in terms of how it balances the average rewards received so far and the uncertainty of unused bandits.</p>
+
+<p>Below is as gif of a UCB agent in action. Each frame in the gif is a step where the agent chose an action, received a reward, and updated its estimates/uncertaintities for each bandit.</p>
+
+<p>The blue parts of each bar are the average rewards for that bandit, and the orange parts are the uncertainty. You should be able to see the blue parts jump around as the highest total blue + orange bandit is pulled, while the non-pulled bandits’ orange parts should steadily increase until they become the highest bars.</p>
+
+<p>At first, the values will most likely jump around more as the variance of the reward estimates is large, but as it progresses, it should settle into selecting a few bandits repeatedly until there is one main winner.</p>
+
+<p><img src="/images/ucb_race_gif.gif" alt="" /></p>
+
+<h3 id="gradient-method">Gradient Method</h3>
+
+<p>The prior two algorithms choose arms based on the average score values, selecting the highest performing one (with some initial exploration). Gradient-based algorithms instead relies on relative preferences for each arm that do not necessarily correspond to actual rewards values. At each timestep, the rewards for an arm are observed, and then an incremental update to the existing preference score is made based on new score and a parameter alpha. This is similar to stochastic gradient ascent, and a larger alpha will result in a larger step size.</p>
+
+<p>The details for updating the preference values <script type="math/tex">H_{t}(a)</script> for selection probabilities <script type="math/tex">\pi_{t}(a)</script> selected action <script type="math/tex">A_{t}</script>, rewards <script type="math/tex">R_{t}</script>, and average reward <script type="math/tex">\overline{R_{t}}</script> are as follows:</p>
+
+<p><script type="math/tex">H_{t+1}(A_{t}) = H_{t}(A_{t}) + \alpha (R_{t} - \overline{R_{t}})(1 - \pi_{t}(A_{t}))</script> for action <script type="math/tex">A_{t}</script> and</p>
+
+<p><script type="math/tex">H_{t+1}(a) = H_{t}(a) - \alpha (R_{t} - \overline{R_{t}})\pi_{t}(a)</script> for other actions <script type="math/tex">a \neq A_{t}</script></p>
+
+<p>When choosing an arm, the agent passes these arm preferences through the softmax distribution to assign weights to all arms that add up to one. These weights are the probabilities that each arm is chosen. After each step, the average rewards are updated, then the weights for sampling are recalculated.</p>
+
+<p>In case you aren’t familiar, the softmax distribution is as follows: <script type="math/tex">P\{A_{t} = a\} = \frac{e^{H_{t}(a)}}{\sum_{b=1}^k e^{H_{t}(b)}}</script></p>
+
+<p>One thing to note is that the average rewards at the start before any weights are input affects the results. Starting all arms out with a value greater than zero will still have an effect of an equal chance for all arms to be selected, but will encourage more exploration in the short term before potentially lowering poorly performing probabilities of being selected almost to zero.</p>
+
+<p><img src="/images/gradient_pct_arms.png" alt="" /></p>
+
+<h2 id="interactive-notebook">Interactive Notebook</h2>
+
+<p>I created a <a href="https://github.com/mwburke/bandits">github repo</a> with all of the code used to generate these plots, with a <a href="https://github.com/mwburke/bandits/blob/master/walkthrough.ipynb">notebook</a> ready to to re-run them and change any parameters so you can get an intuition about how some of these common agent algorithms work.</p>
+
+<p>I’d highly recommend playing around with different numbers of bandits, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.</p>
+
+        </div>
+
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/generative%20art/2019/06/18/basic-tiling.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Basic Geometric Tiling
+
+      </span>
+    </a>
+  
+
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://twitter.com/mattburkeley"><i class="fab fa-twitter-square fa-2x" title="Twitter"></i></a><a class="social-icon" href="https://instagram.com/mattburkeley"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2020 Matthew's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

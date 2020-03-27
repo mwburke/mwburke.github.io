@@ -10,4 +10,4 @@ I work as a data scientist, and the rest of the time I like to play video games,
 
 Here's a quote that motivates me:
 
-> Dude, suckin' at something is the first step towards being sorta good at something. - Jake the Dog
+> Dude, suckin' at something is the first step towards being sorta good at something. - Jake the Dog, Adventure Time S1 E25

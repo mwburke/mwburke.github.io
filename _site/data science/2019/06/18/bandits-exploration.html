@@ -145,7 +145,7 @@
 
         
   <h3 class="page-taxonomies-title">Tags</h3>
-  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#python" title="Pages tagged python" rel="tag">python</a></li>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#python" title="Pages tagged python" rel="tag">python</a></li><li class="page-taxonomy"><a href="/tags/#ml" title="Pages tagged ml" rel="tag">ml</a></li><li class="page-taxonomy"><a href="/tags/#probability" title="Pages tagged probability" rel="tag">probability</a></li>
   </ul>
 
 
@@ -157,9 +157,9 @@
 
 <p>A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown:</p>
 
-<p>Pretend you are a someone who’s looking to go gambling, and there are X number of slot machines (aka bandits, don’t worry about why) you can choose from. Your goal is (obviously) to make the most amount of money from putting coins into them. However, given that you can only try one bandit at a time, how do you find the bandit(s) that give you the most bang for your buck without wasting time machines that just eat your money?</p>
+<p>Pretend you are a someone who’s looking to go gambling, and an old style slot machine (aka bandit, don’t worry about why) you can choose from that has multiple arms. Your goal is (obviously) to make the most amount of money from putting coins into it and pulling the arms. However, given that you can only try one arm at a time, how do you find the arms(s) that give you the most bang for your buck without wasting time on arms that just eat your money?</p>
 
-<p>That’s essentially what the multi-armed bandit problem is. How do we maximize rewards by <em>exploring</em> new bandits we don’t know much about (have only played zero or a few times), while still <em>exploiting</em> (or taking advantage of) the bandits we already know give us good rewards?</p>
+<p>That’s essentially what the multi-armed bandit problem is. How do we maximize rewards by <em>exploring</em> new arms we don’t know much about (have only played zero or a few times), while still <em>exploiting</em> (or taking advantage of) the arms we already know give us good rewards?</p>
 
 <p>Alright, now that we’ve covered that, we can jump into some code and ways I explored common algorithms used to maximize profits in this scenario.</p>
 
@@ -168,15 +168,15 @@
 <p>But first, let’s look again at how the bandits themselves are defined. I played around with two types:</p>
 
 <ol>
-  <li><strong>Bernoulli Bandit</strong>: each bandit has a set probability each time it’s pulled of returning a reward of 1 or 0</li>
-  <li><strong>Gaussian Bandit</strong>: each bandit has a mean and standard deviation that define a gaussian distribution. When pulled, it samples from that distribution to return a reward.</li>
+  <li><strong>Bernoulli Bandit</strong>: each arm in the bandit has a set probability each time it’s pulled of returning a reward of 1 or 0</li>
+  <li><strong>Gaussian Bandit</strong>: each arm in the bandit has a mean and standard deviation that define a gaussian distribution. When pulled, it samples from that distribution to return a reward.</li>
 </ol>
 
-<p>Here’s a quick visualization of means and a standard deviation away from those means to get an idea of the potential overlap in rewards you may get from the gaussian bandits. The x axis is the bandit number, and the y axis is the reward distribution.</p>
+<p>Here’s a quick visualization of means and a standard deviation away from those means to get an idea of the potential overlap in rewards you may get from the gaussian bandits. The x axis is the arm number, and the y axis is the reward distribution.</p>
 
 <p><img src="/images/gaussian_rewards.png" alt="" /></p>
 
-<p>Clearly bandits 3-4 are the highest ones, but their rewards still overlap greatly with 2, and it would be tricky to tell which one is best, given the amount of noise when sampling.</p>
+<p>Clearly arms 3-4 are the highest ones, but their rewards still overlap greatly with 2, and it would be tricky to tell which one is best, given the amount of noise when sampling.</p>
 
 <h2 id="execution">Execution</h2>
 
@@ -185,16 +185,16 @@
 <p>At each timestep a few things happen:</p>
 
 <ol>
-  <li>The agent evaluates its current stored information and chooses a bandit to interact with</li>
-  <li>The agent pulls the chosen bandit and receives a reward in return</li>
+  <li>The agent evaluates its current stored information and chooses an arm to interact with</li>
+  <li>The agent pulls the chosen arm and receives a reward in return</li>
   <li>The agent makes updates to its stored information based on the reward</li>
 </ol>
 
 <h3 id="evaluation-procedure">Evaluation Procedure</h3>
 
-<p>In the following section, I compare agents with different parameters to each other by running an agent against a particular set of bandits for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.</p>
+<p>In the following section, I compare agents with different parameters to each other by running an agent against a bandit for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.</p>
 
-<p>Naturally, we should see lower average rewards earlier on since we are still exploring and are uncertain of which bandits provide the best value, but what we hope to see is a gradual increase in rewards until we identify the optimal arm, at which point the rewards should flatten out to the average of the optimal arm’s reward.</p>
+<p>Naturally, we should see lower average rewards earlier on since we are still exploring and are uncertain of which arms provide the best value, but what we hope to see is a gradual increase in rewards until we identify the optimal arm, at which point the rewards should flatten out to the average of the optimal arm’s reward.</p>
 
 <p>The two plots I include each with the comparisons track both of the metrics over time:</p>
 
@@ -211,13 +211,13 @@
 
 <p>The epsilon greedy agent is an agent is defined by two parameters: epsilon and epsilon decay.</p>
 
-<p>Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random bandit. Otherwise, it chooses the bandit with the highest average reward (breaking ties randomly), thus exploiting what it knows.</p>
+<p>Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.</p>
 
 <p>A higher epsilon results in more exploration (random arm selections), and a lower epsilon results in more exploitation.</p>
 
-<p>Because we may not want to keep the same epsilon over the life of our problem, we introduce the epsilon decay parameter, which decreases the value of epsilon after each timestep. This naturally lends itself towards a high explore approach at the beginning when we are unsure of the bandit rewards, and a high exploit approach later on once we have more information.</p>
+<p>Because we may not want to keep the same epsilon over the life of our problem, we introduce the epsilon decay parameter, which decreases the value of epsilon after each timestep. This naturally lends itself towards a high explore approach at the beginning when we are unsure of the arm rewards, and a high exploit approach later on once we have more information.</p>
 
-<p>In theory, this seems like a good idea, but in practice (with noisy bandit rewards), decaying epsilon seems to have slightly lower performance. However, I did not implement a minimum epsilon, which could help by preventing a fully-exploit scenario.</p>
+<p>In theory, this seems like a good idea, but in practice (with noisy rewards), decaying epsilon seems to have slightly lower performance. However, I did not implement a minimum epsilon, which could help by preventing a fully-exploit scenario.</p>
 
 <p>Below is a comparison of some different parameters of epsilon greedy agents:</p>
 
@@ -231,11 +231,11 @@
 
 <h3 id="ucb">UCB</h3>
 
-<p>The upper confidence bound (UCB) agent tracks the average reward for each bandit similar to epsilon greedy, but rather than encoding its exploration as a binary random chance, it attempts to measure uncertainty in terms of how long it has been since a bandit has been chosen.</p>
+<p>The upper confidence bound (UCB) agent tracks the average reward for each arm similar to epsilon greedy, but rather than encoding its exploration as a binary random chance, it attempts to measure uncertainty in terms of how long it has been since a arm has been chosen.</p>
 
 <p>Each timestep, the agent chooses the arm with the highest average reward plus “uncerainty”, and the uncertainty for each arm not chosen increases a little bit.</p>
 
-<p>Earlier on, every timestep where a bandit is not chosen increases uncertainty by a significant amount. As the system time grows, the uncertainty contributed by each timestep decreases since we should have more accurate estimates of rewards as time progresses.</p>
+<p>Earlier on, every timestep where a arm is not chosen increases uncertainty by a significant amount. As the system time grows, the uncertainty contributed by each timestep decreases since we should have more accurate estimates of rewards as time progresses.</p>
 
 <p>An important note is that this uncertainty is not what we normally think of in statistics and is <strong>not related to the variance of the reward estimates</strong>.</p>
 
@@ -243,13 +243,13 @@
 
 <p><img src="/images/ucb_pct_arms.png" alt="" /></p>
 
-<p>One of the main purposes of this repo was to help visualize the UCB agent, in terms of how it balances the average rewards received so far and the uncertainty of unused bandits.</p>
+<p>One of the main purposes of this repo was to help visualize the UCB agent, in terms of how it balances the average rewards received so far and the uncertainty of unused arms.</p>
 
-<p>Below is as gif of a UCB agent in action. Each frame in the gif is a step where the agent chose an action, received a reward, and updated its estimates/uncertaintities for each bandit.</p>
+<p>Below is as gif of a UCB agent in action. Each frame in the gif is a step where the agent chose an action, received a reward, and updated its estimates/uncertaintities for each arm.</p>
 
-<p>The blue parts of each bar are the average rewards for that bandit, and the orange parts are the uncertainty. You should be able to see the blue parts jump around as the highest total blue + orange bandit is pulled, while the non-pulled bandits’ orange parts should steadily increase until they become the highest bars.</p>
+<p>The blue parts of each bar are the average rewards for that arm, and the orange parts are the uncertainty. You should be able to see the blue parts jump around as the highest total blue + orange arm is pulled, while the non-pulled arms’ orange parts should steadily increase until they become the highest bars.</p>
 
-<p>At first, the values will most likely jump around more as the variance of the reward estimates is large, but as it progresses, it should settle into selecting a few bandits repeatedly until there is one main winner.</p>
+<p>At first, the values will most likely jump around more as the variance of the reward estimates is large, but as it progresses, it should settle into selecting a few arms repeatedly until there is one main winner.</p>
 
 <p><img src="/images/ucb_race_gif.gif" alt="" /></p>
 
@@ -275,7 +275,7 @@
 
 <p>I created a <a href="https://github.com/mwburke/bandits">github repo</a> with all of the code used to generate these plots, with a <a href="https://github.com/mwburke/bandits/blob/master/walkthrough.ipynb">notebook</a> ready to to re-run them and change any parameters so you can get an intuition about how some of these common agent algorithms work.</p>
 
-<p>I’d highly recommend playing around with different numbers of bandits, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.</p>
+<p>I’d highly recommend playing around with different numbers of arms, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.</p>
 
         </div>
 

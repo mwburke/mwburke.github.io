@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-27T14:01:00-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-27T14:58:07-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
 
 &lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
 
@@ -40,9 +40,9 @@
 
 &lt;p&gt;A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown:&lt;/p&gt;
 
-&lt;p&gt;Pretend you are a someone who’s looking to go gambling, and there are X number of slot machines (aka bandits, don’t worry about why) you can choose from. Your goal is (obviously) to make the most amount of money from putting coins into them. However, given that you can only try one bandit at a time, how do you find the bandit(s) that give you the most bang for your buck without wasting time machines that just eat your money?&lt;/p&gt;
+&lt;p&gt;Pretend you are a someone who’s looking to go gambling, and an old style slot machine (aka bandit, don’t worry about why) you can choose from that has multiple arms. Your goal is (obviously) to make the most amount of money from putting coins into it and pulling the arms. However, given that you can only try one arm at a time, how do you find the arms(s) that give you the most bang for your buck without wasting time on arms that just eat your money?&lt;/p&gt;
 
-&lt;p&gt;That’s essentially what the multi-armed bandit problem is. How do we maximize rewards by &lt;em&gt;exploring&lt;/em&gt; new bandits we don’t know much about (have only played zero or a few times), while still &lt;em&gt;exploiting&lt;/em&gt; (or taking advantage of) the bandits we already know give us good rewards?&lt;/p&gt;
+&lt;p&gt;That’s essentially what the multi-armed bandit problem is. How do we maximize rewards by &lt;em&gt;exploring&lt;/em&gt; new arms we don’t know much about (have only played zero or a few times), while still &lt;em&gt;exploiting&lt;/em&gt; (or taking advantage of) the arms we already know give us good rewards?&lt;/p&gt;
 
 &lt;p&gt;Alright, now that we’ve covered that, we can jump into some code and ways I explored common algorithms used to maximize profits in this scenario.&lt;/p&gt;
 
@@ -51,15 +51,15 @@
 &lt;p&gt;But first, let’s look again at how the bandits themselves are defined. I played around with two types:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Bernoulli Bandit&lt;/strong&gt;: each bandit has a set probability each time it’s pulled of returning a reward of 1 or 0&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Gaussian Bandit&lt;/strong&gt;: each bandit has a mean and standard deviation that define a gaussian distribution. When pulled, it samples from that distribution to return a reward.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Bernoulli Bandit&lt;/strong&gt;: each arm in the bandit has a set probability each time it’s pulled of returning a reward of 1 or 0&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Gaussian Bandit&lt;/strong&gt;: each arm in the bandit has a mean and standard deviation that define a gaussian distribution. When pulled, it samples from that distribution to return a reward.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Here’s a quick visualization of means and a standard deviation away from those means to get an idea of the potential overlap in rewards you may get from the gaussian bandits. The x axis is the bandit number, and the y axis is the reward distribution.&lt;/p&gt;
+&lt;p&gt;Here’s a quick visualization of means and a standard deviation away from those means to get an idea of the potential overlap in rewards you may get from the gaussian bandits. The x axis is the arm number, and the y axis is the reward distribution.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/gaussian_rewards.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Clearly bandits 3-4 are the highest ones, but their rewards still overlap greatly with 2, and it would be tricky to tell which one is best, given the amount of noise when sampling.&lt;/p&gt;
+&lt;p&gt;Clearly arms 3-4 are the highest ones, but their rewards still overlap greatly with 2, and it would be tricky to tell which one is best, given the amount of noise when sampling.&lt;/p&gt;
 
 &lt;h2 id=&quot;execution&quot;&gt;Execution&lt;/h2&gt;
 
@@ -68,16 +68,16 @@
 &lt;p&gt;At each timestep a few things happen:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;The agent evaluates its current stored information and chooses a bandit to interact with&lt;/li&gt;
-  &lt;li&gt;The agent pulls the chosen bandit and receives a reward in return&lt;/li&gt;
+  &lt;li&gt;The agent evaluates its current stored information and chooses an arm to interact with&lt;/li&gt;
+  &lt;li&gt;The agent pulls the chosen arm and receives a reward in return&lt;/li&gt;
   &lt;li&gt;The agent makes updates to its stored information based on the reward&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h3 id=&quot;evaluation-procedure&quot;&gt;Evaluation Procedure&lt;/h3&gt;
 
-&lt;p&gt;In the following section, I compare agents with different parameters to each other by running an agent against a particular set of bandits for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.&lt;/p&gt;
+&lt;p&gt;In the following section, I compare agents with different parameters to each other by running an agent against a bandit for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.&lt;/p&gt;
 
-&lt;p&gt;Naturally, we should see lower average rewards earlier on since we are still exploring and are uncertain of which bandits provide the best value, but what we hope to see is a gradual increase in rewards until we identify the optimal arm, at which point the rewards should flatten out to the average of the optimal arm’s reward.&lt;/p&gt;
+&lt;p&gt;Naturally, we should see lower average rewards earlier on since we are still exploring and are uncertain of which arms provide the best value, but what we hope to see is a gradual increase in rewards until we identify the optimal arm, at which point the rewards should flatten out to the average of the optimal arm’s reward.&lt;/p&gt;
 
 &lt;p&gt;The two plots I include each with the comparisons track both of the metrics over time:&lt;/p&gt;
 
@@ -94,13 +94,13 @@
 
 &lt;p&gt;The epsilon greedy agent is an agent is defined by two parameters: epsilon and epsilon decay.&lt;/p&gt;
 
-&lt;p&gt;Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random bandit. Otherwise, it chooses the bandit with the highest average reward (breaking ties randomly), thus exploiting what it knows.&lt;/p&gt;
+&lt;p&gt;Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.&lt;/p&gt;
 
 &lt;p&gt;A higher epsilon results in more exploration (random arm selections), and a lower epsilon results in more exploitation.&lt;/p&gt;
 
-&lt;p&gt;Because we may not want to keep the same epsilon over the life of our problem, we introduce the epsilon decay parameter, which decreases the value of epsilon after each timestep. This naturally lends itself towards a high explore approach at the beginning when we are unsure of the bandit rewards, and a high exploit approach later on once we have more information.&lt;/p&gt;
+&lt;p&gt;Because we may not want to keep the same epsilon over the life of our problem, we introduce the epsilon decay parameter, which decreases the value of epsilon after each timestep. This naturally lends itself towards a high explore approach at the beginning when we are unsure of the arm rewards, and a high exploit approach later on once we have more information.&lt;/p&gt;
 
-&lt;p&gt;In theory, this seems like a good idea, but in practice (with noisy bandit rewards), decaying epsilon seems to have slightly lower performance. However, I did not implement a minimum epsilon, which could help by preventing a fully-exploit scenario.&lt;/p&gt;
+&lt;p&gt;In theory, this seems like a good idea, but in practice (with noisy rewards), decaying epsilon seems to have slightly lower performance. However, I did not implement a minimum epsilon, which could help by preventing a fully-exploit scenario.&lt;/p&gt;
 
 &lt;p&gt;Below is a comparison of some different parameters of epsilon greedy agents:&lt;/p&gt;
 
@@ -114,11 +114,11 @@
 
 &lt;h3 id=&quot;ucb&quot;&gt;UCB&lt;/h3&gt;
 
-&lt;p&gt;The upper confidence bound (UCB) agent tracks the average reward for each bandit similar to epsilon greedy, but rather than encoding its exploration as a binary random chance, it attempts to measure uncertainty in terms of how long it has been since a bandit has been chosen.&lt;/p&gt;
+&lt;p&gt;The upper confidence bound (UCB) agent tracks the average reward for each arm similar to epsilon greedy, but rather than encoding its exploration as a binary random chance, it attempts to measure uncertainty in terms of how long it has been since a arm has been chosen.&lt;/p&gt;
 
 &lt;p&gt;Each timestep, the agent chooses the arm with the highest average reward plus “uncerainty”, and the uncertainty for each arm not chosen increases a little bit.&lt;/p&gt;
 
-&lt;p&gt;Earlier on, every timestep where a bandit is not chosen increases uncertainty by a significant amount. As the system time grows, the uncertainty contributed by each timestep decreases since we should have more accurate estimates of rewards as time progresses.&lt;/p&gt;
+&lt;p&gt;Earlier on, every timestep where a arm is not chosen increases uncertainty by a significant amount. As the system time grows, the uncertainty contributed by each timestep decreases since we should have more accurate estimates of rewards as time progresses.&lt;/p&gt;
 
 &lt;p&gt;An important note is that this uncertainty is not what we normally think of in statistics and is &lt;strong&gt;not related to the variance of the reward estimates&lt;/strong&gt;.&lt;/p&gt;
 
@@ -126,13 +126,13 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/ucb_pct_arms.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;One of the main purposes of this repo was to help visualize the UCB agent, in terms of how it balances the average rewards received so far and the uncertainty of unused bandits.&lt;/p&gt;
+&lt;p&gt;One of the main purposes of this repo was to help visualize the UCB agent, in terms of how it balances the average rewards received so far and the uncertainty of unused arms.&lt;/p&gt;
 
-&lt;p&gt;Below is as gif of a UCB agent in action. Each frame in the gif is a step where the agent chose an action, received a reward, and updated its estimates/uncertaintities for each bandit.&lt;/p&gt;
+&lt;p&gt;Below is as gif of a UCB agent in action. Each frame in the gif is a step where the agent chose an action, received a reward, and updated its estimates/uncertaintities for each arm.&lt;/p&gt;
 
-&lt;p&gt;The blue parts of each bar are the average rewards for that bandit, and the orange parts are the uncertainty. You should be able to see the blue parts jump around as the highest total blue + orange bandit is pulled, while the non-pulled bandits’ orange parts should steadily increase until they become the highest bars.&lt;/p&gt;
+&lt;p&gt;The blue parts of each bar are the average rewards for that arm, and the orange parts are the uncertainty. You should be able to see the blue parts jump around as the highest total blue + orange arm is pulled, while the non-pulled arms’ orange parts should steadily increase until they become the highest bars.&lt;/p&gt;
 
-&lt;p&gt;At first, the values will most likely jump around more as the variance of the reward estimates is large, but as it progresses, it should settle into selecting a few bandits repeatedly until there is one main winner.&lt;/p&gt;
+&lt;p&gt;At first, the values will most likely jump around more as the variance of the reward estimates is large, but as it progresses, it should settle into selecting a few arms repeatedly until there is one main winner.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/ucb_race_gif.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -158,7 +158,7 @@
 
 &lt;p&gt;I created a &lt;a href=&quot;https://github.com/mwburke/bandits&quot;&gt;github repo&lt;/a&gt; with all of the code used to generate these plots, with a &lt;a href=&quot;https://github.com/mwburke/bandits/blob/master/walkthrough.ipynb&quot;&gt;notebook&lt;/a&gt; ready to to re-run them and change any parameters so you can get an intuition about how some of these common agent algorithms work.&lt;/p&gt;
 
-&lt;p&gt;I’d highly recommend playing around with different numbers of bandits, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><summary type="html">Benchmark Comparisons and UCB Visualization</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Idyll</title><link href="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html" rel="alternate" type="text/html" title="Introduction to Idyll" /><published>2018-12-04T00:00:00-08:00</published><updated>2018-12-04T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">&lt;p&gt;Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.&lt;/p&gt;
+&lt;p&gt;I’d highly recommend playing around with different numbers of arms, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="probability" /><summary type="html">Benchmark Comparisons and UCB Visualization</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Idyll</title><link href="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html" rel="alternate" type="text/html" title="Introduction to Idyll" /><published>2018-12-04T00:00:00-08:00</published><updated>2018-12-04T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">&lt;p&gt;Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.&lt;/p&gt;
 
 &lt;h1 id=&quot;idyll&quot;&gt;&lt;a href=&quot;https://idyll-lang.org/&quot;&gt;Idyll&lt;/a&gt;&lt;/h1&gt;
 

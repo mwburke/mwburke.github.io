@@ -46,6 +46,6 @@ var store = [{
       },{
         "title": "Multi-Armed Bandits Exploration",
         "excerpt":"Multi-Armed Bandit Overview A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown: Pretend you are a someone who’s...","categories": ["Data Science"],
-        "tags": ["python"],
+        "tags": ["python","ml","probability"],
         "url": "http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html"
       }]

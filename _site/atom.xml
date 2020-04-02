@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-27T14:58:07-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-01T20:12:44-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
 
 &lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
 
@@ -73,6 +73,8 @@
   &lt;li&gt;The agent makes updates to its stored information based on the reward&lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;p&gt;The parts where the different methods differ is mainly in step 1, where they use different methods to choose the arm. Step 3 supports step 1 by updating the stored information, and is similar across most agents with some minor differences.&lt;/p&gt;
+
 &lt;h3 id=&quot;evaluation-procedure&quot;&gt;Evaluation Procedure&lt;/h3&gt;
 
 &lt;p&gt;In the following section, I compare agents with different parameters to each other by running an agent against a bandit for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.&lt;/p&gt;
@@ -94,7 +96,7 @@
 
 &lt;p&gt;The epsilon greedy agent is an agent is defined by two parameters: epsilon and epsilon decay.&lt;/p&gt;
 
-&lt;p&gt;Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.&lt;/p&gt;
+&lt;p&gt;Every timestep, in order to select the arm to choose, the agent generates a random number between 0 and 1. If the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.&lt;/p&gt;
 
 &lt;p&gt;A higher epsilon results in more exploration (random arm selections), and a lower epsilon results in more exploitation.&lt;/p&gt;
 

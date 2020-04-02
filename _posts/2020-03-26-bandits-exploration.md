@@ -46,6 +46,8 @@ At each timestep a few things happen:
 2. The agent pulls the chosen arm and receives a reward in return
 3. The agent makes updates to its stored information based on the reward
 
+The parts where the different methods differ is mainly in step 1, where they use different methods to choose the arm. Step 3 supports step 1 by updating the stored information, and is similar across most agents with some minor differences.
+
 ### Evaluation Procedure
 
 In the following section, I compare agents with different parameters to each other by running an agent against a bandit for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.
@@ -65,7 +67,7 @@ As you will see, the former can be a rather noisy chart (especially with gaussia
 
 The epsilon greedy agent is an agent is defined by two parameters: epsilon and epsilon decay.
 
-Every timestep, the agent generates a random number between 0 and 1, and if the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.
+Every timestep, in order to select the arm to choose, the agent generates a random number between 0 and 1. If the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.
 
 A higher epsilon results in more exploration (random arm selections), and a lower epsilon results in more exploitation.
 

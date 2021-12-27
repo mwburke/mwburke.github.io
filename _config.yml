@@ -36,7 +36,7 @@ google_analytics: "UA-112640723-1"  # Google Analytics id, e.g. "UA-NNNNNNNN-N"
 disqus:
   shortname: # Disqus shortname, e.g. "my_disqus_shortname"
 twitter:
-  username: "mattburkeley" # site's Twitter username
+  username: "yot_club" # site's Twitter username
 
 # Liquid
 liquid:
@@ -110,10 +110,10 @@ author:
   twitter: mattburkeley
   links:
     - title: Twitter
-      url: https://twitter.com/mattburkeley
+      url: https://twitter.com/yot_club
       icon: fab fa-twitter-square
     - title: Instagram
-      url: https://instagram.com/mattburkeley
+      url: https://instagram.com/yot_club_
       icon: fab fa-instagram
     - title: GitHub
       url: https://github.com/mwburke
@@ -122,10 +122,10 @@ author:
 # Footer Links
 footer_links:
   - title: Twitter
-    url: https://twitter.com/mattburkeley
+    url: https://twitter.com/yot_club
     icon: fab fa-twitter-square
   - title: Instagram
-    url: https://instagram.com/mattburkeley
+    url: https://instagram.com/yot_club_
     icon: fab fa-instagram
   - title: GitHub
     url: https://github.com/mwburke

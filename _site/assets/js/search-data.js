@@ -48,4 +48,9 @@ var store = [{
         "excerpt":"Multi-Armed Bandit Overview A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown: Pretend you are a someone who’s...","categories": ["Data Science"],
         "tags": ["python","ml","probability"],
         "url": "http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html"
+      },{
+        "title": "Codenames Clue Generator using Semantic Similarity",
+        "excerpt":"In this post, I’ll talk about how I built a clue generator for the game Codenames that provides a list of potential clues, numbers and associated target words, all with Tensorflow. My day job is mostly internally facing and so I took this on as a way to practice building...","categories": ["Data Science"],
+        "tags": ["python","ml","tensorflow"],
+        "url": "http://localhost:4000/data%20science/2021/12/12/codenames-clue-generator-version-1.html"
       }]

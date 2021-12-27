@@ -1,4 +1,180 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-01T20:12:44-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-12-26T23:53:36-08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Codenames Clue Generator using Semantic Similarity</title><link href="http://localhost:4000/data%20science/2021/12/12/codenames-clue-generator-version-1.html" rel="alternate" type="text/html" title="Codenames Clue Generator using Semantic Similarity" /><published>2021-12-12T00:00:00-08:00</published><updated>2021-12-12T00:00:00-08:00</updated><id>http://localhost:4000/data%20science/2021/12/12/codenames-clue-generator-version-1</id><content type="html" xml:base="http://localhost:4000/data%20science/2021/12/12/codenames-clue-generator-version-1.html">&lt;p&gt;In this post, I’ll talk about how I built a clue generator for the game Codenames that provides a list of potential clues, numbers and associated target words, all with Tensorflow.&lt;/p&gt;
+
+&lt;p&gt;My day job is mostly internally facing and so I took this on as a way to practice building product-focused data science projects.&lt;/p&gt;
+
+&lt;h1 id=&quot;how-codenames-works&quot;&gt;How Codenames Works&lt;/h1&gt;
+
+&lt;p&gt;If you already know how the game works, feel free to skip or read again for a quick reminder.&lt;/p&gt;
+
+&lt;p&gt;Codenames is a card game with 2 teams. There are 25 cards laid out on the board, 9 belonging to one team, 8 belonging to another, 7 neutral and 1 double agent card.&lt;/p&gt;
+
+&lt;p&gt;Each time has a &lt;strong&gt;codemaster&lt;/strong&gt; that can see which cards belong to which teams, and the remaining members of the teams are &lt;strong&gt;spies&lt;/strong&gt; that only see a single word on each card.&lt;/p&gt;
+
+&lt;p&gt;The teams take turns having the codemaster provide a clue to their team made up of a single word and a number, with the clue relating to the number of cards on the board. The goal is to get the team to guess which words the clue is indicating, and they select cards to turn over.&lt;/p&gt;
+
+&lt;p&gt;If they select a card belonging to their team, they can continue guessing, but if they flip over a card that doesn’t, their turn is immediately ended and they could suffer the negative consequences of potentially flipping over the other team’s card, bringing them closer to their goal, or flipping over the double agent card and instantly losing the game.&lt;/p&gt;
+
+&lt;p&gt;Thus, the codemaster seeks to find clues that maximize the relationship to words on their team and minimize the relationship to words on the other team. Additionally, by finding clues with a larger number of cards it relates to, they can increase their chance of beating the other team by finishing first, but they risk having a lower relevance to each of the target cards and higher chance of accidentally missing a connection for opposing cards.&lt;/p&gt;
+
+&lt;h1 id=&quot;how-i-built-it&quot;&gt;How I Built It&lt;/h1&gt;
+
+&lt;h2 id=&quot;project-goals&quot;&gt;Project Goals&lt;/h2&gt;
+
+&lt;p&gt;We represent a current board and team state with the following inputs:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Current team’s cards&lt;/li&gt;
+  &lt;li&gt;Opposing team’s cards&lt;/li&gt;
+  &lt;li&gt;Neutral cards&lt;/li&gt;
+  &lt;li&gt;Double agent card&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What we are looking for is a list of potential clues the codemaster could use with the following fields:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Clue word&lt;/li&gt;
+  &lt;li&gt;Clue number&lt;/li&gt;
+  &lt;li&gt;Target words the clue is intended to relate to&lt;/li&gt;
+  &lt;li&gt;Quantitative measure of the quality of the clue&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;quantifying-clue-quality&quot;&gt;Quantifying Clue Quality&lt;/h2&gt;
+
+&lt;p&gt;As with most data science problems, the hardest part if quantifying exactly what you are looking to maximize or predict. In this case, we have a vague notion of maximize and minimizing relevance of our clue word to words on the board. While there are many ways to do this, the way I chose to frame it for now is in terms of embeddings.&lt;/p&gt;
+
+&lt;h3 id=&quot;word-embeddings&quot;&gt;Word Embeddings&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Word_embedding&quot;&gt;Word embeddings&lt;/a&gt; are a way to represent words quantitatively with a list of numbers, which we will refer to here as a vector. The main idea is that words with similar meanings will have similar number representations, and that related words will have a similar relationship. For example, woman -&amp;gt; man should have a similar relationship as queen -&amp;gt; king. Or Pooh -&amp;gt; Tigger should have a similar relationship as bear -&amp;gt; tiger (ok maybe this one’s a bit of a stretch, but you get the picture).&lt;/p&gt;
+
+&lt;p&gt;Rather than generating my own, I used a pre-trained model from Tensorflow, the &lt;a href=&quot;https://tfhub.dev/google/Wiki-words-500/2&quot;&gt;Wiki-words-500&lt;/a&gt; text embedding that already generated a mapping from words to their vector representations. I now have a function to translate any given english word into a vector of length 500.&lt;/p&gt;
+
+&lt;p&gt;Please see the end for discussions about future improvements related to choosing a embedding corpus.&lt;/p&gt;
+
+&lt;h3 id=&quot;word-relevance---cosine-similarity&quot;&gt;Word Relevance - Cosine Similarity&lt;/h3&gt;
+
+&lt;p&gt;Having numerical representations of words is a start, but what we really care about is the relationships between words. We need to compare the vectors to begin to use them.&lt;/p&gt;
+
+&lt;p&gt;When comparing vectors, you will often hear the language of &lt;strong&gt;distance&lt;/strong&gt; and &lt;strong&gt;similarity&lt;/strong&gt;, which are two sides of the same coin, meaning difference and closeness of two vectors, respectively. For certain types of distances, we may just subtract the value from one to switch between the two.&lt;/p&gt;
+
+&lt;p&gt;For this case, I chose to work with &lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;cosine similarity&lt;/a&gt;, although I may look into other options in the future. This gives us a single number ranging from -1 to 1, with -1 indicating two words’ being as dissimilar as possible and 1 being equivalent.&lt;/p&gt;
+
+&lt;h3 id=&quot;clue-quality-metric&quot;&gt;Clue Quality Metric&lt;/h3&gt;
+
+&lt;p&gt;In order to summarize clue quality in a single number, we consider the benefits and penalties associated with the outcome of guessing a card on the table. Obviously, we want to incentivize choosing clues that are relevant to our team and decentivize other cards, with increasing penalties for the undesirable outcomes. Neutral ends our turn, the opposing team’s card ends our turn and advances them to the goal, and the double agent loses the game.&lt;/p&gt;
+
+&lt;p&gt;The way we summarize this is by multiplying the cosine similarity for each card on the table by a set of coefficients that represent these benefits/penalties. The process is as folows:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Extract word bank embeddings and cache since they will be reused for all games&lt;/li&gt;
+  &lt;li&gt;Get current game word embeddings&lt;/li&gt;
+  &lt;li&gt;Calculate cosine similarity between all game words and all word bank words&lt;/li&gt;
+  &lt;li&gt;Multiply similarity scores by appropriate card type coefficients&lt;/li&gt;
+  &lt;li&gt;Sum up all final scores for each word bank word to get clue quality metric&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This can all be accomplished very quickly with Tensorflow using their pre-trained embeddings and a series of matrix multiplications.&lt;/p&gt;
+
+&lt;h4 id=&quot;clue-size&quot;&gt;Clue Size&lt;/h4&gt;
+
+&lt;p&gt;We do have an additional constraint to limit the number of words that the clue relates to, which changes how we think about the quality metric. The overall structure remains the same, but we need some way to determine which of our team’s cards to include in the clue.&lt;/p&gt;
+
+&lt;p&gt;The way I implemented it was to set a similarity threshold and only keep clues that have a similarity value equal to or greater than the threshold. This is the most straightforward way, and it ensures a global level of relevance. Of course, this introduces another parameter to tweak that we don’t have an exact way to measure the effectiveness of, and we do run the risk of excluding relevant clues that fall right below the cutoff. However, as problems go, having your team select another one of their cards is a decent one to have, although it may cause confusion later down the line.&lt;/p&gt;
+
+&lt;p&gt;The above process for calculating the quality metric remains the same as above, but, first we go through and remove all cards below the similarity threshold, and then calculate the contribution of the remaining ones towards our metric.&lt;/p&gt;
+
+&lt;h4 id=&quot;setting-coefficients&quot;&gt;Setting Coefficients&lt;/h4&gt;
+
+&lt;p&gt;It’s clear that we want a positive coefficient for our cards and monotonically decreasing negative coefficients for opposing, neutral and double agent cards respectively, but it’s not obvious exactly what they should be for several reasons:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;All of the coefficients are relative to one another so there isn’t a single global optimum&lt;/li&gt;
+  &lt;li&gt;We are codifying the codemaster’s risk preferences to a single set of numbers
+    &lt;ul&gt;
+      &lt;li&gt;Some people may have a higher risk tolerance for clues similar to the double agent card, or they may never want to even have a small chance of guessing it&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;The number of cards in each category changes over the course of the game
+    &lt;ul&gt;
+      &lt;li&gt;We may need to scale the contributions of remaining team/opposing cards. If both teams are guessing accurately, there will be few cards belonging to them and a higher concentration of neutral cards.&lt;/li&gt;
+      &lt;li&gt;This may dilute the quality metric by having it be mostly composed of negative scores. The clues will mostly be avoiding the other cards rather than leaning towards the remaining cards&lt;/li&gt;
+      &lt;li&gt;It remains to be seen if this problematic, or if at that point, the codemaster no longer needs to rely on a clue generator since the problem space is much smaller&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;We don’t have a clear metric on how to evaluate the effectiveness of the metric as of now&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;solution-validation--testing-plans&quot;&gt;Solution Validation / Testing Plans&lt;/h2&gt;
+
+&lt;p&gt;Number 4 above is the elephant in the room: &lt;strong&gt;How do we know our solution is effective?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The ideal method would be to test a bunch of games with randomly assigned teams, and provide the test teams with access to the clue recommendations. Our expectation is that the win rates would be equal between groups, and any significant difference would be driven by access to the tool. I would rather test giving tool access, but not mandating usage, because that’s a more realistic scenario in practice than forcing them to use the top recommendations every time. At this point, I don’t think we would consistently beat player intuition, so it’s not a valid comparison. However, the time required to get volunteers and acquire data seems impractical, so are there any other ways we can perform testing?&lt;/p&gt;
+
+&lt;h3 id=&quot;backtesting&quot;&gt;Backtesting&lt;/h3&gt;
+
+&lt;p&gt;If you run a codenames online site with textual clue inputs, you could backtest and see how many times the clues recommended by users would have been recommended by the tool.There are multiple metrics used in recommender systems you could use to evaluate performance including &lt;a href=&quot;https://en.wikipedia.org/wiki/Discounted_cumulative_gain&quot;&gt;NDCG&lt;/a&gt; or an adapted version of &lt;a href=&quot;http://sdsawtelle.github.io/blog/output/mean-average-precision-MAP-for-recommender-systems.html&quot;&gt;Mean Average Precision&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Regardless of what method you use, there are several problems:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Sometimes people give bad clues. I’ve done it, others do it. It’s fairly common. How will this affect our scores?
+    &lt;ul&gt;
+      &lt;li&gt;We could potentially do some censoring to only include clues where the codemaster’s team guessed all of the associated words correctly if we had access to it. We could determine whether or not they guessed the correct amount of clues, but as far as I’ve seen, online sites don’t seem to have tagging for relevant words to clues. At the very least, it would be a more fair comparison, even if there’s still a known source of error.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;The recommender word bank may include many words not in the common vernacular that are still relevant. Should they be penalized just because they’re niche?&lt;/li&gt;
+  &lt;li&gt;We don’t have any proper nouns in our word bank. These can be very effective: think Potter for ceramic and magic as an example.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;mechanical-turk&quot;&gt;Mechanical Turk&lt;/h3&gt;
+
+&lt;p&gt;A common way to generate datasets for bespoke targets is through &lt;a href=&quot;https://www.mturk.com/&quot;&gt;Amazon Mechanical Turk&lt;/a&gt; , where you can get people to complete arbitrary tasks online for money. This often is used in ML to generate labels for unsupervised data such as images or natural language.&lt;/p&gt;
+
+&lt;p&gt;In this case, proper evaluation takes a fair amount of background understanding of the game just to be able to make evaluations, and for accurate evaluations, experience actually playing. Given the cost of getting random people to take time to learn a new game, confirm that their understanding is accurate, and then to actually play test games would be exorbitant, we need to modify our method into easier to consume subtasks that are proxies for clue quality.&lt;/p&gt;
+
+&lt;p&gt;I propose that we could potentially focus on getting people to evaluate clue similarity or dissimilarity to a set of words. This could be done either as choosing the most/least relevant clue to a set of words from a list of potential clues, or providing a clue and bank of words, and having them choose the most/least relevant words to the clue. This removes the need to evaluate multiple objectives simultaneously, and increases the amount of data we could collect per dollar. Evaluation would be between existing versions of the clue generator, or between existing game samplesa dn the clue generator.&lt;/p&gt;
+
+&lt;p&gt;Again, this suffers from not actually evaluating performance on the game metrics, but, once we have an existing solution we deem is working well, we could use it as a way to test champion/challenge models on specific parts of the quality score (similarity to team words, dissimilarity to all other words).&lt;/p&gt;
+
+&lt;h1 id=&quot;future-work&quot;&gt;Future Work&lt;/h1&gt;
+
+&lt;p&gt;If not obvious by now, there are a lot of potential areas for improvement that I would like to pursue given time, but here are some of the main ones:&lt;/p&gt;
+
+&lt;h2 id=&quot;graph-based-similarity&quot;&gt;Graph-Based Similarity&lt;/h2&gt;
+
+&lt;p&gt;The current approach suffers from words with multiple meanings, the curse of dimensionality, a lack of concrete, objective measurements of similarity, and proper nouns in the word bank.&lt;/p&gt;
+
+&lt;p&gt;Switching to a knowledge graph, or even web-search &lt;a href=&quot;https://en.wikipedia.org/wiki/PageRank&quot;&gt;PageRank&lt;/a&gt; like approach would help shore up the above problems and maybe be used in tandem with semantic similarity recommendations if not replacing it entirely.&lt;/p&gt;
+
+&lt;h2 id=&quot;word-embeddings-1&quot;&gt;Word Embeddings&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Additional research into more appropraite pre-trained word embeddings&lt;/li&gt;
+  &lt;li&gt;Generate our own embeddings by training an NLP model on a corpus we designed for this&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;quality-metric&quot;&gt;Quality Metric&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Add a relative score component for clue selection
+    &lt;ul&gt;
+      &lt;li&gt;Using an elbow method similar to identifying the appropriate number of clusters?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Scaling based on number of cards still available to deal with clue dilution of team’s cards compared to other cards&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;resources&quot;&gt;Resources&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://codenames.game/&quot;&gt;Codenames Online Game&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Word Embeddings:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://machinelearningmastery.com/what-are-word-embeddings/&quot;&gt;Machine Learning Mastery: What Are Word Embeddings&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;Tensorflow has a &lt;a href=&quot;https://www.tensorflow.org/text/guide/word_embeddings&quot;&gt;guide to working with embeddings&lt;/a&gt; in a neural network for those who work in ML/NLP.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;Cosine Similarity&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="tensorflow" /><summary type="html">Utilizing Tensorflow pre-trained embeddings to recommend potential clues to the codemasters in the card game Codenames</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/codenames_cover.jpg" /><media:content medium="image" url="http://localhost:4000/images/codenames_cover.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
 
 &lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
 
@@ -599,22 +775,4 @@
 
 &lt;p&gt;The code for the above slopegraph made with D3.js can be found &lt;a href=&quot;https://github.com/mwburke/ds-tools-2017-slopegraph&quot;&gt;in this github repo&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;You can view a live version &lt;a href=&quot;http://bl.ocks.org/mwburke/9873c09ac6c21d6ac9153e54892cf5ec&quot;&gt;in this block&lt;/a&gt;&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><category term="javascript" /><summary type="html">Slopegraphs are great ...sometimes</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why Make A Blog</title><link href="http://localhost:4000/2017/12/23/why-make-a-blog.html" rel="alternate" type="text/html" title="Why Make A Blog" /><published>2017-12-23T00:00:00-08:00</published><updated>2017-12-23T00:00:00-08:00</updated><id>http://localhost:4000/2017/12/23/why-make-a-blog</id><content type="html" xml:base="http://localhost:4000/2017/12/23/why-make-a-blog.html">&lt;h2 id=&quot;does-the-world-need-another-blog&quot;&gt;Does the world need another blog?&lt;/h2&gt;
-
-&lt;p&gt;Short answer, no. There are enough smart, experienced people out there writing blogs about data science and the next greatest thing, and we all know there are more than enough opinions on the internet.&lt;/p&gt;
-
-&lt;h2 id=&quot;then-why-make-this-blog&quot;&gt;Then why make this blog?&lt;/h2&gt;
-
-&lt;p&gt;This blog is mostly for myself (but I’m glad you’re here if you’re reading this), because I wanted a structured way to motivate myself to pick up new skills, do interesting projects and hopefully share what I’ve learned with others.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-it-running-on&quot;&gt;What is it running on?&lt;/h2&gt;
-
-&lt;p&gt;I’m using &lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; to generate the site and am hosting it on &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt;, since it is a great (read: free) way to host websites and it integrates directly with Jekyll. Once you’ve set up your website framework and configurations, all you need to do to add posts is create a Markdown file for it, rebuild the site and push it to your repo.&lt;/p&gt;
-
-&lt;p&gt;I actually migrated from my original theme that &lt;a href=&quot;https://github.com/kaeyleo/jekyll-theme-H2O&quot;&gt;can be found here&lt;/a&gt; and switched to the &lt;a href=&quot;https://github.com/mmistakes/so-simple-theme&quot;&gt;oh so simple&lt;/a&gt; jekyll theme.&lt;/p&gt;
-
-&lt;p&gt;I’m not a web developer soooo please bear with any issues you may discover and feel free to let me know what I can do to improve!&lt;/p&gt;
-
-&lt;h2 id=&quot;will-i-think-up-a-paragraph-title-thats-not-a-question&quot;&gt;Will I think up a paragraph title that’s not a question?&lt;/h2&gt;
-
-&lt;p&gt;We can only hope.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="jekyll" /><summary type="html">Does the world need another blog?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;You can view a live version &lt;a href=&quot;http://bl.ocks.org/mwburke/9873c09ac6c21d6ac9153e54892cf5ec&quot;&gt;in this block&lt;/a&gt;&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><category term="javascript" /><summary type="html">Slopegraphs are great ...sometimes</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

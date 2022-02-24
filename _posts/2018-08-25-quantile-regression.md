@@ -1,7 +1,7 @@
 ---
 title: 'Quantile Regression'
 excerpt: 'Interpretable Linear Modeling'
-date: 2018-08-24
+date: 2218-08-24
 image:
   path: /images/placeholder.png
   thumbnail: /images/quantile_slope_values.png

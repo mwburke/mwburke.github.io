@@ -48,4 +48,9 @@ var store = [{
         "excerpt":"In this post, I’ll talk about how I built a clue generator for the game Codenames that provides a list of potential clues, numbers and associated target words, all with Tensorflow. My day job is mostly internally facing and so I took this on as a way to practice building...","categories": ["Data Science"],
         "tags": ["python","ml","tensorflow"],
         "url": "http://localhost:4000/data%20science/2021/12/12/codenames-clue-generator-version-1.html"
+      },{
+        "title": "Spaghetti Code",
+        "excerpt":"As I mentioned in an earlier post about tiling patterns, I really like truchet tilings. Each border of the tiles that traditionally have patterns that connect the midpoints of adjacent sides. I explored this concept a long time ago, but instead of using a traditional square grid, I used a...","categories": ["Generative Art"],
+        "tags": ["javascript","p5js"],
+        "url": "http://localhost:4000/generative%20art/2022/02/23/making-spaghetti-code.html"
       }]

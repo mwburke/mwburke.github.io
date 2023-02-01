@@ -53,4 +53,9 @@ var store = [{
         "excerpt":"As I mentioned in an earlier post about tiling patterns, I really like truchet tilings. Each border of the tiles that traditionally have patterns that connect the midpoints of adjacent sides. I explored this concept a long time ago, but instead of using a traditional square grid, I used a...","categories": ["Generative Art"],
         "tags": ["javascript","p5js"],
         "url": "http://localhost:4000/generative%20art/2022/02/23/making-spaghetti-code.html"
+      },{
+        "title": "MMM: Miracle of Marketing Measurement or Misleading  Modeling Methodology?",
+        "excerpt":"MMM: Miracle of Marketing Measurement or Misleading Modeling Methodology? TL;DR MMMs are a future-proofed tool for measuring marketing effectiveness in a world of increased online privacy, but can be prone to multiple silent failure methods that provide inaccurate results. What is an MMM? Media mix modeling is a statistical technique...","categories": ["Data Science"],
+        "tags": ["ml","marketing"],
+        "url": "http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability.html"
       }]

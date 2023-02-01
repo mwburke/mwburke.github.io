@@ -18,7 +18,7 @@ remote_theme: "mmistakes/so-simple-theme@3.2.0"
 # remote_theme: mmistakes/so-simple-theme
 skin: "/assets/css/skins/light.css"  # "/assets/css/skins/default.css", could also switch to custom.scss
 locale: en-US
-title: "Matthew's Blog"
+title: "Matthew Burke's Blog"
 description: "Data science, generative art and other stuff"
 baseurl: "" # the subpath of your site, e.g. "/blog"
 url: "https://mwburke.github.io"  # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
@@ -35,8 +35,6 @@ google_fonts:
 google_analytics: "UA-112640723-1"  # Google Analytics id, e.g. "UA-NNNNNNNN-N"
 disqus:
   shortname: # Disqus shortname, e.g. "my_disqus_shortname"
-twitter:
-  username: "yot_club" # site's Twitter username
 
 # Liquid
 liquid:
@@ -107,11 +105,7 @@ author:
   name: Matthew Burke
   picture: /images/matthew-burke-photo.jpg
   email: matthew.wesley.burke@gmail.com
-  twitter: mattburkeley
   links:
-    - title: Twitter
-      url: https://twitter.com/yot_club
-      icon: fab fa-twitter-square
     - title: Instagram
       url: https://instagram.com/yot_club_
       icon: fab fa-instagram
@@ -121,9 +115,6 @@ author:
 
 # Footer Links
 footer_links:
-  - title: Twitter
-    url: https://twitter.com/yot_club
-    icon: fab fa-twitter-square
   - title: Instagram
     url: https://instagram.com/yot_club_
     icon: fab fa-instagram

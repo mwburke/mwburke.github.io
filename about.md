@@ -4,10 +4,10 @@ layout: page
 permalink: /about
 ---
 
-My name is Matthew Burke, and I'm using this website to share some of the things I'm interested in.
-
-I work as a data scientist, and the rest of the time I like to play video games, hike, read sci-fi, cook, watch stupid comedies, listen to [funky music](https://vulfpeck.com/), hang out with friends and family, create silly art stuff, and spend far too much time shopping online without buying anything.
-
-Here's a quote that motivates me:
+My name is Matthew Burke. I work as a machine learning engineer, and I'm interested in many things like data science, data visualization, and generative art. I try lots of stuff and, even though I may not be perfect at much of it, I am happy to share what I've learned here.
 
 > Dude, suckin' at something is the first step towards being sorta good at something. - Jake the Dog, Adventure Time S1 E25
+
+### Disclaimer
+
+Unfortunately, all opinions on this blog are my own and do not represent anyone else, blah, blah, blah you know the drill.

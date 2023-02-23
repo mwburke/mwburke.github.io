@@ -1,4 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-01-31T22:54:19-08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">MMM: Miracle of Marketing Measurement or Misleading Modeling Methodology?</title><link href="http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability.html" rel="alternate" type="text/html" title="MMM: Miracle of Marketing Measurement or Misleading  Modeling Methodology?" /><published>2023-01-31T00:00:00-08:00</published><updated>2023-01-31T00:00:00-08:00</updated><id>http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability</id><content type="html" xml:base="http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability.html">&lt;h1 id=&quot;mmm-miracle-of-marketing-measurement-or-misleading--modeling-methodology&quot;&gt;MMM: Miracle of Marketing Measurement or Misleading  Modeling Methodology?&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-02-23T15:55:08-08:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew Burke’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">PyMC Wrapper</title><link href="http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html" rel="alternate" type="text/html" title="PyMC Wrapper" /><published>2023-02-23T00:00:00-08:00</published><updated>2023-02-23T00:00:00-08:00</updated><id>http://localhost:4000/data%20science/2023/02/23/pymc-wrapper</id><content type="html" xml:base="http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html">&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;Bayesian modeling can be super valuable for capturing uncertainty and leveraging the use of prior distributions for new products/geos/etc. I’m relatively new to the space, but in my role of machine learning engineer, I found the tools to be very focused on the science and less so on deployment. While the science part is absolutely critical and must be handled thoughtfully and methodologically, there are different sets of concerns when managing a suite of models in production.&lt;/p&gt;
+
+&lt;p&gt;I build a quick POC python library called &lt;a href=&quot;https://github.com/mwburke/pymc-wrapper&quot;&gt;pymc-wrapper&lt;/a&gt; to align PyMC’s amazing Bayesian modeling capabilities with the ease of use of scikit-learn’s fit/predict paradigm. There certainly is more work to do to build out a robust system, but I think for simpler modeling projects that require loading, saving and prediction across a number of models, this package could simplify workflows.&lt;/p&gt;
+
+&lt;h3 id=&quot;assumptions&quot;&gt;Assumptions&lt;/h3&gt;
+
+&lt;p&gt;Because the goal wasn’t to capture all cases and mostly to prove out the idea, I incorporated several assumptions:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;There is a single function that relates all independent variables to our dependent variable&lt;/li&gt;
+  &lt;li&gt;The errors are normally distributed&lt;/li&gt;
+  &lt;li&gt;The model is non-hierarchical&lt;/li&gt;
+  &lt;li&gt;All data preprocessing is handled beforehand&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;configuration-driven&quot;&gt;Configuration Driven&lt;/h2&gt;
+
+&lt;p&gt;The main idea behind the package is to define your independent variables and PyMC distributions beforehand in a config file and leave the model generation and sampling hidden within the other functions. The configuration would be defined as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;independent_vars&lt;/code&gt;: a list of the names of each independent variable&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sample_params&lt;/code&gt;: a dictionary of parameters to be passed into the pm.sample function&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;variable_params&lt;/code&gt;: a dictionary of PyMC variables to be used in the model
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;variable_dict&lt;/code&gt;: a dictionary defining a specific variable definition with
+                  its name as the variable_params key
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dist&lt;/code&gt;: str of the name of the PyMC distribution (case sensitive) to be used for the variable&lt;/li&gt;
+          &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;params&lt;/code&gt;: a dictionary of the parameters for the variable and the values to be used as
+          the model’s priors&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;function_params&lt;/code&gt;: a dictionary of function parameters
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;function&lt;/code&gt;: a python function defining the relationship of independent variables
+              to the dependent variable&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;example-configuration&quot;&gt;Example Configuration&lt;/h3&gt;
+
+&lt;p&gt;Here is an example config file stored in YAML that could be used to generate a model that attempts to learn product adoption rates according to the negative exponential function.&lt;/p&gt;
+
+&lt;p&gt;The independent variable would be the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;week&lt;/code&gt;, and we take both an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;intercept&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lambda_val&lt;/code&gt; (chosen to not clash with the reserved &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lambda&lt;/code&gt; keyword in python) parameters to generate our final outcome.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;negative_exponential&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;week&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lambda_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;intercept&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lambda_val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;week&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The configuration reflects this by naming our independent variable and defining our parameters with corresponding &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pymc.distribution&lt;/code&gt; function names and prior values. We can also set our sampling parameters as well.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;independent_vars&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;week&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;variable_params&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;lambda_val&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;sigma&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;dist&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;HalfNormal&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;intercept&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;mu&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;sigma&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;dist&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Normal&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;sample_params&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;draws&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1000&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To simplify things, I kept the function definition out of the config and manually set it afterwards with&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'function_params'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;'function'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;negative_exponential&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;model-usage&quot;&gt;Model Usage&lt;/h2&gt;
+
+&lt;h3 id=&quot;creation-and-training&quot;&gt;Creation and Training&lt;/h3&gt;
+
+&lt;p&gt;Once we define and load our configuration from a file into a dictionary, creating a model wrapper object and training is as easy as the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PymcModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;independent_vars&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dependent_var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;prediction&quot;&gt;Prediction&lt;/h3&gt;
+
+&lt;p&gt;Prediction is easy as well, and similar to above, all we have to do is prepare our test data and pass it to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;predict&lt;/code&gt; function as we would for many other model libraries. Below is an example of training on a set of curves and predicting on the same timeline to ensure that we have learned the relationship correctly:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pymc_wrapper_learned_comparison.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Because (IMO) the point of using Bayesian models is to take advantage of their ability to capture uncertainty, I augmented the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;predict&lt;/code&gt; function to take in an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alpha&lt;/code&gt; parameter, which is used to generate credible intervals for predictions as well, and they are output along the median predictions in the output. Below is an example using an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alpha&lt;/code&gt; of 0.9 with the same dataset as before:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pymc_wrapper_credible_interval.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s as easy as that!&lt;/p&gt;
+
+&lt;h3 id=&quot;savingloading&quot;&gt;Saving/Loading&lt;/h3&gt;
+
+&lt;p&gt;Like other ML libraries, we often want to save our model for prediction at another time, and I have implemented &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;save_trace&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;load_trace&lt;/code&gt; functions accordingly to facilitate this. As long as we reference the same config file for model creation, we can load a saved trace and get straight to prediction.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;trace_file_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'trace.pkl'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save_trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trace_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;new_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PymcModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;new_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_trace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trace_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;new_model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X_test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;creating-config-with-posteriors-as-priors&quot;&gt;Creating Config with Posteriors as Priors&lt;/h3&gt;
+
+&lt;p&gt;One potential use case I’ve found interesting is to learn from a established product/geo and apply the posteriors as priors to a new area. Rather than manually updating configs, I added an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;export_trained_config&lt;/code&gt; function that updates the priors in the original config with posterior means and saves it to an output file. Similar to above, we could consume this updated config file to create a new model object.&lt;/p&gt;
+
+&lt;h3 id=&quot;periodic-retraining&quot;&gt;Periodic Retraining&lt;/h3&gt;
+
+&lt;p&gt;One last use case I thought might be interesting to showcase is the ability to call the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fit&lt;/code&gt; function on multiple sets of data. In the following example, I fitted a model to the adoption rate curves we saw above, exported the trained config file, created a new model with it as priors, and finally did a series of repeated fitting on data in chunks of 4 weeks to see how the predicted curve developed over time. The performance at the beginning isn’t great, as it overpredicts the curve steepness at first, but with the noise early on, it’s not totally unreasonable. Either way, it definitely gets more confident over time as it gains more observed data and stabilizes after a few months of data.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pymc_wrapper_monthly_update.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;feedback&quot;&gt;Feedback&lt;/h2&gt;
+
+&lt;p&gt;While this is definitely a work in progress, I would love for you to check out &lt;a href=&quot;https://github.com/mwburke/pymc-wrapper/tree/main&quot;&gt;the repo&lt;/a&gt; and the &lt;a href=&quot;https://github.com/mwburke/pymc-wrapper/blob/main/example/example_walkthrough.ipynb&quot;&gt;example walkthrough notebook&lt;/a&gt; that I used to generate these plots and examples.&lt;/p&gt;
+
+&lt;p&gt;If you have any feedback of things you would change, would add or even any thoughts of it something like this is needed at all, I would love to hear from you at &lt;a href=&quot;mailto:matthew.wesley.burke@gmail.com&quot;&gt;my email&lt;/a&gt; or github in issues/PRs!&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="ml" /><category term="python" /><category term="bayesian" /><summary type="html">Making PyMC models more accessible and reusable</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/pymc_wrapper_preview.png" /><media:content medium="image" url="http://localhost:4000/images/pymc_wrapper_preview.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">MMM: Miracle of Marketing Measurement or Misleading Modeling Methodology?</title><link href="http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability.html" rel="alternate" type="text/html" title="MMM: Miracle of Marketing Measurement or Misleading  Modeling Methodology?" /><published>2023-01-31T00:00:00-08:00</published><updated>2023-01-31T00:00:00-08:00</updated><id>http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability</id><content type="html" xml:base="http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability.html">&lt;h1 id=&quot;mmm-miracle-of-marketing-measurement-or-misleading--modeling-methodology&quot;&gt;MMM: Miracle of Marketing Measurement or Misleading  Modeling Methodology?&lt;/h1&gt;
 
 &lt;h2 id=&quot;tldr&quot;&gt;TL;DR&lt;/h2&gt;
 
@@ -657,178 +786,4 @@
 
 &lt;h2 id=&quot;how-do-i-use-it&quot;&gt;How do I use it?&lt;/h2&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://github.com/mwburke/stargazer&quot;&gt;github repo&lt;/a&gt; or download using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip install stargazer&lt;/code&gt;, and please let me know if you have any feedback/feature requests!&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><summary type="html">Multiple Regression Reporting</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Population Stability Index</title><link href="http://localhost:4000/data%20science/2018/04/29/population-stability-index.html" rel="alternate" type="text/html" title="Population Stability Index" /><published>2018-04-29T00:00:00-07:00</published><updated>2018-04-29T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2018/04/29/population-stability-index</id><content type="html" xml:base="http://localhost:4000/data%20science/2018/04/29/population-stability-index.html">&lt;h1 id=&quot;what-is-the-population-stability-index-psi&quot;&gt;What is the population stability index (PSI)?&lt;/h1&gt;
-
-&lt;p&gt;PSI is a measure of how much a population has shifted over time or between two different samples of a population in a single number. It does this by bucketing the two distributions and comparing the percents of items in each of the buckets, resulting in a single number you can use to understand how different the populations are. The common interpretations of the PSI result are:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;PSI &amp;lt; 0.1&lt;/strong&gt;: no significant population change&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;PSI &amp;lt; 0.2&lt;/strong&gt;: moderate population change&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;PSI &amp;gt;= 0.2&lt;/strong&gt;: significant population change&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;how-is-psi-used&quot;&gt;How is PSI used?&lt;/h1&gt;
-
-&lt;p&gt;There are two different ways PSI can be used to make good decisions in a machine learning model building context:&lt;/p&gt;
-
-&lt;h2 id=&quot;reactive-re-training-triggers&quot;&gt;Reactive Re-training Triggers&lt;/h2&gt;
-
-&lt;p&gt;After a deploying a ML model into production, it will continue to provide estimates on the population it was trained on. As the population shifts over time, the estimates become less accurate and relevant to the current population, and monitoring the PSI score from the time of model training to current time can be used as automatic triggers to re-train the model when PSI passes a certain threshold (0.2 for example).&lt;/p&gt;
-
-&lt;h2 id=&quot;proactive-feature-selection&quot;&gt;Proactive Feature Selection&lt;/h2&gt;
-
-&lt;p&gt;When choosing features to go into a model, certain features may have a lot of predictive power at the time of training, but if a feature is prone to rapid changes in distribution, it may not be a wise decision to include it in the model or it may prompt more frequent monitoring once deployed. PSI is an easy way to check the volatility of population changes for features by comparing populations for several previous time periods.&lt;/p&gt;
-
-&lt;h1 id=&quot;example-walkthrough&quot;&gt;Example Walkthrough&lt;/h1&gt;
-
-&lt;p&gt;Here’s a quick example of walking through the steps of a PSI calculation for two (mostly) normal distributions.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/psi_large.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see above, the slightly left-skewed initial population (blue) has flattened out a bit to have more of a flat top of the bell curve in the new population (green). From a visual inspection, it looks as if the population is shifting, but I would like a quantitative way to measure how much the shift is rather than qualitatively guessing how much I should be concerned. PSI is a great way to come up with a single metric to measure this.&lt;/p&gt;
-
-&lt;p&gt;To calculate the PSI we first divide the initial population range into 10 buckets (an arbitrary number I chose), and count the number of values in each of those buckets for the initial and new populations, and then divide those by the total values in each population to get the percents in each bucket. As expected, plotting the percents ends up looking like a discretized version of the original chart:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/psi_hist.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;From here, we perform the actual PSI calculation for each bucket, and them sum them all up to get the overall PSI values for the distributions.&lt;/p&gt;
-
-&lt;h2 id=&quot;psi-formula&quot;&gt;PSI Formula:&lt;/h2&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;PSI = \sum{}\Big(\big(Actual \% - Expected \%\big) \times ln\big(\dfrac{Actual \%}{Expected \%}\big)\Big)&lt;/script&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Breakpoint Value&lt;/th&gt;
-      &lt;th&gt;Bucket&lt;/th&gt;
-      &lt;th&gt;Initial Count&lt;/th&gt;
-      &lt;th&gt;New Count&lt;/th&gt;
-      &lt;th&gt;Initial Percent&lt;/th&gt;
-      &lt;th&gt;New Percent&lt;/th&gt;
-      &lt;th&gt;PSI&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-2.330642&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;0&lt;/td&gt;
-      &lt;td&gt;0.01&lt;/td&gt;
-      &lt;td&gt;0.001000&lt;/td&gt;
-      &lt;td&gt;0.020723&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-1.801596&lt;/td&gt;
-      &lt;td&gt;2&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-      &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;0.01&lt;/td&gt;
-      &lt;td&gt;0.025000&lt;/td&gt;
-      &lt;td&gt;0.013744&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-1.272550&lt;/td&gt;
-      &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;4&lt;/td&gt;
-      &lt;td&gt;6&lt;/td&gt;
-      &lt;td&gt;0.04&lt;/td&gt;
-      &lt;td&gt;0.050000&lt;/td&gt;
-      &lt;td&gt;0.002231&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-0.743504&lt;/td&gt;
-      &lt;td&gt;4&lt;/td&gt;
-      &lt;td&gt;8&lt;/td&gt;
-      &lt;td&gt;15&lt;/td&gt;
-      &lt;td&gt;0.08&lt;/td&gt;
-      &lt;td&gt;0.125000&lt;/td&gt;
-      &lt;td&gt;0.020083&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;-0.214458&lt;/td&gt;
-      &lt;td&gt;5&lt;/td&gt;
-      &lt;td&gt;27&lt;/td&gt;
-      &lt;td&gt;18&lt;/td&gt;
-      &lt;td&gt;0.27&lt;/td&gt;
-      &lt;td&gt;0.150000&lt;/td&gt;
-      &lt;td&gt;0.070534&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;0.314588&lt;/td&gt;
-      &lt;td&gt;6&lt;/td&gt;
-      &lt;td&gt;22&lt;/td&gt;
-      &lt;td&gt;23&lt;/td&gt;
-      &lt;td&gt;0.22&lt;/td&gt;
-      &lt;td&gt;0.191667&lt;/td&gt;
-      &lt;td&gt;0.003906&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;0.843633&lt;/td&gt;
-      &lt;td&gt;7&lt;/td&gt;
-      &lt;td&gt;16&lt;/td&gt;
-      &lt;td&gt;26&lt;/td&gt;
-      &lt;td&gt;0.16&lt;/td&gt;
-      &lt;td&gt;0.216667&lt;/td&gt;
-      &lt;td&gt;0.017181&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;1.372679&lt;/td&gt;
-      &lt;td&gt;8&lt;/td&gt;
-      &lt;td&gt;12&lt;/td&gt;
-      &lt;td&gt;14&lt;/td&gt;
-      &lt;td&gt;0.12&lt;/td&gt;
-      &lt;td&gt;0.116667&lt;/td&gt;
-      &lt;td&gt;0.000094&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;1.901725&lt;/td&gt;
-      &lt;td&gt;9&lt;/td&gt;
-      &lt;td&gt;6&lt;/td&gt;
-      &lt;td&gt;9&lt;/td&gt;
-      &lt;td&gt;0.06&lt;/td&gt;
-      &lt;td&gt;0.075000&lt;/td&gt;
-      &lt;td&gt;0.003347&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;2.430771&lt;/td&gt;
-      &lt;td&gt;10&lt;/td&gt;
-      &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;3&lt;/td&gt;
-      &lt;td&gt;0.03&lt;/td&gt;
-      &lt;td&gt;0.025000&lt;/td&gt;
-      &lt;td&gt;0.000912&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;interpretation&quot;&gt;Interpretation:&lt;/h2&gt;
-
-&lt;p&gt;We get a final PSI value of &lt;strong&gt;0.153&lt;/strong&gt;, which indicates that there’s a chance our population is shifting, and we may want to monitor it going forwards. Of course, this is just one way of calculating PSI by using equal size binning of 10 buckets. If we keep the 10 buckets but change our binning strategy to quantile bins, we end up with a different percent distribution and an overall lower estimate of &lt;strong&gt;0.129&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/psi_hist_bins.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;final-thoughts&quot;&gt;Final Thoughts&lt;/h1&gt;
-
-&lt;p&gt;PSI seems to be a metric primarily used in the financial industry, but I think it can have a lot of useful applications in the wider ML community when used widely and consistently.&lt;/p&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://www.lexjansen.com/wuss/2017/47_Final_Paper_PDF.pdf&lt;/li&gt;
-  &lt;li&gt;https://www.listendata.com/2015/05/population-stability-index.html&lt;/li&gt;
-  &lt;li&gt;https://www.quora.com/What-is-population-stability-index&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;python-implementation&quot;&gt;Python Implementation&lt;/h2&gt;
-
-&lt;p&gt;Check out my python implementation of PSI and a corresponding python notebook going through the example above at &lt;a href=&quot;https://github.com/mwburke/population-stability-index&quot;&gt;this repo&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Some assumptions the code makes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Numpy is the only non-standard library dependency&lt;/li&gt;
-  &lt;li&gt;Assumes continuous variables (categorical variables are handled differently in PSI)&lt;/li&gt;
-  &lt;li&gt;Replaces bins in the new population that have 0 count with 0.001 percent to avoid divide by zero errors without affecting overall calculation too much&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew</name></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="metrics" /><summary type="html">Quantifying Population Drift</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;Check out the &lt;a href=&quot;https://github.com/mwburke/stargazer&quot;&gt;github repo&lt;/a&gt; or download using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip install stargazer&lt;/code&gt;, and please let me know if you have any feedback/feature requests!&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><summary type="html">Multiple Regression Reporting</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

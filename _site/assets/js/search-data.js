@@ -58,4 +58,9 @@ var store = [{
         "excerpt":"MMM: Miracle of Marketing Measurement or Misleading Modeling Methodology? TL;DR MMMs are a future-proofed tool for measuring marketing effectiveness in a world of increased online privacy, but can be prone to multiple silent failure methods that provide inaccurate results. What is an MMM? Media mix modeling is a statistical technique...","categories": ["Data Science"],
         "tags": ["ml","marketing"],
         "url": "http://localhost:4000/data%20science/2023/01/31/mmm-future-or-liability.html"
+      },{
+        "title": "PyMC Wrapper",
+        "excerpt":"Overview Bayesian modeling can be super valuable for capturing uncertainty and leveraging the use of prior distributions for new products/geos/etc. I’m relatively new to the space, but in my role of machine learning engineer, I found the tools to be very focused on the science and less so on deployment....","categories": ["Data Science"],
+        "tags": ["ml","python","bayesian"],
+        "url": "http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html"
       }]

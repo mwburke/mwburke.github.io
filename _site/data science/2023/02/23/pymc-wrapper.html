@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>PyMC Wrapper | Matthew Burke’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="PyMC Wrapper" />
+<meta name="author" content="Matthew Burke" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Making PyMC models more accessible and reusable" />
+<meta property="og:description" content="Making PyMC models more accessible and reusable" />
+<link rel="canonical" href="http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html" />
+<meta property="og:url" content="http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html" />
+<meta property="og:site_name" content="Matthew Burke’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/pymc_wrapper_preview.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-02-23T00:00:00-08:00" />
+<script type="application/ld+json">
+{"description":"Making PyMC models more accessible and reusable","author":{"@type":"Person","name":"Matthew Burke"},"@type":"BlogPosting","url":"http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew Burke"},"image":{"thumbnail":"/images/pymc_wrapper_preview.png","url":"http://localhost:4000/images/pymc_wrapper_preview.png","@type":"imageObject"},"headline":"PyMC Wrapper","dateModified":"2023-02-23T00:00:00-08:00","datePublished":"2023-02-23T00:00:00-08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew Burke&#39;s Blog" href="/atom.xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#31ac94">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#31ac94">
+
+</head>
+
+
+  <body class="layout--post  pymc-wrapper">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li><li><a href="/about">About</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Matthew Burke's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew Burke's Blog">
+      </a>
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/pymc_wrapper_preview.png" class="entry-feature-image u-photo" alt="PyMC Wrapper" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">PyMC Wrapper
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/matthew-burke-photo.jpg" class="author-avatar u-photo" alt="Matthew Burke"><div class="author-info"><div class="author-name">
+        <span class="p-name">Matthew Burke</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://instagram.com/yot_club_"><i class="fab fa-instagram fa-lg" title="Instagram"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/mwburke"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li></ul>
+
+<span class="read-time">4 min read</span>
+
+    <time class="page-date dt-published" datetime="2023-02-23T00:00:00-08:00"><a class="u-url" href="">February 23, 2023</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#data-science" title="Pages filed under Data Science">Data Science</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#ml" title="Pages tagged ml" rel="tag">ml</a></li><li class="page-taxonomy"><a href="/tags/#python" title="Pages tagged python" rel="tag">python</a></li><li class="page-taxonomy"><a href="/tags/#bayesian" title="Pages tagged bayesian" rel="tag">bayesian</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <h2 id="overview">Overview</h2>
+
+<p>Bayesian modeling can be super valuable for capturing uncertainty and leveraging the use of prior distributions for new products/geos/etc. I’m relatively new to the space, but in my role of machine learning engineer, I found the tools to be very focused on the science and less so on deployment. While the science part is absolutely critical and must be handled thoughtfully and methodologically, there are different sets of concerns when managing a suite of models in production.</p>
+
+<p>I build a quick POC python library called <a href="https://github.com/mwburke/pymc-wrapper">pymc-wrapper</a> to align PyMC’s amazing Bayesian modeling capabilities with the ease of use of scikit-learn’s fit/predict paradigm. There certainly is more work to do to build out a robust system, but I think for simpler modeling projects that require loading, saving and prediction across a number of models, this package could simplify workflows.</p>
+
+<h3 id="assumptions">Assumptions</h3>
+
+<p>Because the goal wasn’t to capture all cases and mostly to prove out the idea, I incorporated several assumptions:</p>
+
+<ol>
+  <li>There is a single function that relates all independent variables to our dependent variable</li>
+  <li>The errors are normally distributed</li>
+  <li>The model is non-hierarchical</li>
+  <li>All data preprocessing is handled beforehand</li>
+</ol>
+
+<h2 id="configuration-driven">Configuration Driven</h2>
+
+<p>The main idea behind the package is to define your independent variables and PyMC distributions beforehand in a config file and leave the model generation and sampling hidden within the other functions. The configuration would be defined as follows:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">independent_vars</code>: a list of the names of each independent variable</li>
+  <li><code class="language-plaintext highlighter-rouge">sample_params</code>: a dictionary of parameters to be passed into the pm.sample function</li>
+  <li><code class="language-plaintext highlighter-rouge">variable_params</code>: a dictionary of PyMC variables to be used in the model
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">variable_dict</code>: a dictionary defining a specific variable definition with
+                  its name as the variable_params key
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">dist</code>: str of the name of the PyMC distribution (case sensitive) to be used for the variable</li>
+          <li><code class="language-plaintext highlighter-rouge">params</code>: a dictionary of the parameters for the variable and the values to be used as
+          the model’s priors</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">function_params</code>: a dictionary of function parameters
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">function</code>: a python function defining the relationship of independent variables
+              to the dependent variable</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="example-configuration">Example Configuration</h3>
+
+<p>Here is an example config file stored in YAML that could be used to generate a model that attempts to learn product adoption rates according to the negative exponential function.</p>
+
+<p>The independent variable would be the <code class="language-plaintext highlighter-rouge">week</code>, and we take both an <code class="language-plaintext highlighter-rouge">intercept</code> and <code class="language-plaintext highlighter-rouge">lambda_val</code> (chosen to not clash with the reserved <code class="language-plaintext highlighter-rouge">lambda</code> keyword in python) parameters to generate our final outcome.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">negative_exponential</span><span class="p">(</span><span class="n">week</span><span class="p">,</span> <span class="n">lambda_val</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">intercept</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">intercept</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">lambda_val</span> <span class="o">*</span> <span class="n">week</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The configuration reflects this by naming our independent variable and defining our parameters with corresponding <code class="language-plaintext highlighter-rouge">pymc.distribution</code> function names and prior values. We can also set our sampling parameters as well.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">independent_vars</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">week</span>
+<span class="na">variable_params</span><span class="pi">:</span>
+    <span class="na">lambda_val</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+            <span class="na">sigma</span><span class="pi">:</span> <span class="m">1</span>
+        <span class="na">dist</span><span class="pi">:</span> <span class="s">HalfNormal</span>
+    <span class="na">intercept</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+            <span class="na">mu</span><span class="pi">:</span> <span class="m">0</span>
+            <span class="na">sigma</span><span class="pi">:</span> <span class="m">1</span>
+        <span class="na">dist</span><span class="pi">:</span> <span class="s">Normal</span>
+<span class="na">sample_params</span><span class="pi">:</span>
+  <span class="na">draws</span><span class="pi">:</span> <span class="m">1000</span>
+</code></pre></div></div>
+
+<p>To simplify things, I kept the function definition out of the config and manually set it afterwards with</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">config</span><span class="p">[</span><span class="s">'function_params'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'function'</span><span class="p">:</span> <span class="n">negative_exponential</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="model-usage">Model Usage</h2>
+
+<h3 id="creation-and-training">Creation and Training</h3>
+
+<p>Once we define and load our configuration from a file into a dictionary, creating a model wrapper object and training is as easy as the following:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">PymcModel</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">independent_vars</span><span class="p">]]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">dependent_var</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="prediction">Prediction</h3>
+
+<p>Prediction is easy as well, and similar to above, all we have to do is prepare our test data and pass it to the <code class="language-plaintext highlighter-rouge">predict</code> function as we would for many other model libraries. Below is an example of training on a set of curves and predicting on the same timeline to ensure that we have learned the relationship correctly:</p>
+
+<p><img src="/images/pymc_wrapper_learned_comparison.png" alt="" /></p>
+
+<p>Because (IMO) the point of using Bayesian models is to take advantage of their ability to capture uncertainty, I augmented the <code class="language-plaintext highlighter-rouge">predict</code> function to take in an <code class="language-plaintext highlighter-rouge">alpha</code> parameter, which is used to generate credible intervals for predictions as well, and they are output along the median predictions in the output. Below is an example using an <code class="language-plaintext highlighter-rouge">alpha</code> of 0.9 with the same dataset as before:</p>
+
+<p><img src="/images/pymc_wrapper_credible_interval.png" alt="" /></p>
+
+<p>It’s as easy as that!</p>
+
+<h3 id="savingloading">Saving/Loading</h3>
+
+<p>Like other ML libraries, we often want to save our model for prediction at another time, and I have implemented <code class="language-plaintext highlighter-rouge">save_trace</code> and <code class="language-plaintext highlighter-rouge">load_trace</code> functions accordingly to facilitate this. As long as we reference the same config file for model creation, we can load a saved trace and get straight to prediction.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trace_file_path</span> <span class="o">=</span> <span class="s">'trace.pkl'</span>
+<span class="n">model</span><span class="o">.</span><span class="n">save_trace</span><span class="p">(</span><span class="n">trace_file_path</span><span class="p">)</span>
+
+<span class="n">new_model</span> <span class="o">=</span> <span class="n">PymcModel</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">new_model</span><span class="o">.</span><span class="n">load_trace</span><span class="p">(</span><span class="n">trace_file_path</span><span class="p">)</span>
+
+<span class="n">new_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="creating-config-with-posteriors-as-priors">Creating Config with Posteriors as Priors</h3>
+
+<p>One potential use case I’ve found interesting is to learn from a established product/geo and apply the posteriors as priors to a new area. Rather than manually updating configs, I added an <code class="language-plaintext highlighter-rouge">export_trained_config</code> function that updates the priors in the original config with posterior means and saves it to an output file. Similar to above, we could consume this updated config file to create a new model object.</p>
+
+<h3 id="periodic-retraining">Periodic Retraining</h3>
+
+<p>One last use case I thought might be interesting to showcase is the ability to call the <code class="language-plaintext highlighter-rouge">fit</code> function on multiple sets of data. In the following example, I fitted a model to the adoption rate curves we saw above, exported the trained config file, created a new model with it as priors, and finally did a series of repeated fitting on data in chunks of 4 weeks to see how the predicted curve developed over time. The performance at the beginning isn’t great, as it overpredicts the curve steepness at first, but with the noise early on, it’s not totally unreasonable. Either way, it definitely gets more confident over time as it gains more observed data and stabilizes after a few months of data.</p>
+
+<p><img src="/images/pymc_wrapper_monthly_update.gif" alt="" /></p>
+
+<h2 id="feedback">Feedback</h2>
+
+<p>While this is definitely a work in progress, I would love for you to check out <a href="https://github.com/mwburke/pymc-wrapper/tree/main">the repo</a> and the <a href="https://github.com/mwburke/pymc-wrapper/blob/main/example/example_walkthrough.ipynb">example walkthrough notebook</a> that I used to generate these plots and examples.</p>
+
+<p>If you have any feedback of things you would change, would add or even any thoughts of it something like this is needed at all, I would love to hear from you at <a href="mailto:matthew.wesley.burke@gmail.com">my email</a> or github in issues/PRs!</p>
+
+        </div>
+
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/data%20science/2023/01/31/mmm-future-or-liability.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> MMM: Miracle of Marketing Measurement or Misleading  Modeling Methodology?
+
+      </span>
+    </a>
+  
+
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://instagram.com/yot_club_"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2023 Matthew Burke's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Distribution Drift Tolerance | Matthew Burke’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Distribution Drift Tolerance" />
+<meta name="author" content="Matthew" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Identifying your personal preference for measuring population drift" />
+<meta property="og:description" content="Identifying your personal preference for measuring population drift" />
+<link rel="canonical" href="http://localhost:4000/data%20science/2023/09/28/distribution-drift-tolerance.html" />
+<meta property="og:url" content="http://localhost:4000/data%20science/2023/09/28/distribution-drift-tolerance.html" />
+<meta property="og:site_name" content="Matthew Burke’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/placeholder.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-09-28T00:00:00-07:00" />
+<script type="application/ld+json">
+{"description":"Identifying your personal preference for measuring population drift","author":{"@type":"Person","name":"Matthew"},"@type":"BlogPosting","url":"http://localhost:4000/data%20science/2023/09/28/distribution-drift-tolerance.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew"},"image":{"thumbnail":"/images/drift_logistic.png","url":"http://localhost:4000/images/placeholder.png","@type":"imageObject"},"headline":"Distribution Drift Tolerance","dateModified":"2023-09-28T00:00:00-07:00","datePublished":"2023-09-28T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/data%20science/2023/09/28/distribution-drift-tolerance.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew Burke&#39;s Blog" href="/atom.xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#31ac94">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#31ac94">
+
+</head>
+
+
+  <body class="layout--post  distribution-drift-tolerance">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li><li><a href="/about">About</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Matthew Burke's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew Burke's Blog">
+      </a>
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/placeholder.png" class="entry-feature-image u-photo" alt="Distribution Drift Tolerance" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Distribution Drift Tolerance
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><div class="author-info">
+
+<span class="read-time">3 min read</span>
+
+    <time class="page-date dt-published" datetime="2023-09-28T00:00:00-07:00"><a class="u-url" href="">September 28, 2023</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#data-science" title="Pages filed under Data Science">Data Science</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#python" title="Pages tagged python" rel="tag">python</a></li><li class="page-taxonomy"><a href="/tags/#ml" title="Pages tagged ml" rel="tag">ml</a></li><li class="page-taxonomy"><a href="/tags/#metrics" title="Pages tagged metrics" rel="tag">metrics</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <h2 id="does-psi-have-reliable-thresholds">Does PSI Have Reliable Thresholds?</h2>
+
+<p>I’ve written before about the use of <a href="/data%20science/2018/04/29/population-stability-index.html">PSI (population stability index)</a> to measure population drift and provided some guidelines on interpretation of scores taken from <a href="https://www.lexjansen.com/wuss/2017/47_Final_Paper_PDF.pdf">this resource</a>. I recently began a project involving model monitoring and began to question how the authors of that paper derived their thresholds to define slight, minor and significant changes, and have so far received no answers. This seems like a huge gap for an entire industry that has science in the name to be following a standard that has no formal basis.</p>
+
+<p>To remedy this, I have created a <a href="https://github.com/mwburke/drift-tolerance/blob/main/drift_tolerance.ipynb">jupyter notebook</a> that allows the user to run through concrete examples of comparing distributions, evaluating them for drift, and creating a decision boundary representing the summary of their preferences.</p>
+
+<h2 id="data-generation">Data Generation</h2>
+
+<p>In order to provide distributions to compare, I chose to use a skewed normal as a familiar but not quite standard distribution DS/ML practitioners may encounter in their jobs. I first generate random parameters for skew, center and scale of the distribution for the base distribution, and then modify each of those parameters by random value ±25% from the original. This gives a base and alternate distribution that we are treating as the original population, and one later in time.</p>
+
+<p>We then sample each distribution a number of times to create our final histograms that will be reviewed by the user. For each set of samples, we can calculate the true PSI value and store it until the user has time to evaluate.</p>
+
+<h2 id="evaluation-loop">Evaluation Loop</h2>
+
+<p>When using the notebook, a single cell will show the plotted distributions against one another, but the true PSI value is not shown.</p>
+
+<p><img src="/images/drift_distributions.PNG" alt="" /></p>
+
+<p>The user must then click on one of two buttons to label the two populations as having acceptable or unacceptable drift. After clicking, their evaluation and corresponding PSI value are logged to a list, and the process repeats by replacing the plot with two new distributions and their hidden PSI value.</p>
+
+<p>The user can continue this process as many times as they like until they feel satisfied that they have provided enough sample data to work with.</p>
+
+<h2 id="preference-estimation">Preference Estimation</h2>
+
+<p>What we have done here is created a labeled dataset that encodes the user’s intuition on how much difference in two distributions constitutes an unacceptable risk in terms of population drift. We then can learn a logistic regression model to quantitatively measure that relationship. I chose to use PyMC to build the model because of the small data sizes and noisiness in measurements (more below), but you could use anything. Once this model has been learned, we can plot our observations alongside the curve from our learned beta parameter to compare our expectations of how we feel about risk to the measured reality. You can take a look at my results in the following chart:</p>
+
+<p><img src="/images/drift_logistic.PNG" alt="" /></p>
+
+<p>As we can see, this doesn’t look like your usual S curve. If we zoomed out significantly, we would see the shape, but as is, due to overlap between our labels, our model doesn’t have the nice, clear-cut decision boundary we were hoping for.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<ol>
+  <li>Drift is subjective from person to person, and maybe even more so within an individual. Humans are bad at probability and most visual mathematical intuition that exceeds a few data points.</li>
+  <li>Reliance on industry benchmarks without appropriate supporting data can leave you and your organization vulnerable to hidden mistakes and overconfidence.</li>
+  <li>Folks working in the data industry need to challenge assumptions and if datasets do not exist, seek them out or curate them yourself.</li>
+</ol>
+
+<p>I can imagine that going through this exercise with key members of your model validation/risk management leadership may prove insightful, and if you want to get even fancier, it might be fun to build a hierarchical logistic model to capture the risk preference of the organization overall as well as being able to compare individuals’ preferences.</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://github.com/mwburke/drift-tolerance">Drift Tolerance Repo</a></li>
+</ul>
+
+        </div>
+
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/data%20science/2023/02/23/pymc-wrapper.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> PyMC Wrapper
+
+      </span>
+    </a>
+  
+
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://instagram.com/yot_club_"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2023 Matthew Burke's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>

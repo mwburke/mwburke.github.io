@@ -36,4 +36,4 @@ It currently supports LaTeX and HTML output, but my goal is eventually support M
 
 ## How do I use it?
 
-Check out the [github repo](https://github.com/mwburke/stargazer) or download using `pip install stargazer`, and please let me know if you have any feedback/feature requests!
+Check out the [github repo](https://github.com/StatsReporting/stargazer) or download using `pip install stargazer` to download it from pypi, and please let me know if you have any feedback/feature requests!

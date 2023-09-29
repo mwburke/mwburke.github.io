@@ -63,4 +63,9 @@ var store = [{
         "excerpt":"Overview Bayesian modeling can be super valuable for capturing uncertainty and leveraging the use of prior distributions for new products/geos/etc. I’m relatively new to the space, but in my role of machine learning engineer, I found the tools to be very focused on the science and less so on deployment....","categories": ["Data Science"],
         "tags": ["ml","python","bayesian"],
         "url": "http://localhost:4000/data%20science/2023/02/23/pymc-wrapper.html"
+      },{
+        "title": "Distribution Drift Tolerance",
+        "excerpt":"Does PSI Have Reliable Thresholds? I’ve written before about the use of PSI (population stability index) to measure population drift and provided some guidelines on interpretation of scores taken from this resource. I recently began a project involving model monitoring and began to question how the authors of that paper...","categories": ["Data Science"],
+        "tags": ["python","ml","metrics"],
+        "url": "http://localhost:4000/data%20science/2023/09/28/distribution-drift-tolerance.html"
       }]

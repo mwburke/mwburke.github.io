@@ -73,4 +73,9 @@ var store = [{
         "excerpt":"ML Model Monitoring Metrics: A Hierarchical Approach to Mitigating Silent Failures In the ever-evolving landscape of machine learning, maintaining a fleet of hundreds to thousands of production models can be a daunting task. These models are susceptible to a wide array of silent errors that can go undetected for extended...","categories": ["Data Science"],
         "tags": ["python","ml","metrics"],
         "url": "http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics.html"
+      },{
+        "title": "Traffic Routing",
+        "excerpt":"Optimizing Transaction Routing with Linear Programming A side project exploring cost-minimizing vendor allocation under uncertainty. When you process a large volume of transactions, you’re often not locked into a single vendor. Multiple vendors compete for your volume, each offering tiered pricing, volume commitments, and restrictions on which transaction types they’ll...","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/2026/05/16/traffic-routing.html"
       }]

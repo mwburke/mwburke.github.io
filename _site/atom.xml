@@ -1,4 +1,186 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-07-28T23:28:46-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew Burke’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">ML Model Monitoring Metrics</title><link href="http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics.html" rel="alternate" type="text/html" title="ML Model Monitoring Metrics" /><published>2024-07-28T00:00:00-07:00</published><updated>2024-07-28T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics</id><content type="html" xml:base="http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics.html">&lt;h2 id=&quot;ml-model-monitoring-metrics-a-hierarchical-approach-to-mitigating-silent-failures&quot;&gt;&lt;strong&gt;ML Model Monitoring Metrics: A Hierarchical Approach to Mitigating Silent Failures&lt;/strong&gt;&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-05-16T22:57:41-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew Burke’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Traffic Routing</title><link href="http://localhost:4000/2026/05/16/traffic-routing.html" rel="alternate" type="text/html" title="Traffic Routing" /><published>2026-05-16T00:00:00-07:00</published><updated>2026-05-16T00:00:00-07:00</updated><id>http://localhost:4000/2026/05/16/traffic-routing</id><content type="html" xml:base="http://localhost:4000/2026/05/16/traffic-routing.html">&lt;h2 id=&quot;optimizing-transaction-routing-with-linear-programming&quot;&gt;Optimizing Transaction Routing with Linear Programming&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;A side project exploring cost-minimizing vendor allocation under uncertainty.&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;When you process a large volume of transactions, you’re often not locked into a single vendor. Multiple vendors compete for your volume, each offering tiered pricing, volume commitments, and restrictions on which transaction types they’ll accept. The question becomes: how do you decide where to send each transaction to minimize cost while keeping everyone happy?&lt;/p&gt;
+
+&lt;p&gt;This post walks through a two-stage optimization approach to that problem, built using Google’s &lt;a href=&quot;https://developers.google.com/optimization&quot;&gt;OR-Tools&lt;/a&gt; and a bit of statistics.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;the-setup&quot;&gt;The Setup&lt;/h2&gt;
+
+&lt;p&gt;The problem has a few moving parts:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Vendors&lt;/strong&gt; each have a minimum and maximum volume they’ll accept, and tiered pricing (the more you send, the cheaper it gets).&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Packet types&lt;/strong&gt; are different categories of transactions, and not every vendor accepts every type.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Forecasts&lt;/strong&gt; for how many transactions of each type you’ll process are uncertain — you have a mean and standard deviation, not a hard number.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The goal: given a volume forecast, allocate transactions across vendors to minimize total cost, while satisfying vendor minimums/maximums and packet type restrictions.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;handling-forecast-uncertainty&quot;&gt;Handling Forecast Uncertainty&lt;/h2&gt;
+
+&lt;p&gt;Before optimizing anything, you need a volume to plan against. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ForecastGenerator&lt;/code&gt; class handles this and includes a useful lever: rather than just using the mean forecast, you can adjust it to any percentile of the expected distribution.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;adjust_forecasts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adjustments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packet_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;percentile&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adjustments&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packet_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mean&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;std_dev&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packet_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;std_dev&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packet_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_calculate_adjusted_forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std_dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;percentile&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;_calculate_adjusted_forecast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std_dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;percentile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;z_score&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;norm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ppf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;percentile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z_score&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std_dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So if you want to plan conservatively (protecting against higher-than-expected volume), you pass &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;percentile=0.75&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0.90&lt;/code&gt;. If you’re fine with the base case, use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0.50&lt;/code&gt;. This is a lightweight way to bake risk tolerance into the planning process without needing a full simulation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/01_forecast_uncertainty.png&quot; alt=&quot;Forecast uncertainty visualization showing a normal distribution with vertical lines at the 25th, 50th, and 75th percentiles&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;stage-1-figuring-out-how-much-goes-to-each-vendor&quot;&gt;Stage 1: Figuring Out How Much Goes to Each Vendor&lt;/h2&gt;
+
+&lt;p&gt;The first optimization problem answers: &lt;strong&gt;given a total volume, how should we split it across vendors and tiers to minimize cost?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Each vendor has one or more pricing tiers. A tier kicks in after you’ve sent a certain volume — like a bulk discount. The trick is that tiers have to be filled in order; you can’t jump to the cheap tier without meeting the volume threshold for the cheaper tiers first.&lt;/p&gt;
+
+&lt;p&gt;Each vendor’s pricing structure looks like this — the solver is incentivized to push volume high enough to unlock the cheaper tiers:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/02_tier_pricing.png&quot; alt=&quot;Step chart showing cost per packet vs volume for each vendor across their pricing tiers&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is a classic integer linear program. The decision variables are the number of packets assigned to each vendor at each tier:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packets&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tier&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The objective is to minimize total cost:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minimize: sum over all vendors and tiers of (cost_per_packet[i][j] * x[i][j])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Subject to:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Total packets shipped equals the forecast&lt;/li&gt;
+  &lt;li&gt;Each vendor stays within its min/max volume&lt;/li&gt;
+  &lt;li&gt;Tier volume constraints are respected (you can’t access tier 2 without filling tier 1 first)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Using OR-Tools’ SCIP solver, this resolves quickly even with several vendors and tiers. A sample run with four vendors and 1,200 total packets looks like:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Vendor 0:  Tier 1: 130 packets
+Vendor 1:  Tier 1:  50 packets
+Vendor 2:  Tier 1: 1000 packets
+Vendor 3:  Tier 0:  20 packets
+Total cost = 2750.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The solver naturally gravitates toward Vendor 2’s deep-discount tier since it has the lowest per-packet cost once the volume threshold is met.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/03_stage1_allocation.png&quot; alt=&quot;Horizontal stacked bar chart showing the optimal packet allocation across the four vendors&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The output from this stage isn’t just volumes — it’s also the &lt;strong&gt;effective cost per packet for each vendor&lt;/strong&gt;, which becomes the input to Stage 2.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;stage-2-routing-each-packet-type&quot;&gt;Stage 2: Routing Each Packet Type&lt;/h2&gt;
+
+&lt;p&gt;Now comes a subtler problem. Not all packet types can go to all vendors. So knowing “send 1,000 packets to Vendor 2” isn’t enough — you need to know, for each packet type, what fraction to route where.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PacketRouteOptimizer&lt;/code&gt; solves this. Decision variables are the routing fractions:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;packet_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fraction&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;packet&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sent&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;this&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If a vendor doesn’t accept a packet type, its variable is locked to 0. Otherwise it’s a continuous variable between 0 and 1.&lt;/p&gt;
+
+&lt;p&gt;The objective is again cost minimization:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minimize: sum over all packet types and vendors of
+          (volume[packet_type] * cost[vendor] * x[packet_type][vendor])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With constraints that:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Every packet type’s fractions sum to 1 (all packets get shipped)&lt;/li&gt;
+  &lt;li&gt;Each vendor receives at least its minimum committed volume across all packet types&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A sample result with four packet types and four vendors:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Package Type 0:  Vendor 2: 100.00%
+Package Type 1:  Vendor 1: 15.00%,  Vendor 2: 85.00%
+Package Type 2:  Vendor 0: 12.50%,  Vendor 3: 87.50%
+Package Type 3:  Vendor 3: 100.00%
+Total cost = 4030.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The solver routes as much as possible to the cheapest eligible vendor for each packet type, then uses secondary vendors only as much as needed to satisfy commitments.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/04_stage2_routing.png&quot; alt=&quot;Heatmap showing routing fractions by packet type and vendor, with gray cells indicating ineligible vendor-packet combinations&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;translating-fractions-to-runtime-routing&quot;&gt;Translating Fractions to Runtime Routing&lt;/h2&gt;
+
+&lt;p&gt;The optimization outputs fractions — but at runtime, when a transaction arrives, you need to make a concrete routing decision. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VendorRouter&lt;/code&gt; handles this using a cumulative probability approach.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;_prepare_cumulative_fractions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cumulative_fractions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cumulative_vendors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fraction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v_fraction&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vendor_fractions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;fraction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v_fraction&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cumulative_fractions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fraction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cumulative_vendors&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vendor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_vendor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fraction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Vendor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cum_fraction&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cumulative_fractions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fraction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cum_fraction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cumulative_vendors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cumulative_vendors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You pass in a random float between 0 and 1 (from a hash of the transaction ID or a random draw), and it maps to the appropriate vendor based on the cumulative distribution. For the example above where Vendor 2 gets 85% of Package Type 1: any draw below 0.15 goes to Vendor 1, anything else goes to Vendor 2. Clean and deterministic if you use a hash.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;how-it-fits-together&quot;&gt;How It Fits Together&lt;/h2&gt;
+
+&lt;p&gt;The full pipeline looks like this:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Forecast&lt;/strong&gt; — load mean/std_dev forecasts per packet type and adjust to your desired percentile&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Price tier optimization&lt;/strong&gt; — find the optimal vendor volume split to minimize cost, accounting for tiered pricing and commitments&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Route optimization&lt;/strong&gt; — given per-vendor costs and per-packet-type restrictions, find the fractional routing that minimizes cost while meeting vendor minimums&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Runtime router&lt;/strong&gt; — load the fractional routing into a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PacketRouter&lt;/code&gt; and use it to make live routing decisions&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The two optimization stages are deliberately separate. Tier pricing depends only on total volume per vendor. Routing fractions depend on per-packet-type restrictions and the per-vendor cost outcomes from Stage 1. Decoupling them keeps each problem tractable.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h2&gt;
+
+&lt;p&gt;This was a fun use case — it sits at the intersection of forecasting, combinatorial optimization, and systems design. OR-Tools made the LP formulation straightforward, and the stats-based forecast adjustment adds a practical handle for managing risk without overcomplicating the model.&lt;/p&gt;
+
+&lt;p&gt;A few obvious directions to extend this:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Multi-period optimization&lt;/strong&gt;: run this weekly or monthly and account for volume rollover across periods&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Stochastic programming&lt;/strong&gt;: instead of picking a single percentile, optimize over a distribution of forecast scenarios&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Dynamic repricing&lt;/strong&gt;: re-optimize routing mid-period if actual volume deviates significantly from forecast&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The code is available on &lt;a href=&quot;https://github.com/mwburke/transaction-routing-optimization&quot;&gt;GitHub&lt;/a&gt; if you want to dig in.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><summary type="html">Optimizing Transaction Routing with Linear Programming</summary></entry><entry><title type="html">ML Model Monitoring Metrics</title><link href="http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics.html" rel="alternate" type="text/html" title="ML Model Monitoring Metrics" /><published>2024-07-28T00:00:00-07:00</published><updated>2024-07-28T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics</id><content type="html" xml:base="http://localhost:4000/data%20science/2024/07/28/model-monitoring-metrics.html">&lt;h2 id=&quot;ml-model-monitoring-metrics-a-hierarchical-approach-to-mitigating-silent-failures&quot;&gt;&lt;strong&gt;ML Model Monitoring Metrics: A Hierarchical Approach to Mitigating Silent Failures&lt;/strong&gt;&lt;/h2&gt;
 
 &lt;p&gt;In the ever-evolving landscape of machine learning, maintaining a fleet of hundreds to thousands of production models can be a daunting task. These models are susceptible to a wide array of silent errors that can go undetected for extended periods. The consequences of such errors can be significant (and expensive).&lt;/p&gt;
 
@@ -606,45 +788,7 @@
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;Cosine Similarity&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="tensorflow" /><summary type="html">Utilizing Tensorflow pre-trained embeddings to recommend potential clues to the codemasters in the card game Codenames</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/codenames_cover.jpg" /><media:content medium="image" url="http://localhost:4000/images/codenames_cover.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
-
-&lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/italy_mosaic_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/italy_mosaic_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;If these piqued your interest, I’d recommend checking out more &lt;a href=&quot;https://mwburke.github.io/generative-art/posts/030.html&quot;&gt;at my generative art site&lt;/a&gt;, or much better, go visit Florence yourself and get inspired!&lt;/p&gt;
-
-&lt;p&gt;Of course, once I returned home and was talking about how beautiful the tiling was, I was informed about &lt;a href=&quot;https://en.wikipedia.org/wiki/Islamic_geometric_patterns&quot;&gt;Islamic geometric patterns&lt;/a&gt;, which blew Italy out of the water in terms of complexity and creativity. I definitely will be reviewing my future travel plans in light of this discovery, and in the meantime, I hopefully can learn more about their theory and history to get a better appreciation of them.&lt;/p&gt;
-
-&lt;h2 id=&quot;organic-tiling-truchet-patterns&quot;&gt;Organic Tiling: Truchet Patterns&lt;/h2&gt;
-
-&lt;p&gt;While geometric patterns are always awesome, I had recently run into &lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;this article&lt;/a&gt; talking about truchet patterns, and wanted to try something a little more rounded and actually generative to see if it had a more “organic” feel about it.&lt;/p&gt;
-
-&lt;p&gt;The idea behind them, is that they are square tiles with round internal paths/connections that can be connected to any other tile pattern. It didn’t take long to create each one of them, but after just generating a random tileset, the results are rather unsatisfying:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This is pretty much inline with what I have been viewing and reading from well-known generative artists, and so I took a stab at creating a little more structure into the process by nesting squares of patterns within each other and was quite pleased:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I took it a step further, and while still limiting the available tiles and placing them diagonally, I allowed the rotation vary. These might be some of my favorite results in that they’re not so random as to be without structure, but it seems more natural:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There’s definitely more work I could do with utilizing the smaller subtiling and larger amount of tiles, but I’ll put that ahead for future work. If you’re interested in seeing more of these patterns, you can &lt;a href=&quot;https://mwburke.github.io/generative-art/posts/032.html&quot;&gt;do so here&lt;/a&gt; and create as many as you want!&lt;/p&gt;
-
-&lt;p&gt;I hope to do some more work on hexagonal tiling with connections based on node-based growth algorithms, which I think have a lot of potential for walking the line between structure and chaos.&lt;/p&gt;
-
-&lt;h3 id=&quot;resources&quot;&gt;Resources:&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;Multi-Sscale Truchet Patterns - Christopher Carlson&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Generative Art" /><category term="p5js" /><summary type="html">Inspiration from Italian Mosaics</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Multi-Armed Bandits Exploration</title><link href="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html" rel="alternate" type="text/html" title="Multi-Armed Bandits Exploration" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2019/06/18/bandits-exploration</id><content type="html" xml:base="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html">&lt;h2 id=&quot;multi-armed-bandit-overview&quot;&gt;Multi-Armed Bandit Overview&lt;/h2&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="tensorflow" /><summary type="html">Utilizing Tensorflow pre-trained embeddings to recommend potential clues to the codemasters in the card game Codenames</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/codenames_cover.jpg" /><media:content medium="image" url="http://localhost:4000/images/codenames_cover.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Multi-Armed Bandits Exploration</title><link href="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html" rel="alternate" type="text/html" title="Multi-Armed Bandits Exploration" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2019/06/18/bandits-exploration</id><content type="html" xml:base="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html">&lt;h2 id=&quot;multi-armed-bandit-overview&quot;&gt;Multi-Armed Bandit Overview&lt;/h2&gt;
 
 &lt;p&gt;A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown:&lt;/p&gt;
 
@@ -768,7 +912,45 @@
 
 &lt;p&gt;I created a &lt;a href=&quot;https://github.com/mwburke/bandits&quot;&gt;github repo&lt;/a&gt; with all of the code used to generate these plots, with a &lt;a href=&quot;https://github.com/mwburke/bandits/blob/master/walkthrough.ipynb&quot;&gt;notebook&lt;/a&gt; ready to to re-run them and change any parameters so you can get an intuition about how some of these common agent algorithms work.&lt;/p&gt;
 
-&lt;p&gt;I’d highly recommend playing around with different numbers of arms, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="probability" /><summary type="html">Benchmark Comparisons and UCB Visualization</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Idyll</title><link href="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html" rel="alternate" type="text/html" title="Introduction to Idyll" /><published>2018-12-04T00:00:00-08:00</published><updated>2018-12-04T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">&lt;p&gt;Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.&lt;/p&gt;
+&lt;p&gt;I’d highly recommend playing around with different numbers of arms, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="probability" /><summary type="html">Benchmark Comparisons and UCB Visualization</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
+
+&lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/italy_mosaic_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/italy_mosaic_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If these piqued your interest, I’d recommend checking out more &lt;a href=&quot;https://mwburke.github.io/generative-art/posts/030.html&quot;&gt;at my generative art site&lt;/a&gt;, or much better, go visit Florence yourself and get inspired!&lt;/p&gt;
+
+&lt;p&gt;Of course, once I returned home and was talking about how beautiful the tiling was, I was informed about &lt;a href=&quot;https://en.wikipedia.org/wiki/Islamic_geometric_patterns&quot;&gt;Islamic geometric patterns&lt;/a&gt;, which blew Italy out of the water in terms of complexity and creativity. I definitely will be reviewing my future travel plans in light of this discovery, and in the meantime, I hopefully can learn more about their theory and history to get a better appreciation of them.&lt;/p&gt;
+
+&lt;h2 id=&quot;organic-tiling-truchet-patterns&quot;&gt;Organic Tiling: Truchet Patterns&lt;/h2&gt;
+
+&lt;p&gt;While geometric patterns are always awesome, I had recently run into &lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;this article&lt;/a&gt; talking about truchet patterns, and wanted to try something a little more rounded and actually generative to see if it had a more “organic” feel about it.&lt;/p&gt;
+
+&lt;p&gt;The idea behind them, is that they are square tiles with round internal paths/connections that can be connected to any other tile pattern. It didn’t take long to create each one of them, but after just generating a random tileset, the results are rather unsatisfying:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_4.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is pretty much inline with what I have been viewing and reading from well-known generative artists, and so I took a stab at creating a little more structure into the process by nesting squares of patterns within each other and was quite pleased:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_3.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I took it a step further, and while still limiting the available tiles and placing them diagonally, I allowed the rotation vary. These might be some of my favorite results in that they’re not so random as to be without structure, but it seems more natural:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/truchet_pattern_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There’s definitely more work I could do with utilizing the smaller subtiling and larger amount of tiles, but I’ll put that ahead for future work. If you’re interested in seeing more of these patterns, you can &lt;a href=&quot;https://mwburke.github.io/generative-art/posts/032.html&quot;&gt;do so here&lt;/a&gt; and create as many as you want!&lt;/p&gt;
+
+&lt;p&gt;I hope to do some more work on hexagonal tiling with connections based on node-based growth algorithms, which I think have a lot of potential for walking the line between structure and chaos.&lt;/p&gt;
+
+&lt;h3 id=&quot;resources&quot;&gt;Resources:&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;Multi-Sscale Truchet Patterns - Christopher Carlson&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Generative Art" /><category term="p5js" /><summary type="html">Inspiration from Italian Mosaics</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Idyll</title><link href="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html" rel="alternate" type="text/html" title="Introduction to Idyll" /><published>2018-12-04T00:00:00-08:00</published><updated>2018-12-04T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">&lt;p&gt;Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.&lt;/p&gt;
 
 &lt;h1 id=&quot;idyll&quot;&gt;&lt;a href=&quot;https://idyll-lang.org/&quot;&gt;Idyll&lt;/a&gt;&lt;/h1&gt;
 
@@ -807,60 +989,4 @@
   &lt;li&gt;&lt;a href=&quot;https://pudding.cool/&quot;&gt;The Pudding&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://fivethirtyeight.com/&quot;&gt;FiveThirtyEight&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.informationisbeautifulawards.com/news/118-the-nyt-s-best-data-visualizations-of-the-year&quot;&gt;The NY Times&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><summary type="html">Visualizing Pumpkin Pie Taste Test Results</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Probability Calibration</title><link href="http://localhost:4000/data%20science/2018/11/26/probability-calibration.html" rel="alternate" type="text/html" title="Probability Calibration" /><published>2018-11-26T00:00:00-08:00</published><updated>2018-11-26T00:00:00-08:00</updated><id>http://localhost:4000/data%20science/2018/11/26/probability-calibration</id><content type="html" xml:base="http://localhost:4000/data%20science/2018/11/26/probability-calibration.html">&lt;h1 id=&quot;predictions-as-confidence&quot;&gt;Predictions As Confidence&lt;/h1&gt;
-
-&lt;p&gt;As you may already know, classification problems in machine learning commonly (though not always) use algorithms that output a &lt;em&gt;predicted probability&lt;/em&gt; value that can be used to gauge confidence in how sure your model is that the input belongs to one particular class.&lt;/p&gt;
-
-&lt;h1 id=&quot;setting-probability-thresholds&quot;&gt;Setting Probability Thresholds&lt;/h1&gt;
-
-&lt;p&gt;In introductory ML courses, a default value of 0.50 is usually used as the prediction cutoff for making the decision to consider a binary classification output as either positive or negative class, but in industry, selecting the right cutoff threshold is critical to making good business decisions.&lt;/p&gt;
-
-&lt;p&gt;If the cost associated with false negatives is large, it may be optimal to use a lower probability decision threshold to capture more positive users at the expense of including more false positives, and vice versa, and the data scientist will work with the business units to balance this tradeoff in order to minimize cost or maximize the benefit. Ultimately, this causes the predictions to act more as a ranking system for applications that require binary classifications as the final output than actually leveraging the values themselves.&lt;/p&gt;
-
-&lt;h1 id=&quot;interpretation-problems&quot;&gt;Interpretation Problems&lt;/h1&gt;
-
-&lt;h2 id=&quot;model-as-ranking&quot;&gt;Model As Ranking&lt;/h2&gt;
-
-&lt;p&gt;This model-as-ranking system works fine in many situations, but what happens when your predicted probability does not actually represent the probability and the business unit consuming your predictions assumes that they are? An example of this might be the likelihood of conversion for a given user, which is then multiplied by potential LTV to prioritize leads for a sales organization based on expected ROI. If a model tends to over/underestimate probabilities at the lower/upper ends of the predicted probability spectrum respctively (as random forest models have been known to do), you can end up spending effort on individuals who are less worth the team’s time, wasting resources and potentially losing revenue.&lt;/p&gt;
-
-&lt;p&gt;Scikit-learn has a great overview on some common algorithms that result in biased predicted probabilities. I’ve taken the liberty of displaying the chart from that overview here. Visit &lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/calibration/plot_compare_calibration.html&quot;&gt;this link&lt;/a&gt; to get the full code used to generate the plot or just look at the documentation for the &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.calibration.calibration_curve.html&quot;&gt;sklearn.calibration.calibration_curve&lt;/a&gt; function&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/calibration_curve_1.png&quot; alt=&quot;https://scikit-learn.org/stable/auto_examples/calibration/plot_compare_calibration.html&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;parallel-model-consumption&quot;&gt;Parallel Model Consumption&lt;/h2&gt;
-
-&lt;p&gt;Additionally, models can be used in conjunction with one another to provide targets in context. Going back to our expected LTV example, a business may have separate conversion likelihood models for different segments of their customer population, with every user being assigned a conversion probability from a single model. If not all models produce well-calibrated predicted probabilities, one could end up dominating the others while still having good metrics when considered individually.&lt;/p&gt;
-
-&lt;h3 id=&quot;auroc-can-be-misleading&quot;&gt;AUROC Can Be Misleading&lt;/h3&gt;
-
-&lt;p&gt;One common performance metric that is used to measure the effectiveness of the model across the range of predicted probabilities is the area under the receiving operating characteristic (ROC) curve. In case you aren’t familiar with the ROC curve, it is a plot of the model’s true positive rate vs the false positive rate as the probability is varied from 0 to 1, and as such, it is considered more of a robust metric than accuracy alone in cases where classes are imbalanced or the cost of true/false positives are unknown as of yet.&lt;/p&gt;
-
-&lt;p&gt;While it is a good metric, it is &lt;strong&gt;not&lt;/strong&gt; sensitive to the absolute value of the predicted probabilities, only the performance at every probability point. If all of the predicted probabilities are multiplied by a constant, the value of the AUROC does not change, which may mislead the modeler into believing their probabilities are good to use, while in fact, they are consistently over/underestimating the results.&lt;/p&gt;
-
-&lt;p&gt;For example, the three predicted probability density distributions below are just scaled versions of the output from the same model. Their distributions are obviously very different from one another, but because they are scaled by a constant, they all have an equivalent AUROC score.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/pred_probs_scaled.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;validation-with-additional-scoring-methods&quot;&gt;Validation with Additional Scoring Methods&lt;/h1&gt;
-
-&lt;p&gt;As with most modeling, it’s impossible to represent overall performance with a single number, and if you have concerns about validating probability calibration, it seems wise to include additional scores alongside AUROC that are more representative of actual differences in calibration such as log loss or the brier score.&lt;/p&gt;
-
-&lt;p&gt;Log loss is a common loss function, but &lt;a href=&quot;https://en.wikipedia.org/wiki/Brier_score&quot;&gt;brier score&lt;/a&gt; was new to me, and according to wikipedia “can be thought of as… a measure of the ‘calibration’ of a set of probabilistic predictions”. It essentially is the average squared difference between the probability that was forecast and the actual outcome of the event. This makes its interpretation analogous to the RMSE for regression problems, and does take into account the scale of the predictions.&lt;/p&gt;
-
-&lt;h1 id=&quot;sampling-bias&quot;&gt;Sampling Bias&lt;/h1&gt;
-
-&lt;p&gt;Many problems have imbalanced datasets in terms of the target variable with a significant portion of the records belonging to one class. Various techniques have been developed to counteract these problem, including oversampling the minority class, downsampling the majority class and generating synthetic samples from the minority class to closer achieve class number parity. However, these techniques can result in increased AUROC scores while biasing the predicted probabilities to be less calibrated to actual.&lt;/p&gt;
-
-&lt;p&gt;Here is an example of how a generally well calibrated classifier (Logistic Regression) can be biased depending upon the ratio of the positive to negative class in the training dataset:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/calibration_curve_2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;further-research&quot;&gt;Further Research&lt;/h2&gt;
-
-&lt;p&gt;Scikit-learn has implemented the &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.calibration.CalibratedClassifierCV.html&quot;&gt;CalibratedClassifierCV&lt;/a&gt; class to adjust your classifiers to be more calibrated either during training, or to adjust the predictions by calibrating the classifier post-training.&lt;/p&gt;
-
-&lt;p&gt;It has two options for doing so:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Platt_scaling&quot;&gt;Platt Scaling&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Isotonic_regression&quot;&gt;Isotonic Regression&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="probability" /><category term="ml" /><summary type="html">Predictions As Actual Probabilities</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><summary type="html">Visualizing Pumpkin Pie Taste Test Results</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

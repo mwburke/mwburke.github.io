@@ -1,4 +1,1144 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-05-16T22:57:41-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew Burke’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">Traffic Routing</title><link href="http://localhost:4000/2026/05/16/traffic-routing.html" rel="alternate" type="text/html" title="Traffic Routing" /><published>2026-05-16T00:00:00-07:00</published><updated>2026-05-16T00:00:00-07:00</updated><id>http://localhost:4000/2026/05/16/traffic-routing</id><content type="html" xml:base="http://localhost:4000/2026/05/16/traffic-routing.html">&lt;h2 id=&quot;optimizing-transaction-routing-with-linear-programming&quot;&gt;Optimizing Transaction Routing with Linear Programming&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-05-21T16:29:57-07:00</updated><id>http://localhost:4000/atom.xml</id><title type="html">Matthew Burke’s Blog</title><subtitle>Data science, generative art and other stuff</subtitle><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><entry><title type="html">How ELO Works: An Interactive Guide</title><link href="http://localhost:4000/data/science/2026/05/21/elo-interactive.html" rel="alternate" type="text/html" title="How ELO Works: An Interactive Guide" /><published>2026-05-21T00:00:00-07:00</published><updated>2026-05-21T00:00:00-07:00</updated><id>http://localhost:4000/data/science/2026/05/21/elo-interactive</id><content type="html" xml:base="http://localhost:4000/data/science/2026/05/21/elo-interactive.html">&lt;style&gt;
+.entry-feature-image {
+  max-width: 700px; /* Match the prose width */
+  margin: 0 auto;
+  display: block;
+  border-radius: 8px; /* Optional: gives it nice rounded corners like the widgets */
+}
+
+.elo-widget {
+  max-width: 700px;
+  margin: 2rem auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+  box-sizing: border-box;
+}
+.elo-widget button {
+  background-color: #31ac94;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.elo-widget button:hover {
+  background-color: #278f7a;
+}
+.elo-widget button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.elo-widget input[type=&quot;range&quot;] {
+  width: 100%;
+}
+/* Widget 1 */
+#w1-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.w1-teal { color: #31ac94; }
+.w1-orange { color: #e07b39; }
+
+/* Widget 2 */
+.w2-cards {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+@media (max-width: 480px) {
+  .w2-cards { flex-direction: column; }
+}
+.w2-card {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  position: relative;
+}
+.w2-card h3 {
+  margin-top: 0;
+}
+.w2-rating {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+.w2-delta {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  opacity: 0;
+}
+.w2-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.w2-actions button {
+  flex: 1;
+}
+.w2-log {
+  font-style: italic;
+  text-align: center;
+  min-height: 1.5em;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Widget 3 */
+.w3-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+@media (max-width: 480px) {
+  .w3-controls { flex-direction: column; align-items: stretch; text-align: center; }
+}
+
+/* Widget 4 */
+.w4-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.w4-speed {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 150px;
+}
+/* Widget 5 */
+.w5-controls { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+.w5-controls button { flex: 1; }
+.w5-teams { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+@media (max-width: 480px) { .w5-teams { flex-direction: column; } }
+.w5-team { flex: 1; border: 2px solid #eee; border-radius: 8px; padding: 1rem; text-align: center; }
+.w5-vs { font-weight: bold; font-size: 1.2rem; color: #666; }
+.w5-players { display: flex; flex-direction: column; gap: 5px; }
+.w5-player { background: #f4f4f4; padding: 5px; border-radius: 4px; font-family: monospace; font-size: 1.1rem; }
+.w5-outcomes h4 { margin-top: 0; text-align: center; color: #e07b39; }
+.w5-table { width: 100%; border-collapse: collapse; text-align: center; }
+.w5-table th, .w5-table td { border: 1px solid #ddd; padding: 8px; }
+.w5-table th { background-color: #f9f9f9; font-size: 0.9em; }
+&lt;/style&gt;
+
+&lt;script src=&quot;https://d3js.org/d3.v7.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+// Shared ELO Math
+function eloExpected(rA, rB) {
+  return 1 / (1 + Math.pow(10, (rB - rA) / 400));
+}
+
+function eloUpdate(rating, expected, actual, k) {
+  return rating + k * (actual - expected);
+}
+
+function simulateGame(rA, rB, outcome, k) {
+  const eA = eloExpected(rA, rB);
+  const eB = 1 - eA;
+  const newRA = eloUpdate(rA, eA, outcome, k);
+  const newRB = eloUpdate(rB, eB, 1 - outcome, k);
+  return [newRA, newRB];
+}
+&lt;/script&gt;
+
+&lt;h2 id=&quot;why-elo-matters&quot;&gt;Why ELO Matters&lt;/h2&gt;
+
+&lt;p&gt;Originally invented for chess in 1960 by Arpad Elo, the ELO rating system has quietly become the backbone of modern competitive ranking. If you’ve ever played a ranked video game like &lt;em&gt;League of Legends&lt;/em&gt; or &lt;em&gt;Counter-Strike&lt;/em&gt;, or if you’ve tracked the rapidly shifting landscape of AI models on the LMSYS Chatbot Arena leaderboard, you’ve interacted with ELO.&lt;/p&gt;
+
+&lt;p&gt;But despite its ubiquity, very few people understand how it actually computes these numbers. How does it mathematically guarantee that a grandmaster beating a novice barely affects either player’s score? Let’s break it down interactively.&lt;/p&gt;
+
+&lt;h2 id=&quot;win-probability&quot;&gt;Win Probability&lt;/h2&gt;
+
+&lt;p&gt;Here’s the core idea: the rating gap between two players determines how likely each one is to win. The ELO system uses a logistic curve to convert a difference in points into a probability.&lt;/p&gt;
+
+&lt;div class=&quot;elo-widget&quot; id=&quot;widget-1&quot;&gt;
+  &lt;div id=&quot;w1-stats&quot;&gt;
+    &lt;div class=&quot;w1-teal&quot;&gt;You win: &lt;span id=&quot;w1-prob-a&quot;&gt;50&lt;/span&gt;%&lt;/div&gt;
+    &lt;div class=&quot;w1-orange&quot;&gt;Opponent wins: &lt;span id=&quot;w1-prob-b&quot;&gt;50&lt;/span&gt;%&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;w1-chart&quot;&gt;&lt;/div&gt;
+  &lt;div style=&quot;text-align: center; margin-top: 1rem;&quot;&gt;
+    Rating Difference (ΔR): &lt;span id=&quot;w1-delta-val&quot; style=&quot;font-weight:bold;&quot;&gt;0&lt;/span&gt;
+    &lt;input type=&quot;range&quot; id=&quot;w1-slider&quot; min=&quot;-600&quot; max=&quot;600&quot; value=&quot;0&quot; step=&quot;10&quot; /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+// Widget 1 Logic
+(function(){
+  const width = 652; // roughly 700 - padding
+  const height = 250;
+  const margin = {top: 20, right: 20, bottom: 30, left: 40};
+  
+  const svg = d3.select(&quot;#w1-chart&quot;).append(&quot;svg&quot;)
+    .attr(&quot;viewBox&quot;, `0 0 ${width} ${height}`)
+    .style(&quot;width&quot;, &quot;100%&quot;)
+    .style(&quot;height&quot;, &quot;auto&quot;);
+    
+  const x = d3.scaleLinear().domain([-600, 600]).range([margin.left, width - margin.right]);
+  const y = d3.scaleLinear().domain([0, 1]).range([height - margin.bottom, margin.top]);
+  
+  const xAxis = d3.axisBottom(x).ticks(7).tickFormat(d =&gt; d &gt; 0 ? &quot;+&quot;+d : d);
+  const yAxis = d3.axisLeft(y).ticks(5).tickFormat(d3.format(&quot;.0%&quot;));
+  
+  svg.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(0,${height - margin.bottom})`).call(xAxis);
+  svg.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(${margin.left},0)`).call(yAxis);
+  
+  const line = d3.line()
+    .x(d =&gt; x(d.dr))
+    .y(d =&gt; y(eloExpected(d.dr, 0))); // rA = d.dr, rB = 0 =&gt; expected A win
+    
+  const data = d3.range(-600, 601, 10).map(dr =&gt; ({dr: dr}));
+  
+  // Create gradient
+  const defs = svg.append(&quot;defs&quot;);
+  const linearGradient = defs.append(&quot;linearGradient&quot;)
+      .attr(&quot;id&quot;, &quot;line-gradient&quot;)
+      .attr(&quot;gradientUnits&quot;, &quot;userSpaceOnUse&quot;)
+      .attr(&quot;x1&quot;, x(-600)).attr(&quot;y1&quot;, 0)
+      .attr(&quot;x2&quot;, x(600)).attr(&quot;y2&quot;, 0);
+      
+  linearGradient.append(&quot;stop&quot;).attr(&quot;offset&quot;, &quot;0%&quot;).attr(&quot;stop-color&quot;, &quot;#e07b39&quot;);
+  linearGradient.append(&quot;stop&quot;).attr(&quot;offset&quot;, &quot;50%&quot;).attr(&quot;stop-color&quot;, &quot;#919366&quot;);
+  linearGradient.append(&quot;stop&quot;).attr(&quot;offset&quot;, &quot;100%&quot;).attr(&quot;stop-color&quot;, &quot;#31ac94&quot;);
+
+  svg.append(&quot;path&quot;)
+    .datum(data)
+    .attr(&quot;fill&quot;, &quot;none&quot;)
+    .attr(&quot;stroke&quot;, &quot;url(#line-gradient)&quot;)
+    .attr(&quot;stroke-width&quot;, 4)
+    .attr(&quot;d&quot;, line);
+    
+  const marker = svg.append(&quot;g&quot;);
+  marker.append(&quot;line&quot;)
+    .attr(&quot;y1&quot;, margin.top)
+    .attr(&quot;y2&quot;, height - margin.bottom)
+    .attr(&quot;stroke&quot;, &quot;#333&quot;)
+    .attr(&quot;stroke-dasharray&quot;, &quot;4,4&quot;);
+    
+  const dot = marker.append(&quot;circle&quot;)
+    .attr(&quot;r&quot;, 6)
+    .attr(&quot;fill&quot;, &quot;#333&quot;);
+    
+  function update(val) {
+    const dr = +val;
+    const prob = eloExpected(dr, 0);
+    
+    marker.attr(&quot;transform&quot;, `translate(${x(dr)},0)`);
+    dot.attr(&quot;cy&quot;, y(prob));
+    
+    d3.select(&quot;#w1-prob-a&quot;).text((prob * 100).toFixed(1));
+    d3.select(&quot;#w1-prob-b&quot;).text(((1 - prob) * 100).toFixed(1));
+    d3.select(&quot;#w1-delta-val&quot;).text(dr &gt; 0 ? &quot;+&quot; + dr : dr);
+  }
+  
+  d3.select(&quot;#w1-slider&quot;).on(&quot;input&quot;, function() {
+    update(this.value);
+  });
+  update(0);
+})();
+&lt;/script&gt;
+
+&lt;p&gt;Notice that at ΔR=0 the probability is exactly 50/50. If you are 200 points higher than your opponent (+200), your win probability is roughly 76%. The curve is asymptotic — no matter how high the rating gap, it never reaches exactly 0% or 100%.&lt;/p&gt;
+
+&lt;h2 id=&quot;playing-a-match&quot;&gt;Playing a Match&lt;/h2&gt;
+
+&lt;p&gt;When a match concludes, ratings are updated based on the actual outcome compared to the expected outcome. If a favorite wins, they gain very few points, because the result was expected. If an underdog wins, they gain a large number of points.&lt;/p&gt;
+
+&lt;div class=&quot;elo-widget&quot; id=&quot;widget-2&quot;&gt;
+  &lt;div class=&quot;w2-cards&quot;&gt;
+    &lt;div class=&quot;w2-card&quot; style=&quot;border-top: 4px solid #31ac94;&quot;&gt;
+      &lt;h3&gt;Player A&lt;/h3&gt;
+      &lt;div&gt;Rating: &lt;input type=&quot;number&quot; id=&quot;w2-input-a&quot; value=&quot;1200&quot; style=&quot;width: 80px;&quot; /&gt;&lt;/div&gt;
+      &lt;div class=&quot;w2-rating w1-teal&quot; id=&quot;w2-rating-a&quot;&gt;1200&lt;/div&gt;
+      &lt;div class=&quot;w2-delta w1-teal&quot; id=&quot;w2-delta-a&quot;&gt;&lt;/div&gt;
+      &lt;div&gt;Expected Win: &lt;span id=&quot;w2-exp-a&quot; style=&quot;font-weight:bold;&quot;&gt;50%&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w2-card&quot; style=&quot;border-top: 4px solid #e07b39;&quot;&gt;
+      &lt;h3&gt;Player B&lt;/h3&gt;
+      &lt;div&gt;Rating: &lt;input type=&quot;number&quot; id=&quot;w2-input-b&quot; value=&quot;1200&quot; style=&quot;width: 80px;&quot; /&gt;&lt;/div&gt;
+      &lt;div class=&quot;w2-rating w1-orange&quot; id=&quot;w2-rating-b&quot;&gt;1200&lt;/div&gt;
+      &lt;div class=&quot;w2-delta w1-orange&quot; id=&quot;w2-delta-b&quot;&gt;&lt;/div&gt;
+      &lt;div&gt;Expected Win: &lt;span id=&quot;w2-exp-b&quot; style=&quot;font-weight:bold;&quot;&gt;50%&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;w2-actions&quot;&gt;
+    &lt;button id=&quot;w2-btn-awin&quot;&gt;A Wins&lt;/button&gt;
+    &lt;button id=&quot;w2-btn-draw&quot; style=&quot;background-color: #666;&quot;&gt;Draw&lt;/button&gt;
+    &lt;button id=&quot;w2-btn-bwin&quot; style=&quot;background-color: #e07b39;&quot;&gt;B Wins&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div style=&quot;text-align: center; margin-bottom: 0.5rem;&quot;&gt;
+    &lt;button id=&quot;w2-btn-reset&quot; style=&quot;background-color: #eee; color: #333; font-size: 0.9em; padding: 4px 8px;&quot;&gt;Reset Defaults&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;w2-log&quot; id=&quot;w2-log&quot;&gt;Ready to play.&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+// Widget 2 Logic
+(function(){
+  const k = 32;
+  let rA = 1200;
+  let rB = 1200;
+  
+  function updateUI() {
+    const eA = eloExpected(rA, rB);
+    const eB = 1 - eA;
+    d3.select(&quot;#w2-exp-a&quot;).text((eA * 100).toFixed(1) + &quot;%&quot;);
+    d3.select(&quot;#w2-exp-b&quot;).text((eB * 100).toFixed(1) + &quot;%&quot;);
+  }
+  
+  function animateNumber(elId, oldVal, newVal) {
+    d3.select(elId)
+      .transition()
+      .duration(500)
+      .tween(&quot;text&quot;, function() {
+        const i = d3.interpolateNumber(oldVal, newVal);
+        return function(t) {
+          this.textContent = Math.round(i(t));
+        };
+      });
+  }
+  
+  function showDelta(elId, delta) {
+    const el = d3.select(elId);
+    el.text(delta &gt; 0 ? &quot;+&quot; + Math.round(delta) : Math.round(delta))
+      .style(&quot;opacity&quot;, 1)
+      .style(&quot;transform&quot;, &quot;translateY(-20px)&quot;)
+      .transition().delay(1500).duration(500)
+      .style(&quot;opacity&quot;, 0)
+      .style(&quot;transform&quot;, &quot;translateY(0px)&quot;);
+  }
+  
+  function play(outcomeA) {
+    const eA = eloExpected(rA, rB);
+    const [newRA, newRB] = simulateGame(rA, rB, outcomeA, k);
+    const deltaA = newRA - rA;
+    const deltaB = newRB - rB;
+    
+    animateNumber(&quot;#w2-rating-a&quot;, rA, newRA);
+    animateNumber(&quot;#w2-rating-b&quot;, rB, newRB);
+    showDelta(&quot;#w2-delta-a&quot;, deltaA);
+    showDelta(&quot;#w2-delta-b&quot;, deltaB);
+    
+    rA = newRA;
+    rB = newRB;
+    
+    d3.select(&quot;#w2-input-a&quot;).property(&quot;value&quot;, Math.round(rA));
+    d3.select(&quot;#w2-input-b&quot;).property(&quot;value&quot;, Math.round(rB));
+    
+    let msg = &quot;&quot;;
+    if (outcomeA === 1) {
+      msg = `A was expected to win ${(eA*100).toFixed(0)}%, so this win moved ratings by ${Math.abs(Math.round(deltaA))} points.`;
+    } else if (outcomeA === 0) {
+      msg = `B was expected to win ${((1-eA)*100).toFixed(0)}%, so this win moved ratings by ${Math.abs(Math.round(deltaB))} points.`;
+    } else {
+      msg = `A draw moved ratings by ${Math.abs(Math.round(deltaA))} points towards the underdog.`;
+    }
+    d3.select(&quot;#w2-log&quot;).text(msg);
+    
+    updateUI();
+  }
+  
+  d3.select(&quot;#w2-btn-awin&quot;).on(&quot;click&quot;, () =&gt; play(1));
+  d3.select(&quot;#w2-btn-draw&quot;).on(&quot;click&quot;, () =&gt; play(0.5));
+  d3.select(&quot;#w2-btn-bwin&quot;).on(&quot;click&quot;, () =&gt; play(0));
+  
+  d3.selectAll(&quot;#w2-input-a, #w2-input-b&quot;).on(&quot;change&quot;, function() {
+    rA = +d3.select(&quot;#w2-input-a&quot;).property(&quot;value&quot;);
+    rB = +d3.select(&quot;#w2-input-b&quot;).property(&quot;value&quot;);
+    d3.select(&quot;#w2-rating-a&quot;).text(Math.round(rA));
+    d3.select(&quot;#w2-rating-b&quot;).text(Math.round(rB));
+    updateUI();
+  });
+  
+  d3.select(&quot;#w2-btn-reset&quot;).on(&quot;click&quot;, () =&gt; {
+    rA = 1200; rB = 1200;
+    d3.select(&quot;#w2-input-a&quot;).property(&quot;value&quot;, 1200);
+    d3.select(&quot;#w2-input-b&quot;).property(&quot;value&quot;, 1200);
+    d3.select(&quot;#w2-rating-a&quot;).text(1200);
+    d3.select(&quot;#w2-rating-b&quot;).text(1200);
+    d3.select(&quot;#w2-log&quot;).text(&quot;Ready to play.&quot;);
+    updateUI();
+  });
+  
+  updateUI();
+})();
+&lt;/script&gt;
+
+&lt;h2 id=&quot;the-k-factor&quot;&gt;The K-Factor&lt;/h2&gt;
+
+&lt;p&gt;The maximum amount a rating can change in a single match is controlled by the &lt;strong&gt;K-Factor&lt;/strong&gt;. A low K-Factor means ratings are “sticky” and change slowly over time. A high K-Factor means ratings are highly volatile and react quickly to recent results.&lt;/p&gt;
+
+&lt;div class=&quot;elo-widget&quot; id=&quot;widget-3&quot;&gt;
+  &lt;div class=&quot;w3-controls&quot;&gt;
+    &lt;div&gt;&lt;strong&gt;Underdog (1000) vs Favorite (1400)&lt;/strong&gt;&lt;br /&gt;20 Games, 12 Wins / 8 Losses&lt;/div&gt;
+    &lt;button id=&quot;w3-btn-rand&quot;&gt;Randomize Sequence&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;w3-chart&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+// Widget 3 Logic
+(function(){
+  const width = 652;
+  const height = 300;
+  const margin = {top: 20, right: 60, bottom: 30, left: 40};
+  
+  const svg = d3.select(&quot;#w3-chart&quot;).append(&quot;svg&quot;)
+    .attr(&quot;viewBox&quot;, `0 0 ${width} ${height}`)
+    .style(&quot;width&quot;, &quot;100%&quot;)
+    .style(&quot;height&quot;, &quot;auto&quot;);
+    
+  const x = d3.scaleLinear().domain([0, 20]).range([margin.left, width - margin.right]);
+  const y = d3.scaleLinear().domain([950, 1350]).range([height - margin.bottom, margin.top]);
+  
+  svg.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(0,${height - margin.bottom})`).call(d3.axisBottom(x).ticks(10));
+  svg.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(${margin.left},0)`).call(d3.axisLeft(y));
+  
+  const lineK10 = svg.append(&quot;path&quot;).attr(&quot;fill&quot;, &quot;none&quot;).attr(&quot;stroke&quot;, &quot;#e07b39&quot;).attr(&quot;stroke-width&quot;, 3);
+  const lineK32 = svg.append(&quot;path&quot;).attr(&quot;fill&quot;, &quot;none&quot;).attr(&quot;stroke&quot;, &quot;#31ac94&quot;).attr(&quot;stroke-width&quot;, 3);
+  
+  const labelK10 = svg.append(&quot;text&quot;).attr(&quot;x&quot;, width - margin.right + 5).attr(&quot;fill&quot;, &quot;#e07b39&quot;).attr(&quot;dy&quot;, &quot;0.35em&quot;).text(&quot;K=10&quot;).style(&quot;font-weight&quot;, &quot;bold&quot;);
+  const labelK32 = svg.append(&quot;text&quot;).attr(&quot;x&quot;, width - margin.right + 5).attr(&quot;fill&quot;, &quot;#31ac94&quot;).attr(&quot;dy&quot;, &quot;0.35em&quot;).text(&quot;K=32&quot;).style(&quot;font-weight&quot;, &quot;bold&quot;);
+  
+  // Create an initial sequence of 12 wins, 8 losses
+  let sequence = Array(12).fill(1).concat(Array(8).fill(0));
+  
+  function shuffle(array) {
+    for (let i = array.length - 1; i &gt; 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  
+  function simulateSequence() {
+    let r10 = 1000, r32 = 1000;
+    const oppRating = 1400;
+    const data10 = [{i: 0, r: r10}];
+    const data32 = [{i: 0, r: r32}];
+    
+    for(let i=0; i&lt;sequence.length; i++) {
+      let outcome = sequence[i];
+      let [newR10] = simulateGame(r10, oppRating, outcome, 10);
+      let [newR32] = simulateGame(r32, oppRating, outcome, 32);
+      r10 = newR10;
+      r32 = newR32;
+      data10.push({i: i+1, r: r10});
+      data32.push({i: i+1, r: r32});
+    }
+    
+    const lineGen = d3.line().x(d =&gt; x(d.i)).y(d =&gt; y(d.r)).curve(d3.curveMonotoneX);
+    
+    lineK10.datum(data10).transition().duration(500).attr(&quot;d&quot;, lineGen);
+    lineK32.datum(data32).transition().duration(500).attr(&quot;d&quot;, lineGen);
+    
+    labelK10.transition().duration(500).attr(&quot;y&quot;, y(r10));
+    labelK32.transition().duration(500).attr(&quot;y&quot;, y(r32));
+  }
+  
+  d3.select(&quot;#w3-btn-rand&quot;).on(&quot;click&quot;, () =&gt; {
+    shuffle(sequence);
+    simulateSequence();
+  });
+  
+  shuffle(sequence); // Initial shuffle
+  simulateSequence();
+})();
+&lt;/script&gt;
+
+&lt;p&gt;Notice how the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;K=10&lt;/code&gt; line barely budges, while the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;K=32&lt;/code&gt; line reacts significantly to the underdog’s unexpected success. This is why new players (or new models on AI leaderboards) often start with a high K-factor to quickly place them near their true skill level, before lowering the K-factor to reduce volatility once they are established.&lt;/p&gt;
+
+&lt;h2 id=&quot;self-correcting-league&quot;&gt;Self-Correcting League&lt;/h2&gt;
+
+&lt;p&gt;ELO is self-correcting. If a player’s rating is too high, they will be expected to win constantly. When they inevitably lose, their rating will drop dramatically. Let’s see this in action by simulating a league where the initial ratings are completely scrambled.&lt;/p&gt;
+
+&lt;div class=&quot;elo-widget&quot; id=&quot;widget-4&quot;&gt;
+  &lt;div class=&quot;w4-controls&quot;&gt;
+    &lt;button id=&quot;w4-btn-run&quot;&gt;Run Season&lt;/button&gt;
+    &lt;div class=&quot;w4-speed&quot;&gt;
+      &lt;label for=&quot;w4-slider&quot;&gt;Speed:&lt;/label&gt;
+      &lt;input type=&quot;range&quot; id=&quot;w4-slider&quot; min=&quot;10&quot; max=&quot;500&quot; value=&quot;400&quot; /&gt;
+    &lt;/div&gt;
+    &lt;button id=&quot;w4-btn-new&quot; style=&quot;background-color: #eee; color: #333;&quot;&gt;New League&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;w4-chart&quot;&gt;&lt;/div&gt;
+  &lt;div id=&quot;w4-status&quot; style=&quot;text-align: center; font-weight: bold; margin-top: 10px;&quot;&gt;Games Played: 0 / 60&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+// Widget 4 Logic
+(function(){
+  const width = 652;
+  const height = 300;
+  const margin = {top: 20, right: 20, bottom: 20, left: 100};
+  
+  const svg = d3.select(&quot;#w4-chart&quot;).append(&quot;svg&quot;)
+    .attr(&quot;viewBox&quot;, `0 0 ${width} ${height}`)
+    .style(&quot;width&quot;, &quot;100%&quot;)
+    .style(&quot;height&quot;, &quot;auto&quot;);
+    
+  let players = [];
+  let games = [];
+  let timer = null;
+  let gamesPlayed = 0;
+  const maxGames = 60;
+  
+  function initLeague() {
+    // Generate true skills and scramble ratings
+    players = [
+      {id: &quot;Alice&quot;, trueSkill: 1800, rating: 1200, color: &quot;#31ac94&quot;},
+      {id: &quot;Bob&quot;, trueSkill: 1600, rating: 1300, color: &quot;#48bca6&quot;},
+      {id: &quot;Charlie&quot;, trueSkill: 1500, rating: 1400, color: &quot;#5fcbb9&quot;},
+      {id: &quot;Diana&quot;, trueSkill: 1400, rating: 1500, color: &quot;#77dacc&quot;},
+      {id: &quot;Eve&quot;, trueSkill: 1200, rating: 1600, color: &quot;#8fe9df&quot;},
+      {id: &quot;Frank&quot;, trueSkill: 1000, rating: 1800, color: &quot;#a6f8f2&quot;}
+    ];
+    // Create round-robin schedule (4 games per pair = 15 pairs * 4 = 60 games)
+    games = [];
+    for(let i=0; i&lt;players.length; i++) {
+      for(let j=i+1; j&lt;players.length; j++) {
+        games.push({p1: i, p2: j});
+        games.push({p1: j, p2: i});
+        games.push({p1: i, p2: j});
+        games.push({p1: j, p2: i});
+      }
+    }
+    // Shuffle games
+    for (let i = games.length - 1; i &gt; 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [games[i], games[j]] = [games[j], games[i]];
+    }
+    gamesPlayed = 0;
+    d3.select(&quot;#w4-status&quot;).text(`Games Played: 0 / ${maxGames}`);
+    render(0);
+  }
+  
+  const x = d3.scaleLinear().domain([900, 1900]).range([margin.left, width - margin.right]);
+  const y = d3.scaleBand().domain([0,1,2,3,4,5]).range([margin.top, height - margin.bottom]).padding(0.1);
+  
+  const xAxisGroup = svg.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(0,${margin.top})`);
+  const yAxisGroup = svg.append(&quot;g&quot;).attr(&quot;transform&quot;, `translate(${margin.left},0)`);
+  
+  function render(duration = 0) {
+    // Sort players by rating for y-axis positioning
+    const sorted = [...players].map((p, idx) =&gt; ({...p, originalIdx: idx})).sort((a,b) =&gt; b.rating - a.rating);
+    
+    xAxisGroup.transition().duration(duration).call(d3.axisTop(x));
+    yAxisGroup.transition().duration(duration).call(
+      d3.axisLeft(y).tickFormat(i =&gt; sorted.find(p =&gt; p.originalIdx === i).id)
+    );
+    
+    // Bind to ID so object constancy is maintained
+    const bars = svg.selectAll(&quot;.bar&quot;)
+      .data(players, d =&gt; d.id);
+      
+    bars.enter().append(&quot;rect&quot;)
+      .attr(&quot;class&quot;, &quot;bar&quot;)
+      .attr(&quot;x&quot;, x(900))
+      .attr(&quot;height&quot;, y.bandwidth())
+      .attr(&quot;fill&quot;, d =&gt; d.color)
+      .merge(bars)
+      .transition().duration(duration).ease(d3.easeLinear)
+      .attr(&quot;y&quot;, d =&gt; {
+        const rank = sorted.findIndex(p =&gt; p.id === d.id);
+        return y(rank);
+      })
+      .attr(&quot;width&quot;, d =&gt; Math.max(0, x(d.rating) - x(900)));
+      
+    const trueSkills = svg.selectAll(&quot;.true-skill&quot;)
+      .data(players, d =&gt; d.id);
+      
+    trueSkills.enter().append(&quot;line&quot;)
+      .attr(&quot;class&quot;, &quot;true-skill&quot;)
+      .attr(&quot;stroke&quot;, &quot;#999&quot;)
+      .attr(&quot;stroke-width&quot;, 2)
+      .attr(&quot;stroke-dasharray&quot;, &quot;4,2&quot;)
+      .merge(trueSkills)
+      .transition().duration(duration).ease(d3.easeLinear)
+      .attr(&quot;y1&quot;, d =&gt; {
+        const rank = sorted.findIndex(p =&gt; p.id === d.id);
+        return y(rank);
+      })
+      .attr(&quot;y2&quot;, d =&gt; {
+        const rank = sorted.findIndex(p =&gt; p.id === d.id);
+        return y(rank) + y.bandwidth();
+      })
+      .attr(&quot;x1&quot;, d =&gt; x(d.trueSkill))
+      .attr(&quot;x2&quot;, d =&gt; x(d.trueSkill));
+      
+    const labels = svg.selectAll(&quot;.label&quot;)
+      .data(players, d =&gt; d.id);
+      
+    labels.enter().append(&quot;text&quot;)
+      .attr(&quot;class&quot;, &quot;label&quot;)
+      .attr(&quot;dy&quot;, &quot;0.35em&quot;)
+      .attr(&quot;fill&quot;, &quot;#333&quot;)
+      .style(&quot;font-size&quot;, &quot;12px&quot;)
+      .merge(labels)
+      .transition().duration(duration).ease(d3.easeLinear)
+      .attr(&quot;y&quot;, d =&gt; {
+        const rank = sorted.findIndex(p =&gt; p.id === d.id);
+        return y(rank) + y.bandwidth() / 2;
+      })
+      .attr(&quot;x&quot;, d =&gt; x(d.rating) + 5)
+      .tween(&quot;text&quot;, function(d) {
+         const current = parseFloat(this.textContent) || d.rating;
+         const i = d3.interpolateNumber(current, d.rating);
+         return function(t) {
+           this.textContent = Math.round(i(t));
+         };
+      });
+  }
+  
+  function playNextGame() {
+    if (gamesPlayed &gt;= maxGames) {
+      clearInterval(timer);
+      timer = null;
+      d3.select(&quot;#w4-btn-run&quot;).text(&quot;Season Complete&quot;).attr(&quot;disabled&quot;, true);
+      return;
+    }
+    
+    const g = games[gamesPlayed];
+    const p1 = players[g.p1];
+    const p2 = players[g.p2];
+    
+    const trueProb = eloExpected(p1.trueSkill, p2.trueSkill);
+    const outcome = Math.random() &lt; trueProb ? 1 : 0;
+    
+    const [newR1, newR2] = simulateGame(p1.rating, p2.rating, outcome, 32);
+    p1.rating = newR1;
+    p2.rating = newR2;
+    
+    gamesPlayed++;
+    d3.select(&quot;#w4-status&quot;).text(`Games Played: ${gamesPlayed} / ${maxGames}`);
+    
+    const delay = 510 - (+d3.select(&quot;#w4-slider&quot;).property(&quot;value&quot;));
+    render(delay * 0.8);
+  }
+  
+  d3.select(&quot;#w4-btn-run&quot;).on(&quot;click&quot;, function() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+      d3.select(this).text(&quot;Resume&quot;);
+    } else {
+      if (gamesPlayed &gt;= maxGames) return;
+      d3.select(this).text(&quot;Pause&quot;);
+      const delay = 510 - (+d3.select(&quot;#w4-slider&quot;).property(&quot;value&quot;));
+      timer = setInterval(playNextGame, delay);
+    }
+  });
+  
+  d3.select(&quot;#w4-btn-new&quot;).on(&quot;click&quot;, () =&gt; {
+    if (timer) clearInterval(timer);
+    timer = null;
+    d3.select(&quot;#w4-btn-run&quot;).text(&quot;Run Season&quot;).attr(&quot;disabled&quot;, null);
+    initLeague();
+  });
+  
+  initLeague();
+})();
+&lt;/script&gt;
+
+&lt;p&gt;Notice what happens in the simulation:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The dashed grey lines represent each player’s hidden &lt;strong&gt;True Skill&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Even though the starting ELOs are scrambled (e.g., the worst player starts with the highest rating), the system rapidly sorts everyone out.&lt;/li&gt;
+  &lt;li&gt;A player like Frank starts with 1800 ELO but a true skill of 1000. Because his rating is so high, the system expects him to win almost every game. When his true skill causes him to inevitably lose to weaker opponents, the ELO formula hands him massive point penalties, dragging his rating down to reality.&lt;/li&gt;
+  &lt;li&gt;Conversely, Alice starts at 1200 but has a true skill of 1800. She earns huge upsets against higher-rated players, skyrocketing her rating.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This is why ELO is so effective over large sample sizes: individual games have randomness, but over dozens of matches, the math forces everyone toward an equilibrium that matches their actual win rate.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-team-games&quot;&gt;What About Team Games?&lt;/h2&gt;
+
+&lt;p&gt;So far, we’ve only looked at 1v1 matchups like Chess. But modern competitive games like &lt;em&gt;League of Legends&lt;/em&gt;, &lt;em&gt;Overwatch&lt;/em&gt;, or &lt;em&gt;Counter-Strike&lt;/em&gt; are team-based. How does ELO work when there are 10 players in a match?&lt;/p&gt;
+
+&lt;p&gt;Most team games use an adaptation of ELO (often Microsoft’s &lt;strong&gt;TrueSkill&lt;/strong&gt; system or a custom &lt;strong&gt;Matchmaking Rating / MMR&lt;/strong&gt;). Instead of a single 1v1 calculation, the system essentially:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Calculates a composite “Team Rating” (usually an average or weighted average of the players’ individual ratings).&lt;/li&gt;
+  &lt;li&gt;Uses the team ratings to calculate the expected win probability for Team A vs Team B.&lt;/li&gt;
+  &lt;li&gt;Updates every player’s individual rating based on the outcome of the match, often applying the same point delta to everyone on the team regardless of individual performance.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;the-matchmaking-dilemma&quot;&gt;The Matchmaking Dilemma&lt;/h3&gt;
+
+&lt;p&gt;This leads to a tricky matchmaking balancing act. A matchmaking system has two conflicting goals:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Match speed&lt;/strong&gt;: Getting players into a game quickly (which means accepting wider rating gaps).&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Match fairness&lt;/strong&gt;: Ensuring the game is a 50/50 toss-up (which means waiting longer for players with identical ratings).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If a game heavily prioritizes match speed, you might get a high-ELO player matched with low-ELO teammates against an average-ELO team. This creates a deeply frustrating experience for the high-ELO player.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why?&lt;/strong&gt; Because of the math. If a highly-rated player is on a team that is statistically favored to win, a loss is incredibly punishing to their rating. If their lower-rated teammates make mistakes that cost the game, the high-ELO player will lose a massive amount of points, while a win would have barely nudged their rating up.&lt;/p&gt;
+
+&lt;p&gt;Because the ELO system punishes “upsets” so harshly, team-based games are highly incentivized to keep matchmaking windows extremely tight. A balanced, close-ELO match ensures that if you lose, the rating penalty is fair and proportional, preventing the exact kind of “ELO hell” scenarios that drive players away.&lt;/p&gt;
+
+&lt;div class=&quot;elo-widget&quot; id=&quot;widget-5&quot;&gt;
+  &lt;div class=&quot;w5-controls&quot;&gt;
+    &lt;button id=&quot;w5-btn-fair&quot;&gt;Fair Match (Mixed Skills)&lt;/button&gt;
+    &lt;button id=&quot;w5-btn-fast&quot; style=&quot;background-color: #eee; color: #333;&quot;&gt;Fast Queue (Unbalanced)&lt;/button&gt;
+  &lt;/div&gt;
+  
+  &lt;div class=&quot;w5-teams&quot;&gt;
+    &lt;div class=&quot;w5-team&quot; style=&quot;border-color: #31ac94;&quot;&gt;
+      &lt;h3&gt;Team A&lt;/h3&gt;
+      &lt;div id=&quot;w5-ta-avg&quot; style=&quot;font-weight:bold; margin-bottom:10px;&quot;&gt;Avg: 1333&lt;/div&gt;
+      &lt;div class=&quot;w5-players&quot; id=&quot;w5-ta-players&quot;&gt;&lt;/div&gt;
+      &lt;div style=&quot;margin-top:10px; font-weight:bold;&quot;&gt;Win Prob: &lt;span id=&quot;w5-prob-a&quot;&gt;50%&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;w5-vs&quot;&gt;VS&lt;/div&gt;
+    &lt;div class=&quot;w5-team&quot; style=&quot;border-color: #e07b39;&quot;&gt;
+      &lt;h3&gt;Team B&lt;/h3&gt;
+      &lt;div id=&quot;w5-tb-avg&quot; style=&quot;font-weight:bold; margin-bottom:10px;&quot;&gt;Avg: 1333&lt;/div&gt;
+      &lt;div class=&quot;w5-players&quot; id=&quot;w5-tb-players&quot;&gt;&lt;/div&gt;
+      &lt;div style=&quot;margin-top:10px; font-weight:bold;&quot;&gt;Win Prob: &lt;span id=&quot;w5-prob-b&quot;&gt;50%&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;w5-outcomes&quot;&gt;
+    &lt;h4&gt;If Team A Loses (The Upset)&lt;/h4&gt;
+    &lt;table class=&quot;w5-table&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Player (Team A)&lt;/th&gt;
+          &lt;th&gt;Flat Team Penalty&lt;/th&gt;
+          &lt;th&gt;Individual Penalty&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody id=&quot;w5-table-body&quot;&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+(function(){
+  const scenarios = {
+    fair: { teamA: [2000, 1000, 1000], teamB: [1333, 1333, 1333] },
+    fast: { teamA: [2000, 1800, 1800], teamB: [1500, 1500, 1400] }
+  };
+  
+  let current = 'fair';
+  const k = 32;
+
+  function renderScenario() {
+    const s = scenarios[current];
+    const avgA = Math.round(d3.mean(s.teamA));
+    const avgB = Math.round(d3.mean(s.teamB));
+    
+    d3.select(&quot;#w5-ta-avg&quot;).text(`Avg: ${avgA}`);
+    d3.select(&quot;#w5-tb-avg&quot;).text(`Avg: ${avgB}`);
+    
+    const probA = eloExpected(avgA, avgB);
+    d3.select(&quot;#w5-prob-a&quot;).text((probA * 100).toFixed(1) + &quot;%&quot;);
+    d3.select(&quot;#w5-prob-b&quot;).text(((1 - probA) * 100).toFixed(1) + &quot;%&quot;);
+    
+    const updatePlayers = (selId, data) =&gt; {
+      const sel = d3.select(selId).selectAll(&quot;.w5-player&quot;).data(data);
+      sel.exit().remove();
+      sel.enter().append(&quot;span&quot;).attr(&quot;class&quot;, &quot;w5-player&quot;)
+        .merge(sel).text(d =&gt; d);
+    };
+    
+    updatePlayers(&quot;#w5-ta-players&quot;, s.teamA);
+    updatePlayers(&quot;#w5-tb-players&quot;, s.teamB);
+    
+    const flatDelta = eloUpdate(avgA, probA, 0, k) - avgA;
+    const tbody = d3.select(&quot;#w5-table-body&quot;);
+    tbody.html(&quot;&quot;);
+    
+    s.teamA.forEach(rating =&gt; {
+      const indProb = eloExpected(rating, avgB);
+      const indDelta = eloUpdate(rating, indProb, 0, k) - rating;
+      
+      const isHigh = rating === Math.max(...s.teamA);
+      
+      tbody.append(&quot;tr&quot;).html(`
+        &lt;td style=&quot;font-family:monospace; font-weight:bold;&quot;&gt;${rating} ELO&lt;/td&gt;
+        &lt;td style=&quot;color:#e07b39;&quot;&gt;${Math.round(flatDelta)}&lt;/td&gt;
+        &lt;td style=&quot;color:#e07b39; font-weight:${isHigh ? 'bold' : 'normal'};&quot;&gt;${Math.round(indDelta)}&lt;/td&gt;
+      `);
+    });
+  }
+
+  d3.select(&quot;#w5-btn-fair&quot;).on(&quot;click&quot;, function() {
+    current = 'fair';
+    d3.select(this).style(&quot;background-color&quot;, &quot;#31ac94&quot;).style(&quot;color&quot;, &quot;white&quot;);
+    d3.select(&quot;#w5-btn-fast&quot;).style(&quot;background-color&quot;, &quot;#eee&quot;).style(&quot;color&quot;, &quot;#333&quot;);
+    renderScenario();
+  });
+  
+  d3.select(&quot;#w5-btn-fast&quot;).on(&quot;click&quot;, function() {
+    current = 'fast';
+    d3.select(this).style(&quot;background-color&quot;, &quot;#31ac94&quot;).style(&quot;color&quot;, &quot;white&quot;);
+    d3.select(&quot;#w5-btn-fair&quot;).style(&quot;background-color&quot;, &quot;#eee&quot;).style(&quot;color&quot;, &quot;#333&quot;);
+    renderScenario();
+  });
+
+  renderScenario();
+})();
+&lt;/script&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="statistics" /><category term="probability" /><category term="gaming" /><category term="interactive" /><summary type="html"></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/elo-preview-wide.png" /><media:content medium="image" url="http://localhost:4000/images/elo-preview-wide.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn’t Work</title><link href="http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html" rel="alternate" type="text/html" title="Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn't Work" /><published>2026-05-17T00:00:00-07:00</published><updated>2026-05-17T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2</id><content type="html" xml:base="http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html">&lt;p&gt;In the &lt;a href=&quot;/data%20science/2021/12/12/codenames-clue-generator-version-1.html&quot;&gt;first version of this project&lt;/a&gt;, I built a Codenames spymaster assistant using word embeddings and cosine similarity. It worked okay, but I called out the main weakness at the end: embeddings struggle with polysemy, proper nouns, and anything that requires a concrete, verifiable connection between words rather than a vague semantic cloud. I said graph-based similarity would fix that, and I finally got around to building it.&lt;/p&gt;
+
+&lt;p&gt;This post covers three approaches — a Wikipedia link graph via Neo4j, a pure LLM approach using Gemini, and the original GloVe baseline — alongside a real evaluation loop using the &lt;a href=&quot;https://arxiv.org/abs/2112.09169&quot;&gt;SALT-NLP dataset&lt;/a&gt; of human-labeled Codenames games. The code is on &lt;a href=&quot;https://github.com/mwburke/codenames-clue-generator-graph&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The headline result: the graph approach is fast, auditable, and free at runtime — but it has a structural yield gap I couldn’t close with graph tuning alone. And the pure LLM approach, despite its limitations, just works.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;three-approaches-at-a-glance&quot;&gt;Three Approaches at a Glance&lt;/h2&gt;
+
+&lt;p&gt;Before going deep, here’s how the three generators compare across the dimensions that matter for this problem:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;Graph (Neo4j)&lt;/th&gt;
+      &lt;th&gt;Pure LLM (Gemini)&lt;/th&gt;
+      &lt;th&gt;GloVe&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Yield&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;68%&lt;/td&gt;
+      &lt;td&gt;~100%&lt;/td&gt;
+      &lt;td&gt;86%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Avg latency&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;40ms&lt;/td&gt;
+      &lt;td&gt;2–5s&lt;/td&gt;
+      &lt;td&gt;12ms&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Precision@K&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;0.941&lt;/td&gt;
+      &lt;td&gt;TBD&lt;/td&gt;
+      &lt;td&gt;0.965*&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Legality guarantee&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Strong&lt;/td&gt;
+      &lt;td&gt;Weak&lt;/td&gt;
+      &lt;td&gt;Medium&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Handles polysemy&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;No&lt;/td&gt;
+      &lt;td&gt;Yes&lt;/td&gt;
+      &lt;td&gt;Partially&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Infrastructure&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;Neo4j + Docker&lt;/td&gt;
+      &lt;td&gt;API key only&lt;/td&gt;
+      &lt;td&gt;GloVe model file&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;strong&gt;Cost per request&lt;/strong&gt;&lt;/td&gt;
+      &lt;td&gt;~$0&lt;/td&gt;
+      &lt;td&gt;~$0.002–0.005&lt;/td&gt;
+      &lt;td&gt;$0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;em&gt;GloVe Precision@K is inflated — the SALT dataset stores team words as targets, so any generator that returns team words scores near 1.0. Take that number with a grain of salt.&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;the-graph-pipeline&quot;&gt;The Graph Pipeline&lt;/h2&gt;
+
+&lt;p&gt;The core idea: two Codenames words are related if they share Wikipedia neighbors. If SHARK and OCEAN both link to the Wikipedia article for “Marine biology,” then “marine” is a candidate clue connecting them. The more team words a candidate connects, the better.&lt;/p&gt;
+
+&lt;p&gt;The pipeline looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/codenames_v2_graph.png&quot; alt=&quot;Network diagram showing SPACE and ROCKET as blue team-word nodes, both connected to a green Ballistics candidate node, with other gray candidate nodes also visible&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;How the graph finds clues: SPACE and ROCKET both link to the Wikipedia article for “Ballistics”, making it a candidate clue. The generator scores all such shared neighbors across every team word pair.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;a-quick-primer-on-graph-databases&quot;&gt;A quick primer on graph databases&lt;/h3&gt;
+
+&lt;p&gt;If you haven’t worked with a graph database before, the core idea is simpler than it sounds. Where a relational database stores data in tables (rows and columns), a graph database stores data as &lt;strong&gt;nodes&lt;/strong&gt; (things) and &lt;strong&gt;edges&lt;/strong&gt; (relationships between things). That’s it.&lt;/p&gt;
+
+&lt;p&gt;For Wikipedia: every article is a node, and every hyperlink from one article to another is an edge. The full English Wikipedia graph has ~13.6 million nodes and hundreds of millions of edges.&lt;/p&gt;
+
+&lt;p&gt;Querying a graph database works by &lt;strong&gt;pattern matching&lt;/strong&gt; — you describe the shape of the data you want, and the database finds all subgraphs that match. In Cypher (Neo4j’s query language), &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(a)--(b)&lt;/code&gt; means “find node &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a&lt;/code&gt; connected to node &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b&lt;/code&gt; by any edge.” You can chain these: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(a)--(b)--(c)&lt;/code&gt; finds any path of length two. No joins, no subqueries — just describe the shape.&lt;/p&gt;
+
+&lt;p&gt;So “find all Wikipedia articles that both SPACE and ROCKET link to” is literally:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;(space_node)--(candidate)--(rocket_node)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s the entire structural logic of the clue generator. Everything else is filtering and scoring on top of that pattern.&lt;/p&gt;
+
+&lt;h3 id=&quot;building-the-graph&quot;&gt;Building the graph&lt;/h3&gt;
+
+&lt;p&gt;The Wikipedia link graph lives in Neo4j. The first step on each request is mapping board words to Wikipedia page titles via an indexed &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UNWIND&lt;/code&gt; lookup:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cypher&quot;&gt;UNWIND $words as w
+MATCH (p:Page)
+WHERE p.title = w
+   OR p.title = toUpper(substring(w, 0, 1)) + substring(w, 1)
+   OR p.title = toUpper(w)
+RETURN p.title as title, w as lower_title
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This runs in under 5ms. The first version used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;toLower(p.title) IN $words&lt;/code&gt;, which forced a function call on every node and bypassed the index — triggering a full scan of 13 million nodes that took 24 seconds. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UNWIND&lt;/code&gt; pattern with explicit equality checks hits the index on every lookup.&lt;/p&gt;
+
+&lt;h3 id=&quot;finding-candidates-with-goodclue-nodes&quot;&gt;Finding candidates with GoodClue nodes&lt;/h3&gt;
+
+&lt;p&gt;Not every Wikipedia page makes a good Codenames clue. “List of mammals by country” is technically connected to a lot of things, but it’s useless. To avoid polluting the candidate set, I precomputed a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GoodClue&lt;/code&gt; label on nodes that pass a degree filter (200–10,000 links) and title pattern filters (no “List of”, no taxonomy suffixes, no linguistics meta-articles). This runs once offline via &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;precompute_graph.py&lt;/code&gt; and takes about 12 minutes for ~950k nodes.&lt;/p&gt;
+
+&lt;p&gt;At query time, finding candidates is the pattern match described above, with filters:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cypher&quot;&gt;MATCH (team:Page) WHERE team.title IN $team_words AND team.degree &amp;lt; 5000
+MATCH (candidate:GoodClue)--(team)
+WHERE NOT candidate.title IN $team_words
+WITH candidate, collect(DISTINCT team.title) AS targets
+WHERE size(targets) &amp;gt; 1 OR $team_words_count &amp;lt; 3
+ORDER BY candidate.base_score DESC
+LIMIT 150
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In plain English: &lt;em&gt;find all GoodClue nodes that are neighbors of at least two team-word nodes, collect which team words each candidate connects, and return the top 150 by precomputed score.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;base_score&lt;/code&gt; is precomputed as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-log10(degree) * 25 + 10&lt;/code&gt; (single-word bonus). Pages with middling degree get the highest scores — they’re specific enough to be useful, but connected enough to bridge multiple team words. The distribution across all 950k GoodClue nodes shows the two-population effect clearly: single-word titles cluster above the multi-word titles by exactly the +10 bonus.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/codenames_v2_score_dist.png&quot; alt=&quot;Two-panel chart: left shows a histogram of base_score with single-word titles shifted right vs multi-word titles; right shows score vs log-degree scatter confirming the linear relationship&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The scoring pass runs after the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIMIT 150&lt;/code&gt; to avoid computing opponent/neutral overlaps on thousands of candidates:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-cypher&quot;&gt;WITH candidate, targets,
+     [(candidate)--(opp:Page) WHERE opp.title IN $opp_words | opp.title] AS opp_targets,
+     [(candidate)--(neut:Page) WHERE neut.title IN $neut_words | neut.title] AS neut_targets
+RETURN candidate.title AS clue, targets,
+       (base_score + size(targets)² * team_weight
+                   - size(opp_targets) * opp_penalty
+                   - size(neut_targets) * neut_penalty) AS score
+ORDER BY score DESC LIMIT 50
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;making-it-fast&quot;&gt;Making It Fast&lt;/h2&gt;
+
+&lt;p&gt;The first working version had an average latency of 4.9 seconds, with a worst case of 32 seconds for boards with high-degree words like “gold” or “lead.” The fix was three changes applied together:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/codenames_v2_latency.png&quot; alt=&quot;Bar chart: before 4.9s average latency, after 0.04s&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Before and after latency. The 32-second outliers disappeared entirely.&lt;/em&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Precompute &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GoodClue&lt;/code&gt; labels and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;base_score&lt;/code&gt; offline.&lt;/strong&gt; The runtime query was running 13 title-pattern filters and computing a log-degree penalty on every candidate on every request. Moving this to a one-time precompute step made the runtime query trivially cheap.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Add &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LIMIT 150&lt;/code&gt; before the scoring pass.&lt;/strong&gt; The opponent/neutral overlap subqueries are expensive and were running on thousands of candidates. Limiting to the top 150 by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;base_score&lt;/code&gt; first makes the scoring pass fast without meaningfully affecting result quality.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Lower the team degree cutoff from 10,000 to 5,000.&lt;/strong&gt; Words like “gold” (degree ~7,600) were triggering full neighborhood traversals. Filtering them out at the team-word stage — not the candidate stage — cuts the graph traversal early.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;optional-ai-layers&quot;&gt;Optional AI Layers&lt;/h2&gt;
+
+&lt;p&gt;With the graph running fast, I added two optional re-ranking steps that activate when a Google API key is provided:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Gemini Embedding Reranker&lt;/strong&gt; — embeds the clue and all target words using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemini-embedding-001&lt;/code&gt;, then adds two signals: average clue-to-target cosine similarity (does the clue actually relate to the targets semantically?) and target cluster tightness (are the targets themselves a coherent group?). The graph can surface a clue like “Cladistics” that technically connects BIRD and FISH through Wikipedia, but the embedding reranker penalizes it because the connection is obscure.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;LLM Scorer&lt;/strong&gt; — sends the top 20 candidates to Gemini Flash and asks it to rate each one 1–10 on naturalness. The rating is folded into the composite score as a continuous term rather than a binary filter. This catches Wikipedia-jargon clues that the graph scores highly but no human would ever use in a game.&lt;/p&gt;
+
+&lt;p&gt;One practical note on API quota: the free tier for Gemini Flash has per-minute and daily limits. To handle this without interrupting runs, all LLM calls go through a fallback chain that tries models in order — &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemini-2.5-flash-lite&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemini-2.5-flash&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemini-2.0-flash-lite&lt;/code&gt; → &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemini-2.0-flash&lt;/code&gt; — skipping to the next on any 429 or quota error.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;evaluating-against-real-games&quot;&gt;Evaluating Against Real Games&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://arxiv.org/abs/2112.09169&quot;&gt;SALT-NLP dataset&lt;/a&gt; contains human spymaster clues for real Codenames boards, which makes it a useful benchmark. I ran all three generators against 50 SALT scenarios and tracked four metrics:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Yield&lt;/strong&gt;: fraction of scenarios that produced at least one clue&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Precision@K&lt;/strong&gt;: how well the top clue’s targets match the human clue’s targets&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;SingleWord rate&lt;/strong&gt;: fraction of top clues that are plain alphabetic words (proxy for legality)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Avg latency&lt;/strong&gt;: generation time per scenario&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Generator&lt;/th&gt;
+      &lt;th&gt;Yield&lt;/th&gt;
+      &lt;th&gt;Precision@K&lt;/th&gt;
+      &lt;th&gt;SingleWord&lt;/th&gt;
+      &lt;th&gt;Avg latency&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Neo4j&lt;/td&gt;
+      &lt;td&gt;34/50 (68%)&lt;/td&gt;
+      &lt;td&gt;0.941&lt;/td&gt;
+      &lt;td&gt;66%&lt;/td&gt;
+      &lt;td&gt;0.040s&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Semantic (GloVe)&lt;/td&gt;
+      &lt;td&gt;43/50 (86%)&lt;/td&gt;
+      &lt;td&gt;0.965*&lt;/td&gt;
+      &lt;td&gt;86%&lt;/td&gt;
+      &lt;td&gt;0.012s&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;em&gt;GloVe Precision@K inflated — see note above.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To make this concrete, here’s what the generator actually returns for a war/medieval-themed board:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/codenames_v2_example_output.png&quot; alt=&quot;Table showing top 7 clues for a board with SOLDIER, BATTLE, ARMY, SWORD, GUN, WAR, KNIGHT, BLOOD — top result is Insurgency connecting Army, Battle, Knight&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;the-yield-gap-what-i-got-wrong&quot;&gt;The Yield Gap: What I Got Wrong&lt;/h2&gt;
+
+&lt;p&gt;The 32% yield gap bothered me. My assumption was that this was a word-mapping problem — board words like “sub” or “boom” weren’t matching Wikipedia titles, so the graph had nothing to work with.&lt;/p&gt;
+
+&lt;p&gt;To test this, I built a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WikipediaWordMapper&lt;/code&gt; that uses full-text search on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page_title&lt;/code&gt; index, embedding similarity to rank candidates, and an LLM call to disambiguate when the top two matches are close. The idea was that “charge” would resolve to the “Charge” Wikipedia article, “bark” to “Bark (dog)”, and so on.&lt;/p&gt;
+
+&lt;p&gt;After wiring it in and re-running the eval: &lt;strong&gt;yield unchanged at 68%.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Digging into the failing scenarios revealed the actual problem. The failing board words &lt;em&gt;do&lt;/em&gt; map via the initial UNWIND lookup — “sub” resolves to the “Sub” Wikipedia article just fine. The issue is what happens next:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Word&lt;/th&gt;
+      &lt;th&gt;Wikipedia title&lt;/th&gt;
+      &lt;th&gt;Degree&lt;/th&gt;
+      &lt;th&gt;GoodClue neighbors found&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;sub&lt;/td&gt;
+      &lt;td&gt;Sub&lt;/td&gt;
+      &lt;td&gt;40&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;boom&lt;/td&gt;
+      &lt;td&gt;Boom&lt;/td&gt;
+      &lt;td&gt;100&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;“Sub” has 40 Wikipedia links total. None of its neighbors are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GoodClue&lt;/code&gt; nodes (which require degree 200+), so the graph query returns no candidates. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WikipediaWordMapper&lt;/code&gt; can’t help here — the word &lt;em&gt;mapped&lt;/em&gt;, it just mapped to a page with sparse connections.&lt;/p&gt;
+
+&lt;p&gt;I tried lowering the GoodClue floor from degree 200 down to 50, which added ~200k new candidate nodes. Results: zero yield improvement, average latency increased 13x (40ms → 520ms), and the single-word rate dropped because the new low-degree nodes tend to have multi-word Wikipedia titles. Reverted.&lt;/p&gt;
+
+&lt;p&gt;The 32% gap is structural for this dataset. Many SALT scenarios involve words that genuinely have thin Wikipedia footprints — they’re common English words, but their Wikipedia pages are stubs or disambiguation pages with few meaningful connections. The graph has nothing to bridge from.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;the-pure-llm-approach&quot;&gt;The Pure LLM Approach&lt;/h2&gt;
+
+&lt;p&gt;Given the yield gap, I added a pure LLM baseline: send the full board to Gemini with a prompt asking for the best clues, parse the JSON response.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;You are an expert Codenames spymaster. Generate the best clues for the board below.
+
+YOUR team words: {', '.join(w.upper() for w in my_team)}
+Opponent words (avoid): {', '.join(w.upper() for w in opponent)}
+Neutral words (avoid): {', '.join(w.upper() for w in neutral)}
+Assassin (instant loss if guessed): {assassin.upper()}
+
+Return ONLY valid JSON — a list of up to 10 clues, best first:
+[{&quot;clue&quot;: &quot;WORD&quot;, &quot;targets&quot;: [&quot;word1&quot;, &quot;word2&quot;], &quot;justification&quot;: &quot;brief reason&quot;}]&quot;&quot;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The LLM handles polysemy naturally (it knows BANK means money in a financial context), generates clues humans would actually use, and has 100% yield by definition. The tradeoffs: 2–5 second latency, no verifiability, and the occasional hallucinated connection.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;recommendation&quot;&gt;Recommendation&lt;/h2&gt;
+
+&lt;p&gt;If you want a Codenames clue generator that works and you’re willing to pay a fraction of a cent per request, use the LLM approach. It has 100% yield, produces natural clues, handles proper nouns and slang, and requires nothing beyond an API key. LLMs are increasingly just solving this class of problem — structured reasoning over a constrained set of words is exactly what they’re good at.&lt;/p&gt;
+
+&lt;p&gt;The graph approach is worth building if you care about &lt;em&gt;why&lt;/em&gt; a clue is connected — you can trace exactly which Wikipedia articles link a clue to a team word, which is useful for understanding and tuning the system. It’s also genuinely fast (40ms with no API calls) and free at runtime after the Neo4j setup cost. But the yield gap means you’d want to pair it with an LLM fallback for boards where the graph comes up empty.&lt;/p&gt;
+
+&lt;p&gt;For most people: prompt the LLM, ship it.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;whats-next&quot;&gt;What’s Next&lt;/h2&gt;
+
+&lt;p&gt;A few obvious directions:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;LLM fallback for zero-candidate boards&lt;/strong&gt; — run the graph first; if it returns nothing, fall back to LLM-Direct. Gets yield close to 100% while keeping the graph path for the majority of boards where it works&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Stricter eval metric&lt;/strong&gt; — current Precision@K measures target word overlap, which is inflated for some generators. Comparing the generated clue &lt;em&gt;word&lt;/em&gt; to the human clue word is a harder and more honest measure&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Grid tuning&lt;/strong&gt; — the scoring weights (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;team_weight&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;opp_penalty&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;neut_penalty&lt;/code&gt;) haven’t been systematically tuned yet. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;evaluation_framework.py&lt;/code&gt; + &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grid_tuner.py&lt;/code&gt; are ready to run once the eval metric is trustworthy&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;side-note-managing-free-tier-api-quota&quot;&gt;Side note: managing free-tier API quota&lt;/h2&gt;
+
+&lt;p&gt;One thing that came up repeatedly during development: the Gemini free tier has both per-minute (RPM) and daily (RPD) limits, and they’re easy to exhaust when running evaluations in a loop.&lt;/p&gt;
+
+&lt;p&gt;Running 50 eval scenarios back-to-back with LLM-Direct active burned through the daily &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gemini-2.0-flash-lite&lt;/code&gt; quota in a single run. The per-minute limits are just as easy to hit — 15 RPM means a 50-scenario eval takes at least 3–4 minutes minimum even if each call is fast.&lt;/p&gt;
+
+&lt;p&gt;A few things that helped:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Build a fallback chain, not a single model reference.&lt;/strong&gt; Instead of hardcoding a model name and getting a hard failure on quota exhaustion, keep an ordered list and retry down it on any 429 or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RESOURCE_EXHAUSTED&lt;/code&gt; error:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;FLASH_FALLBACK_MODELS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;gemini-2.5-flash-lite&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;# highest free-tier RPD
+&lt;/span&gt;    &lt;span class=&quot;s&quot;&gt;&quot;gemini-2.5-flash&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;gemini-2.0-flash-lite&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;gemini-2.0-flash&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This way a quota exhaustion on one model silently rolls to the next rather than crashing the run. You lose nothing on the happy path and gain resilience on the quota-hit path.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Probe availability before a long run.&lt;/strong&gt; A quick &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/quota-check&lt;/code&gt; at the start of a session — hitting each model with a single cheap request and checking for 429s — tells you which models are available before committing to a 50-scenario eval. Saves the frustration of a run failing 40 scenarios in.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Different models have different daily limits, not just rate limits.&lt;/strong&gt; The per-minute limits are well-documented, but the daily limits are less predictable and reset at midnight Pacific. If you’re hitting daily limits, spreading eval runs across days or using a paid tier is the cleaner solution than trying to optimize around the caps.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mwburke/codenames-clue-generator-graph&quot;&gt;GitHub repo&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/data%20science/2021/12/12/codenames-clue-generator-version-1.html&quot;&gt;v1 blog post&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://arxiv.org/abs/2112.09169&quot;&gt;SALT-NLP dataset paper&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://neo4j.com/&quot;&gt;Neo4j&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://ai.google.dev/&quot;&gt;Google Gemini API&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="neo4j" /><category term="llm" /><summary type="html">Building the graph-based approach I promised in v1 — and discovering the yield gap isn't where I expected it to be.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/codenames_cover.jpg" /><media:content medium="image" url="http://localhost:4000/images/codenames_cover.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Traffic Routing</title><link href="http://localhost:4000/2026/05/16/traffic-routing.html" rel="alternate" type="text/html" title="Traffic Routing" /><published>2026-05-16T00:00:00-07:00</published><updated>2026-05-16T00:00:00-07:00</updated><id>http://localhost:4000/2026/05/16/traffic-routing</id><content type="html" xml:base="http://localhost:4000/2026/05/16/traffic-routing.html">&lt;h2 id=&quot;optimizing-transaction-routing-with-linear-programming&quot;&gt;Optimizing Transaction Routing with Linear Programming&lt;/h2&gt;
 
 &lt;p&gt;&lt;em&gt;A side project exploring cost-minimizing vendor allocation under uncertainty.&lt;/em&gt;&lt;/p&gt;
 
@@ -788,131 +1928,7 @@ Total cost = 4030.0
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Cosine_similarity&quot;&gt;Cosine Similarity&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="tensorflow" /><summary type="html">Utilizing Tensorflow pre-trained embeddings to recommend potential clues to the codemasters in the card game Codenames</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/codenames_cover.jpg" /><media:content medium="image" url="http://localhost:4000/images/codenames_cover.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Multi-Armed Bandits Exploration</title><link href="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html" rel="alternate" type="text/html" title="Multi-Armed Bandits Exploration" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/data%20science/2019/06/18/bandits-exploration</id><content type="html" xml:base="http://localhost:4000/data%20science/2019/06/18/bandits-exploration.html">&lt;h2 id=&quot;multi-armed-bandit-overview&quot;&gt;Multi-Armed Bandit Overview&lt;/h2&gt;
-
-&lt;p&gt;A multi-armed what?? If you don’t know what the multi-armed bandit problem is, then you may be confused. I’m assuming that you have some background on this for the rest of the post, but if you don’t, here’s a quick rundown:&lt;/p&gt;
-
-&lt;p&gt;Pretend you are a someone who’s looking to go gambling, and an old style slot machine (aka bandit, don’t worry about why) you can choose from that has multiple arms. Your goal is (obviously) to make the most amount of money from putting coins into it and pulling the arms. However, given that you can only try one arm at a time, how do you find the arms(s) that give you the most bang for your buck without wasting time on arms that just eat your money?&lt;/p&gt;
-
-&lt;p&gt;That’s essentially what the multi-armed bandit problem is. How do we maximize rewards by &lt;em&gt;exploring&lt;/em&gt; new arms we don’t know much about (have only played zero or a few times), while still &lt;em&gt;exploiting&lt;/em&gt; (or taking advantage of) the arms we already know give us good rewards?&lt;/p&gt;
-
-&lt;p&gt;Alright, now that we’ve covered that, we can jump into some code and ways I explored common algorithms used to maximize profits in this scenario.&lt;/p&gt;
-
-&lt;h2 id=&quot;bandit-definitions&quot;&gt;Bandit Definitions&lt;/h2&gt;
-
-&lt;p&gt;But first, let’s look again at how the bandits themselves are defined. I played around with two types:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Bernoulli Bandit&lt;/strong&gt;: each arm in the bandit has a set probability each time it’s pulled of returning a reward of 1 or 0&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Gaussian Bandit&lt;/strong&gt;: each arm in the bandit has a mean and standard deviation that define a gaussian distribution. When pulled, it samples from that distribution to return a reward.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Here’s a quick visualization of means and a standard deviation away from those means to get an idea of the potential overlap in rewards you may get from the gaussian bandits. The x axis is the arm number, and the y axis is the reward distribution.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/gaussian_rewards.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Clearly arms 3-4 are the highest ones, but their rewards still overlap greatly with 2, and it would be tricky to tell which one is best, given the amount of noise when sampling.&lt;/p&gt;
-
-&lt;h2 id=&quot;execution&quot;&gt;Execution&lt;/h2&gt;
-
-&lt;p&gt;The methods to choose arms in a programmatic away could be called methods or algorithms or whatever, but since I’ve been exploring reinforcement learning recently, I’m going to call them agents.&lt;/p&gt;
-
-&lt;p&gt;At each timestep a few things happen:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The agent evaluates its current stored information and chooses an arm to interact with&lt;/li&gt;
-  &lt;li&gt;The agent pulls the chosen arm and receives a reward in return&lt;/li&gt;
-  &lt;li&gt;The agent makes updates to its stored information based on the reward&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The parts where the different methods differ is mainly in step 1, where they use different methods to choose the arm. Step 3 supports step 1 by updating the stored information, and is similar across most agents with some minor differences.&lt;/p&gt;
-
-&lt;h3 id=&quot;evaluation-procedure&quot;&gt;Evaluation Procedure&lt;/h3&gt;
-
-&lt;p&gt;In the following section, I compare agents with different parameters to each other by running an agent against a bandit for a pre-defined number of timesteps repeatedly. By doing this multiple times and tracking the rewards at each timestep, we can get a sense of what average performance we can expect from the agent at each timestep.&lt;/p&gt;
-
-&lt;p&gt;Naturally, we should see lower average rewards earlier on since we are still exploring and are uncertain of which arms provide the best value, but what we hope to see is a gradual increase in rewards until we identify the optimal arm, at which point the rewards should flatten out to the average of the optimal arm’s reward.&lt;/p&gt;
-
-&lt;p&gt;The two plots I include each with the comparisons track both of the metrics over time:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Average reward at each timestep&lt;/li&gt;
-  &lt;li&gt;Percent of times the agent chose the optimal arm at that timestep&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;As you will see, the former can be a rather noisy chart (especially with gaussian reward functions), but the latter results in a smoother chart.&lt;/p&gt;
-
-&lt;h2 id=&quot;agents&quot;&gt;Agents&lt;/h2&gt;
-
-&lt;h3 id=&quot;epsilon-greedy&quot;&gt;Epsilon Greedy&lt;/h3&gt;
-
-&lt;p&gt;The epsilon greedy agent is an agent is defined by two parameters: epsilon and epsilon decay.&lt;/p&gt;
-
-&lt;p&gt;Every timestep, in order to select the arm to choose, the agent generates a random number between 0 and 1. If the value is below epsilon, then the agent selects a random arm. Otherwise, it chooses the arm with the highest average reward (breaking ties randomly), thus exploiting what it knows.&lt;/p&gt;
-
-&lt;p&gt;A higher epsilon results in more exploration (random arm selections), and a lower epsilon results in more exploitation.&lt;/p&gt;
-
-&lt;p&gt;Because we may not want to keep the same epsilon over the life of our problem, we introduce the epsilon decay parameter, which decreases the value of epsilon after each timestep. This naturally lends itself towards a high explore approach at the beginning when we are unsure of the arm rewards, and a high exploit approach later on once we have more information.&lt;/p&gt;
-
-&lt;p&gt;In theory, this seems like a good idea, but in practice (with noisy rewards), decaying epsilon seems to have slightly lower performance. However, I did not implement a minimum epsilon, which could help by preventing a fully-exploit scenario.&lt;/p&gt;
-
-&lt;p&gt;Below is a comparison of some different parameters of epsilon greedy agents:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/eps_greedy_rewards.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/eps_greedy_optimal_arms.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here is a comparison of the best decay rate I found (ratio of 0.9999 per timestep) with different starting epsilon values.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/eps_greedy_decay.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;ucb&quot;&gt;UCB&lt;/h3&gt;
-
-&lt;p&gt;The upper confidence bound (UCB) agent tracks the average reward for each arm similar to epsilon greedy, but rather than encoding its exploration as a binary random chance, it attempts to measure uncertainty in terms of how long it has been since a arm has been chosen.&lt;/p&gt;
-
-&lt;p&gt;Each timestep, the agent chooses the arm with the highest average reward plus “uncerainty”, and the uncertainty for each arm not chosen increases a little bit.&lt;/p&gt;
-
-&lt;p&gt;Earlier on, every timestep where a arm is not chosen increases uncertainty by a significant amount. As the system time grows, the uncertainty contributed by each timestep decreases since we should have more accurate estimates of rewards as time progresses.&lt;/p&gt;
-
-&lt;p&gt;An important note is that this uncertainty is not what we normally think of in statistics and is &lt;strong&gt;not related to the variance of the reward estimates&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The influence of the uncertainty factor is determined by a parameter C. Below is a comparison of some runs with different values of C:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/ucb_pct_arms.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;One of the main purposes of this repo was to help visualize the UCB agent, in terms of how it balances the average rewards received so far and the uncertainty of unused arms.&lt;/p&gt;
-
-&lt;p&gt;Below is as gif of a UCB agent in action. Each frame in the gif is a step where the agent chose an action, received a reward, and updated its estimates/uncertaintities for each arm.&lt;/p&gt;
-
-&lt;p&gt;The blue parts of each bar are the average rewards for that arm, and the orange parts are the uncertainty. You should be able to see the blue parts jump around as the highest total blue + orange arm is pulled, while the non-pulled arms’ orange parts should steadily increase until they become the highest bars.&lt;/p&gt;
-
-&lt;p&gt;At first, the values will most likely jump around more as the variance of the reward estimates is large, but as it progresses, it should settle into selecting a few arms repeatedly until there is one main winner.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/ucb_race_gif.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;gradient-method&quot;&gt;Gradient Method&lt;/h3&gt;
-
-&lt;p&gt;The prior two algorithms choose arms based on the average score values, selecting the highest performing one (with some initial exploration). Gradient-based algorithms instead relies on relative preferences for each arm that do not necessarily correspond to actual rewards values. At each timestep, the rewards for an arm are observed, and then an incremental update to the existing preference score is made based on new score and a parameter alpha. This is similar to stochastic gradient ascent, and a larger alpha will result in a larger step size.&lt;/p&gt;
-
-&lt;p&gt;The details for updating the preference values &lt;script type=&quot;math/tex&quot;&gt;H_{t}(a)&lt;/script&gt; for selection probabilities &lt;script type=&quot;math/tex&quot;&gt;\pi_{t}(a)&lt;/script&gt; selected action &lt;script type=&quot;math/tex&quot;&gt;A_{t}&lt;/script&gt;, rewards &lt;script type=&quot;math/tex&quot;&gt;R_{t}&lt;/script&gt;, and average reward &lt;script type=&quot;math/tex&quot;&gt;\overline{R_{t}}&lt;/script&gt; are as follows:&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;H_{t+1}(A_{t}) = H_{t}(A_{t}) + \alpha (R_{t} - \overline{R_{t}})(1 - \pi_{t}(A_{t}))&lt;/script&gt; for action &lt;script type=&quot;math/tex&quot;&gt;A_{t}&lt;/script&gt; and&lt;/p&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;H_{t+1}(a) = H_{t}(a) - \alpha (R_{t} - \overline{R_{t}})\pi_{t}(a)&lt;/script&gt; for other actions &lt;script type=&quot;math/tex&quot;&gt;a \neq A_{t}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;When choosing an arm, the agent passes these arm preferences through the softmax distribution to assign weights to all arms that add up to one. These weights are the probabilities that each arm is chosen. After each step, the average rewards are updated, then the weights for sampling are recalculated.&lt;/p&gt;
-
-&lt;p&gt;In case you aren’t familiar, the softmax distribution is as follows: &lt;script type=&quot;math/tex&quot;&gt;P\{A_{t} = a\} = \frac{e^{H_{t}(a)}}{\sum_{b=1}^k e^{H_{t}(b)}}&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;One thing to note is that the average rewards at the start before any weights are input affects the results. Starting all arms out with a value greater than zero will still have an effect of an equal chance for all arms to be selected, but will encourage more exploration in the short term before potentially lowering poorly performing probabilities of being selected almost to zero.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/gradient_pct_arms.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;interactive-notebook&quot;&gt;Interactive Notebook&lt;/h2&gt;
-
-&lt;p&gt;I created a &lt;a href=&quot;https://github.com/mwburke/bandits&quot;&gt;github repo&lt;/a&gt; with all of the code used to generate these plots, with a &lt;a href=&quot;https://github.com/mwburke/bandits/blob/master/walkthrough.ipynb&quot;&gt;notebook&lt;/a&gt; ready to to re-run them and change any parameters so you can get an intuition about how some of these common agent algorithms work.&lt;/p&gt;
-
-&lt;p&gt;I’d highly recommend playing around with different numbers of arms, bernoulli rewards, and various levels of noise in the gaussian rewards by increasing and decreasing the standard deviation compared to the means.&lt;/p&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="probability" /><summary type="html">Benchmark Comparisons and UCB Visualization</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Science" /><category term="python" /><category term="ml" /><category term="tensorflow" /><summary type="html">Utilizing Tensorflow pre-trained embeddings to recommend potential clues to the codemasters in the card game Codenames</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/codenames_cover.jpg" /><media:content medium="image" url="http://localhost:4000/images/codenames_cover.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Basic Geometric Tiling</title><link href="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html" rel="alternate" type="text/html" title="Basic Geometric Tiling" /><published>2019-06-18T00:00:00-07:00</published><updated>2019-06-18T00:00:00-07:00</updated><id>http://localhost:4000/generative%20art/2019/06/18/basic-tiling</id><content type="html" xml:base="http://localhost:4000/generative%20art/2019/06/18/basic-tiling.html">&lt;h1 id=&quot;geometric-tiling&quot;&gt;Geometric Tiling&lt;/h1&gt;
 
 &lt;p&gt;I went on vacation to Italy recently, and while I was there, I fell in love with the mosaic tilings in the Cathedral of Santa Maria del Fiore and Baptistery of St. John in Florence. In general, I’m a huge fan of geometric design, but the designs reallly caught my eye, and I did my best to recreate some of them in processing with some nonstandard color palettes:&lt;/p&gt;
 
@@ -950,43 +1966,4 @@ Total cost = 4030.0
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://christophercarlson.com/portfolio/multi-scale-truchet-patterns/&quot;&gt;Multi-Sscale Truchet Patterns - Christopher Carlson&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Generative Art" /><category term="p5js" /><summary type="html">Inspiration from Italian Mosaics</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to Idyll</title><link href="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html" rel="alternate" type="text/html" title="Introduction to Idyll" /><published>2018-12-04T00:00:00-08:00</published><updated>2018-12-04T00:00:00-08:00</updated><id>http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test</id><content type="html" xml:base="http://localhost:4000/data%20visualization/2018/12/04/idyll-pumpkin-taste-test.html">&lt;p&gt;Over Thanksgiving, some friends of mine set out to find the best pumpkin pie recipe and in the process, baked 5 different pies for comparison. After enjoying and ranking them, they decided to open the survey population to let others determine what the truly best pie was with a blind taste test. Being a data nerd himself, my friend tracked all of these responses and passed htem onto me so that I could take a stab at visualizing them with a new data interactive visualization framework I had recently discovered.&lt;/p&gt;
-
-&lt;h1 id=&quot;idyll&quot;&gt;&lt;a href=&quot;https://idyll-lang.org/&quot;&gt;Idyll&lt;/a&gt;&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://idyll-lang.org/&quot;&gt;Idyll&lt;/a&gt; is, according to their website, “a toolkit for creating data-driven stories and explorable explanations” that makes it simple and quick to create interactive visualizations, and in my opinion, it’s the easiest tool out there to get involved with the communication medium of &lt;a href=&quot;https://pudding.cool/process/responsive-scrollytelling/&quot;&gt;“scrollytelling”&lt;/a&gt;. The base &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.idyll&lt;/code&gt; file that renders into the final webpage is based on Markdown, but it has a few features that make it an extremely effective tool to prototype quickly but still support more advanced work.&lt;/p&gt;
-
-&lt;h2 id=&quot;react-integration&quot;&gt;React Integration&lt;/h2&gt;
-
-&lt;p&gt;One of the most powerful aspects is that it is integrated with React so enable the easy inclusion of pre-made components. It natively has support for a set of simple graphs generated from csv or json files. I wasn’t able to generate what I wanted with these, so I went ahead and added &lt;a href=&quot;https://vega.github.io/vega-lite/&quot;&gt;vega-lite&lt;/a&gt; through npm and within a few minutes had a new chart from my existing data source.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/idyll_intro_votes.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Additionally, it’s fairly straightforward to take existing d3 visualizations, make a few minor modifications, wrap them in a React component and them embed onto your page. In my test, I included a &lt;a href=&quot;https://en.wikipedia.org/wiki/Parallel_coordinates&quot;&gt;parallel coordinates chart&lt;/a&gt;  taken directly &lt;a href=&quot;https://beta.observablehq.com/@jerdak/parallel-coordinates-d3-v4&quot;&gt;an Observable notebook&lt;/a&gt;, changed a few lines of CSS and had a working chart much faster than I expected.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/idyll_parallel_coordinates.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;property-management&quot;&gt;Property Management&lt;/h2&gt;
-
-&lt;p&gt;The other fantastic feature of Idyll is the ability to create and manage variables with properties you can both acacess in your different components as wlel as recalculate in real time based on user input.&lt;/p&gt;
-
-&lt;p&gt;For example, I can have a variable that can be modified from a variety of pre-made source  including a button, slider, text, scroll trigger, etc that can in turn update any visualizations on the page with the new properties. I don’t have to write any additional event listeners and can reuse these properties wherever I want to on the page. I didn’t leverage a ton of these features other than reusing some of my data files and visualization configuration parameters such as width/height, but the possibilities really are endless.&lt;/p&gt;
-
-&lt;h1 id=&quot;getting-started-with-idyll&quot;&gt;Getting Started with Idyll&lt;/h1&gt;
-
-&lt;p&gt;If you would also like to get started with Idyll for your own projects, you can take a look at the &lt;a href=&quot;/idyll-test-pumpkin/&quot;&gt;full post I created with Idyll&lt;/a&gt; and &lt;a href=&quot;https://github.com/mwburke/idyll-test-pumpkin&quot;&gt;the underlying code&lt;/a&gt; to see how it was generated, and then head on over to Idyll’s &lt;a href=&quot;https://idyll-lang.org/gallery&quot;&gt;Example Gallery&lt;/a&gt; page to see amazing work on how far you can take this framework.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-the-catch&quot;&gt;What’s the Catch?&lt;/h2&gt;
-
-&lt;p&gt;Tools always have tradeoffs and Idyll embraces a markdown-like language which allows quick development. For more advanced visualizations and custom triggers, it may be worth choosing a more flexible for time-consuming framework to get the exact effects you want.&lt;/p&gt;
-
-&lt;p&gt;Additionally, the work only supports single-post rendering as of now, and the user has to create their own process for hosting multiple posts on a single website/platform. There are a few options out there trying to deal with this, but &lt;a href=&quot;https://github.com/idyll-lang/idyll/issues/421&quot;&gt;according to this github issue&lt;/a&gt;, it looks like they’re beginning development to support this.&lt;/p&gt;
-
-&lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
-
-&lt;p&gt;Here are some great sites to understand the potential of what can really be done with interactive visualization for storytelling and data communication.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://pudding.cool/&quot;&gt;The Pudding&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://fivethirtyeight.com/&quot;&gt;FiveThirtyEight&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.informationisbeautifulawards.com/news/118-the-nyt-s-best-data-visualizations-of-the-year&quot;&gt;The NY Times&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Data Visualization" /><category term="d3" /><summary type="html">Visualizing Pumpkin Pie Taste Test Results</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ul&gt;</content><author><name>Matthew Burke</name><email>matthew.wesley.burke@gmail.com</email></author><category term="Generative Art" /><category term="p5js" /><summary type="html">Inspiration from Italian Mosaics</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/images/placeholder.png" /><media:content medium="image" url="http://localhost:4000/images/placeholder.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

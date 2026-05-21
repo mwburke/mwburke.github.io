@@ -1,0 +1,801 @@
+---
+layout: post
+title: "How ELO Works: An Interactive Guide"
+categories: data science
+tags: [statistics, probability, gaming, interactive]
+image:
+  path: /images/elo-preview-wide.png
+  thumbnail: /images/elo-preview-wide.png
+---
+
+<style>
+.entry-feature-image {
+  max-width: 700px; /* Match the prose width */
+  margin: 0 auto;
+  display: block;
+  border-radius: 8px; /* Optional: gives it nice rounded corners like the widgets */
+}
+
+.elo-widget {
+  max-width: 700px;
+  margin: 2rem auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+  box-sizing: border-box;
+}
+.elo-widget button {
+  background-color: #31ac94;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+.elo-widget button:hover {
+  background-color: #278f7a;
+}
+.elo-widget button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.elo-widget input[type="range"] {
+  width: 100%;
+}
+/* Widget 1 */
+#w1-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.w1-teal { color: #31ac94; }
+.w1-orange { color: #e07b39; }
+
+/* Widget 2 */
+.w2-cards {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+@media (max-width: 480px) {
+  .w2-cards { flex-direction: column; }
+}
+.w2-card {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  position: relative;
+}
+.w2-card h3 {
+  margin-top: 0;
+}
+.w2-rating {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+.w2-delta {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  opacity: 0;
+}
+.w2-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.w2-actions button {
+  flex: 1;
+}
+.w2-log {
+  font-style: italic;
+  text-align: center;
+  min-height: 1.5em;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Widget 3 */
+.w3-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+@media (max-width: 480px) {
+  .w3-controls { flex-direction: column; align-items: stretch; text-align: center; }
+}
+
+/* Widget 4 */
+.w4-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.w4-speed {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 150px;
+}
+/* Widget 5 */
+.w5-controls { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+.w5-controls button { flex: 1; }
+.w5-teams { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+@media (max-width: 480px) { .w5-teams { flex-direction: column; } }
+.w5-team { flex: 1; border: 2px solid #eee; border-radius: 8px; padding: 1rem; text-align: center; }
+.w5-vs { font-weight: bold; font-size: 1.2rem; color: #666; }
+.w5-players { display: flex; flex-direction: column; gap: 5px; }
+.w5-player { background: #f4f4f4; padding: 5px; border-radius: 4px; font-family: monospace; font-size: 1.1rem; }
+.w5-outcomes h4 { margin-top: 0; text-align: center; color: #e07b39; }
+.w5-table { width: 100%; border-collapse: collapse; text-align: center; }
+.w5-table th, .w5-table td { border: 1px solid #ddd; padding: 8px; }
+.w5-table th { background-color: #f9f9f9; font-size: 0.9em; }
+</style>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+// Shared ELO Math
+function eloExpected(rA, rB) {
+  return 1 / (1 + Math.pow(10, (rB - rA) / 400));
+}
+
+function eloUpdate(rating, expected, actual, k) {
+  return rating + k * (actual - expected);
+}
+
+function simulateGame(rA, rB, outcome, k) {
+  const eA = eloExpected(rA, rB);
+  const eB = 1 - eA;
+  const newRA = eloUpdate(rA, eA, outcome, k);
+  const newRB = eloUpdate(rB, eB, 1 - outcome, k);
+  return [newRA, newRB];
+}
+</script>
+
+## Why ELO Matters
+
+Originally invented for chess in 1960 by Arpad Elo, the ELO rating system has quietly become the backbone of modern competitive ranking. If you've ever played a ranked video game like *League of Legends* or *Counter-Strike*, or if you've tracked the rapidly shifting landscape of AI models on the LMSYS Chatbot Arena leaderboard, you've interacted with ELO.
+
+But despite its ubiquity, very few people understand how it actually computes these numbers. How does it mathematically guarantee that a grandmaster beating a novice barely affects either player's score? Let's break it down interactively.
+
+## Win Probability
+
+Here's the core idea: the rating gap between two players determines how likely each one is to win. The ELO system uses a logistic curve to convert a difference in points into a probability.
+
+<div class="elo-widget" id="widget-1">
+  <div id="w1-stats">
+    <div class="w1-teal">You win: <span id="w1-prob-a">50</span>%</div>
+    <div class="w1-orange">Opponent wins: <span id="w1-prob-b">50</span>%</div>
+  </div>
+  <div id="w1-chart"></div>
+  <div style="text-align: center; margin-top: 1rem;">
+    Rating Difference (ΔR): <span id="w1-delta-val" style="font-weight:bold;">0</span>
+    <input type="range" id="w1-slider" min="-600" max="600" value="0" step="10">
+  </div>
+</div>
+<script>
+// Widget 1 Logic
+(function(){
+  const width = 652; // roughly 700 - padding
+  const height = 250;
+  const margin = {top: 20, right: 20, bottom: 30, left: 40};
+  
+  const svg = d3.select("#w1-chart").append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .style("width", "100%")
+    .style("height", "auto");
+    
+  const x = d3.scaleLinear().domain([-600, 600]).range([margin.left, width - margin.right]);
+  const y = d3.scaleLinear().domain([0, 1]).range([height - margin.bottom, margin.top]);
+  
+  const xAxis = d3.axisBottom(x).ticks(7).tickFormat(d => d > 0 ? "+"+d : d);
+  const yAxis = d3.axisLeft(y).ticks(5).tickFormat(d3.format(".0%"));
+  
+  svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`).call(xAxis);
+  svg.append("g").attr("transform", `translate(${margin.left},0)`).call(yAxis);
+  
+  const line = d3.line()
+    .x(d => x(d.dr))
+    .y(d => y(eloExpected(d.dr, 0))); // rA = d.dr, rB = 0 => expected A win
+    
+  const data = d3.range(-600, 601, 10).map(dr => ({dr: dr}));
+  
+  // Create gradient
+  const defs = svg.append("defs");
+  const linearGradient = defs.append("linearGradient")
+      .attr("id", "line-gradient")
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", x(-600)).attr("y1", 0)
+      .attr("x2", x(600)).attr("y2", 0);
+      
+  linearGradient.append("stop").attr("offset", "0%").attr("stop-color", "#e07b39");
+  linearGradient.append("stop").attr("offset", "50%").attr("stop-color", "#919366");
+  linearGradient.append("stop").attr("offset", "100%").attr("stop-color", "#31ac94");
+
+  svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "url(#line-gradient)")
+    .attr("stroke-width", 4)
+    .attr("d", line);
+    
+  const marker = svg.append("g");
+  marker.append("line")
+    .attr("y1", margin.top)
+    .attr("y2", height - margin.bottom)
+    .attr("stroke", "#333")
+    .attr("stroke-dasharray", "4,4");
+    
+  const dot = marker.append("circle")
+    .attr("r", 6)
+    .attr("fill", "#333");
+    
+  function update(val) {
+    const dr = +val;
+    const prob = eloExpected(dr, 0);
+    
+    marker.attr("transform", `translate(${x(dr)},0)`);
+    dot.attr("cy", y(prob));
+    
+    d3.select("#w1-prob-a").text((prob * 100).toFixed(1));
+    d3.select("#w1-prob-b").text(((1 - prob) * 100).toFixed(1));
+    d3.select("#w1-delta-val").text(dr > 0 ? "+" + dr : dr);
+  }
+  
+  d3.select("#w1-slider").on("input", function() {
+    update(this.value);
+  });
+  update(0);
+})();
+</script>
+
+Notice that at ΔR=0 the probability is exactly 50/50. If you are 200 points higher than your opponent (+200), your win probability is roughly 76%. The curve is asymptotic — no matter how high the rating gap, it never reaches exactly 0% or 100%.
+
+## Playing a Match
+
+When a match concludes, ratings are updated based on the actual outcome compared to the expected outcome. If a favorite wins, they gain very few points, because the result was expected. If an underdog wins, they gain a large number of points.
+
+<div class="elo-widget" id="widget-2">
+  <div class="w2-cards">
+    <div class="w2-card" style="border-top: 4px solid #31ac94;">
+      <h3>Player A</h3>
+      <div>Rating: <input type="number" id="w2-input-a" value="1200" style="width: 80px;"></div>
+      <div class="w2-rating w1-teal" id="w2-rating-a">1200</div>
+      <div class="w2-delta w1-teal" id="w2-delta-a"></div>
+      <div>Expected Win: <span id="w2-exp-a" style="font-weight:bold;">50%</span></div>
+    </div>
+    <div class="w2-card" style="border-top: 4px solid #e07b39;">
+      <h3>Player B</h3>
+      <div>Rating: <input type="number" id="w2-input-b" value="1200" style="width: 80px;"></div>
+      <div class="w2-rating w1-orange" id="w2-rating-b">1200</div>
+      <div class="w2-delta w1-orange" id="w2-delta-b"></div>
+      <div>Expected Win: <span id="w2-exp-b" style="font-weight:bold;">50%</span></div>
+    </div>
+  </div>
+  <div class="w2-actions">
+    <button id="w2-btn-awin">A Wins</button>
+    <button id="w2-btn-draw" style="background-color: #666;">Draw</button>
+    <button id="w2-btn-bwin" style="background-color: #e07b39;">B Wins</button>
+  </div>
+  <div style="text-align: center; margin-bottom: 0.5rem;">
+    <button id="w2-btn-reset" style="background-color: #eee; color: #333; font-size: 0.9em; padding: 4px 8px;">Reset Defaults</button>
+  </div>
+  <div class="w2-log" id="w2-log">Ready to play.</div>
+</div>
+<script>
+// Widget 2 Logic
+(function(){
+  const k = 32;
+  let rA = 1200;
+  let rB = 1200;
+  
+  function updateUI() {
+    const eA = eloExpected(rA, rB);
+    const eB = 1 - eA;
+    d3.select("#w2-exp-a").text((eA * 100).toFixed(1) + "%");
+    d3.select("#w2-exp-b").text((eB * 100).toFixed(1) + "%");
+  }
+  
+  function animateNumber(elId, oldVal, newVal) {
+    d3.select(elId)
+      .transition()
+      .duration(500)
+      .tween("text", function() {
+        const i = d3.interpolateNumber(oldVal, newVal);
+        return function(t) {
+          this.textContent = Math.round(i(t));
+        };
+      });
+  }
+  
+  function showDelta(elId, delta) {
+    const el = d3.select(elId);
+    el.text(delta > 0 ? "+" + Math.round(delta) : Math.round(delta))
+      .style("opacity", 1)
+      .style("transform", "translateY(-20px)")
+      .transition().delay(1500).duration(500)
+      .style("opacity", 0)
+      .style("transform", "translateY(0px)");
+  }
+  
+  function play(outcomeA) {
+    const eA = eloExpected(rA, rB);
+    const [newRA, newRB] = simulateGame(rA, rB, outcomeA, k);
+    const deltaA = newRA - rA;
+    const deltaB = newRB - rB;
+    
+    animateNumber("#w2-rating-a", rA, newRA);
+    animateNumber("#w2-rating-b", rB, newRB);
+    showDelta("#w2-delta-a", deltaA);
+    showDelta("#w2-delta-b", deltaB);
+    
+    rA = newRA;
+    rB = newRB;
+    
+    d3.select("#w2-input-a").property("value", Math.round(rA));
+    d3.select("#w2-input-b").property("value", Math.round(rB));
+    
+    let msg = "";
+    if (outcomeA === 1) {
+      msg = `A was expected to win ${(eA*100).toFixed(0)}%, so this win moved ratings by ${Math.abs(Math.round(deltaA))} points.`;
+    } else if (outcomeA === 0) {
+      msg = `B was expected to win ${((1-eA)*100).toFixed(0)}%, so this win moved ratings by ${Math.abs(Math.round(deltaB))} points.`;
+    } else {
+      msg = `A draw moved ratings by ${Math.abs(Math.round(deltaA))} points towards the underdog.`;
+    }
+    d3.select("#w2-log").text(msg);
+    
+    updateUI();
+  }
+  
+  d3.select("#w2-btn-awin").on("click", () => play(1));
+  d3.select("#w2-btn-draw").on("click", () => play(0.5));
+  d3.select("#w2-btn-bwin").on("click", () => play(0));
+  
+  d3.selectAll("#w2-input-a, #w2-input-b").on("change", function() {
+    rA = +d3.select("#w2-input-a").property("value");
+    rB = +d3.select("#w2-input-b").property("value");
+    d3.select("#w2-rating-a").text(Math.round(rA));
+    d3.select("#w2-rating-b").text(Math.round(rB));
+    updateUI();
+  });
+  
+  d3.select("#w2-btn-reset").on("click", () => {
+    rA = 1200; rB = 1200;
+    d3.select("#w2-input-a").property("value", 1200);
+    d3.select("#w2-input-b").property("value", 1200);
+    d3.select("#w2-rating-a").text(1200);
+    d3.select("#w2-rating-b").text(1200);
+    d3.select("#w2-log").text("Ready to play.");
+    updateUI();
+  });
+  
+  updateUI();
+})();
+</script>
+
+## The K-Factor
+
+The maximum amount a rating can change in a single match is controlled by the **K-Factor**. A low K-Factor means ratings are "sticky" and change slowly over time. A high K-Factor means ratings are highly volatile and react quickly to recent results.
+
+<div class="elo-widget" id="widget-3">
+  <div class="w3-controls">
+    <div><strong>Underdog (1000) vs Favorite (1400)</strong><br>20 Games, 12 Wins / 8 Losses</div>
+    <button id="w3-btn-rand">Randomize Sequence</button>
+  </div>
+  <div id="w3-chart"></div>
+</div>
+<script>
+// Widget 3 Logic
+(function(){
+  const width = 652;
+  const height = 300;
+  const margin = {top: 20, right: 60, bottom: 30, left: 40};
+  
+  const svg = d3.select("#w3-chart").append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .style("width", "100%")
+    .style("height", "auto");
+    
+  const x = d3.scaleLinear().domain([0, 20]).range([margin.left, width - margin.right]);
+  const y = d3.scaleLinear().domain([950, 1350]).range([height - margin.bottom, margin.top]);
+  
+  svg.append("g").attr("transform", `translate(0,${height - margin.bottom})`).call(d3.axisBottom(x).ticks(10));
+  svg.append("g").attr("transform", `translate(${margin.left},0)`).call(d3.axisLeft(y));
+  
+  const lineK10 = svg.append("path").attr("fill", "none").attr("stroke", "#e07b39").attr("stroke-width", 3);
+  const lineK32 = svg.append("path").attr("fill", "none").attr("stroke", "#31ac94").attr("stroke-width", 3);
+  
+  const labelK10 = svg.append("text").attr("x", width - margin.right + 5).attr("fill", "#e07b39").attr("dy", "0.35em").text("K=10").style("font-weight", "bold");
+  const labelK32 = svg.append("text").attr("x", width - margin.right + 5).attr("fill", "#31ac94").attr("dy", "0.35em").text("K=32").style("font-weight", "bold");
+  
+  // Create an initial sequence of 12 wins, 8 losses
+  let sequence = Array(12).fill(1).concat(Array(8).fill(0));
+  
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  
+  function simulateSequence() {
+    let r10 = 1000, r32 = 1000;
+    const oppRating = 1400;
+    const data10 = [{i: 0, r: r10}];
+    const data32 = [{i: 0, r: r32}];
+    
+    for(let i=0; i<sequence.length; i++) {
+      let outcome = sequence[i];
+      let [newR10] = simulateGame(r10, oppRating, outcome, 10);
+      let [newR32] = simulateGame(r32, oppRating, outcome, 32);
+      r10 = newR10;
+      r32 = newR32;
+      data10.push({i: i+1, r: r10});
+      data32.push({i: i+1, r: r32});
+    }
+    
+    const lineGen = d3.line().x(d => x(d.i)).y(d => y(d.r)).curve(d3.curveMonotoneX);
+    
+    lineK10.datum(data10).transition().duration(500).attr("d", lineGen);
+    lineK32.datum(data32).transition().duration(500).attr("d", lineGen);
+    
+    labelK10.transition().duration(500).attr("y", y(r10));
+    labelK32.transition().duration(500).attr("y", y(r32));
+  }
+  
+  d3.select("#w3-btn-rand").on("click", () => {
+    shuffle(sequence);
+    simulateSequence();
+  });
+  
+  shuffle(sequence); // Initial shuffle
+  simulateSequence();
+})();
+</script>
+
+Notice how the `K=10` line barely budges, while the `K=32` line reacts significantly to the underdog's unexpected success. This is why new players (or new models on AI leaderboards) often start with a high K-factor to quickly place them near their true skill level, before lowering the K-factor to reduce volatility once they are established.
+
+## Self-Correcting League
+
+ELO is self-correcting. If a player's rating is too high, they will be expected to win constantly. When they inevitably lose, their rating will drop dramatically. Let's see this in action by simulating a league where the initial ratings are completely scrambled.
+
+<div class="elo-widget" id="widget-4">
+  <div class="w4-controls">
+    <button id="w4-btn-run">Run Season</button>
+    <div class="w4-speed">
+      <label for="w4-slider">Speed:</label>
+      <input type="range" id="w4-slider" min="10" max="500" value="400">
+    </div>
+    <button id="w4-btn-new" style="background-color: #eee; color: #333;">New League</button>
+  </div>
+  <div id="w4-chart"></div>
+  <div id="w4-status" style="text-align: center; font-weight: bold; margin-top: 10px;">Games Played: 0 / 60</div>
+</div>
+<script>
+// Widget 4 Logic
+(function(){
+  const width = 652;
+  const height = 300;
+  const margin = {top: 20, right: 20, bottom: 20, left: 100};
+  
+  const svg = d3.select("#w4-chart").append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .style("width", "100%")
+    .style("height", "auto");
+    
+  let players = [];
+  let games = [];
+  let timer = null;
+  let gamesPlayed = 0;
+  const maxGames = 60;
+  
+  function initLeague() {
+    // Generate true skills and scramble ratings
+    players = [
+      {id: "Alice", trueSkill: 1800, rating: 1200, color: "#31ac94"},
+      {id: "Bob", trueSkill: 1600, rating: 1300, color: "#48bca6"},
+      {id: "Charlie", trueSkill: 1500, rating: 1400, color: "#5fcbb9"},
+      {id: "Diana", trueSkill: 1400, rating: 1500, color: "#77dacc"},
+      {id: "Eve", trueSkill: 1200, rating: 1600, color: "#8fe9df"},
+      {id: "Frank", trueSkill: 1000, rating: 1800, color: "#a6f8f2"}
+    ];
+    // Create round-robin schedule (4 games per pair = 15 pairs * 4 = 60 games)
+    games = [];
+    for(let i=0; i<players.length; i++) {
+      for(let j=i+1; j<players.length; j++) {
+        games.push({p1: i, p2: j});
+        games.push({p1: j, p2: i});
+        games.push({p1: i, p2: j});
+        games.push({p1: j, p2: i});
+      }
+    }
+    // Shuffle games
+    for (let i = games.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [games[i], games[j]] = [games[j], games[i]];
+    }
+    gamesPlayed = 0;
+    d3.select("#w4-status").text(`Games Played: 0 / ${maxGames}`);
+    render(0);
+  }
+  
+  const x = d3.scaleLinear().domain([900, 1900]).range([margin.left, width - margin.right]);
+  const y = d3.scaleBand().domain([0,1,2,3,4,5]).range([margin.top, height - margin.bottom]).padding(0.1);
+  
+  const xAxisGroup = svg.append("g").attr("transform", `translate(0,${margin.top})`);
+  const yAxisGroup = svg.append("g").attr("transform", `translate(${margin.left},0)`);
+  
+  function render(duration = 0) {
+    // Sort players by rating for y-axis positioning
+    const sorted = [...players].map((p, idx) => ({...p, originalIdx: idx})).sort((a,b) => b.rating - a.rating);
+    
+    xAxisGroup.transition().duration(duration).call(d3.axisTop(x));
+    yAxisGroup.transition().duration(duration).call(
+      d3.axisLeft(y).tickFormat(i => sorted.find(p => p.originalIdx === i).id)
+    );
+    
+    // Bind to ID so object constancy is maintained
+    const bars = svg.selectAll(".bar")
+      .data(players, d => d.id);
+      
+    bars.enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", x(900))
+      .attr("height", y.bandwidth())
+      .attr("fill", d => d.color)
+      .merge(bars)
+      .transition().duration(duration).ease(d3.easeLinear)
+      .attr("y", d => {
+        const rank = sorted.findIndex(p => p.id === d.id);
+        return y(rank);
+      })
+      .attr("width", d => Math.max(0, x(d.rating) - x(900)));
+      
+    const trueSkills = svg.selectAll(".true-skill")
+      .data(players, d => d.id);
+      
+    trueSkills.enter().append("line")
+      .attr("class", "true-skill")
+      .attr("stroke", "#999")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "4,2")
+      .merge(trueSkills)
+      .transition().duration(duration).ease(d3.easeLinear)
+      .attr("y1", d => {
+        const rank = sorted.findIndex(p => p.id === d.id);
+        return y(rank);
+      })
+      .attr("y2", d => {
+        const rank = sorted.findIndex(p => p.id === d.id);
+        return y(rank) + y.bandwidth();
+      })
+      .attr("x1", d => x(d.trueSkill))
+      .attr("x2", d => x(d.trueSkill));
+      
+    const labels = svg.selectAll(".label")
+      .data(players, d => d.id);
+      
+    labels.enter().append("text")
+      .attr("class", "label")
+      .attr("dy", "0.35em")
+      .attr("fill", "#333")
+      .style("font-size", "12px")
+      .merge(labels)
+      .transition().duration(duration).ease(d3.easeLinear)
+      .attr("y", d => {
+        const rank = sorted.findIndex(p => p.id === d.id);
+        return y(rank) + y.bandwidth() / 2;
+      })
+      .attr("x", d => x(d.rating) + 5)
+      .tween("text", function(d) {
+         const current = parseFloat(this.textContent) || d.rating;
+         const i = d3.interpolateNumber(current, d.rating);
+         return function(t) {
+           this.textContent = Math.round(i(t));
+         };
+      });
+  }
+  
+  function playNextGame() {
+    if (gamesPlayed >= maxGames) {
+      clearInterval(timer);
+      timer = null;
+      d3.select("#w4-btn-run").text("Season Complete").attr("disabled", true);
+      return;
+    }
+    
+    const g = games[gamesPlayed];
+    const p1 = players[g.p1];
+    const p2 = players[g.p2];
+    
+    const trueProb = eloExpected(p1.trueSkill, p2.trueSkill);
+    const outcome = Math.random() < trueProb ? 1 : 0;
+    
+    const [newR1, newR2] = simulateGame(p1.rating, p2.rating, outcome, 32);
+    p1.rating = newR1;
+    p2.rating = newR2;
+    
+    gamesPlayed++;
+    d3.select("#w4-status").text(`Games Played: ${gamesPlayed} / ${maxGames}`);
+    
+    const delay = 510 - (+d3.select("#w4-slider").property("value"));
+    render(delay * 0.8);
+  }
+  
+  d3.select("#w4-btn-run").on("click", function() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+      d3.select(this).text("Resume");
+    } else {
+      if (gamesPlayed >= maxGames) return;
+      d3.select(this).text("Pause");
+      const delay = 510 - (+d3.select("#w4-slider").property("value"));
+      timer = setInterval(playNextGame, delay);
+    }
+  });
+  
+  d3.select("#w4-btn-new").on("click", () => {
+    if (timer) clearInterval(timer);
+    timer = null;
+    d3.select("#w4-btn-run").text("Run Season").attr("disabled", null);
+    initLeague();
+  });
+  
+  initLeague();
+})();
+</script>
+
+Notice what happens in the simulation:
+- The dashed grey lines represent each player's hidden **True Skill**. 
+- Even though the starting ELOs are scrambled (e.g., the worst player starts with the highest rating), the system rapidly sorts everyone out.
+- A player like Frank starts with 1800 ELO but a true skill of 1000. Because his rating is so high, the system expects him to win almost every game. When his true skill causes him to inevitably lose to weaker opponents, the ELO formula hands him massive point penalties, dragging his rating down to reality.
+- Conversely, Alice starts at 1200 but has a true skill of 1800. She earns huge upsets against higher-rated players, skyrocketing her rating.
+
+This is why ELO is so effective over large sample sizes: individual games have randomness, but over dozens of matches, the math forces everyone toward an equilibrium that matches their actual win rate.
+
+
+## What About Team Games?
+
+So far, we've only looked at 1v1 matchups like Chess. But modern competitive games like *League of Legends*, *Overwatch*, or *Counter-Strike* are team-based. How does ELO work when there are 10 players in a match?
+
+Most team games use an adaptation of ELO (often Microsoft's **TrueSkill** system or a custom **Matchmaking Rating / MMR**). Instead of a single 1v1 calculation, the system essentially:
+1. Calculates a composite "Team Rating" (usually an average or weighted average of the players' individual ratings).
+2. Uses the team ratings to calculate the expected win probability for Team A vs Team B.
+3. Updates every player's individual rating based on the outcome of the match, often applying the same point delta to everyone on the team regardless of individual performance.
+
+### The Matchmaking Dilemma
+
+This leads to a tricky matchmaking balancing act. A matchmaking system has two conflicting goals:
+- **Match speed**: Getting players into a game quickly (which means accepting wider rating gaps).
+- **Match fairness**: Ensuring the game is a 50/50 toss-up (which means waiting longer for players with identical ratings).
+
+If a game heavily prioritizes match speed, you might get a high-ELO player matched with low-ELO teammates against an average-ELO team. This creates a deeply frustrating experience for the high-ELO player.
+
+**Why?** Because of the math. If a highly-rated player is on a team that is statistically favored to win, a loss is incredibly punishing to their rating. If their lower-rated teammates make mistakes that cost the game, the high-ELO player will lose a massive amount of points, while a win would have barely nudged their rating up. 
+
+Because the ELO system punishes "upsets" so harshly, team-based games are highly incentivized to keep matchmaking windows extremely tight. A balanced, close-ELO match ensures that if you lose, the rating penalty is fair and proportional, preventing the exact kind of "ELO hell" scenarios that drive players away.
+
+<div class="elo-widget" id="widget-5">
+  <div class="w5-controls">
+    <button id="w5-btn-fair">Fair Match (Mixed Skills)</button>
+    <button id="w5-btn-fast" style="background-color: #eee; color: #333;">Fast Queue (Unbalanced)</button>
+  </div>
+  
+  <div class="w5-teams">
+    <div class="w5-team" style="border-color: #31ac94;">
+      <h3>Team A</h3>
+      <div id="w5-ta-avg" style="font-weight:bold; margin-bottom:10px;">Avg: 1333</div>
+      <div class="w5-players" id="w5-ta-players"></div>
+      <div style="margin-top:10px; font-weight:bold;">Win Prob: <span id="w5-prob-a">50%</span></div>
+    </div>
+    <div class="w5-vs">VS</div>
+    <div class="w5-team" style="border-color: #e07b39;">
+      <h3>Team B</h3>
+      <div id="w5-tb-avg" style="font-weight:bold; margin-bottom:10px;">Avg: 1333</div>
+      <div class="w5-players" id="w5-tb-players"></div>
+      <div style="margin-top:10px; font-weight:bold;">Win Prob: <span id="w5-prob-b">50%</span></div>
+    </div>
+  </div>
+
+  <div class="w5-outcomes">
+    <h4>If Team A Loses (The Upset)</h4>
+    <table class="w5-table">
+      <thead>
+        <tr>
+          <th>Player (Team A)</th>
+          <th>Flat Team Penalty</th>
+          <th>Individual Penalty</th>
+        </tr>
+      </thead>
+      <tbody id="w5-table-body">
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+(function(){
+  const scenarios = {
+    fair: { teamA: [2000, 1000, 1000], teamB: [1333, 1333, 1333] },
+    fast: { teamA: [2000, 1800, 1800], teamB: [1500, 1500, 1400] }
+  };
+  
+  let current = 'fair';
+  const k = 32;
+
+  function renderScenario() {
+    const s = scenarios[current];
+    const avgA = Math.round(d3.mean(s.teamA));
+    const avgB = Math.round(d3.mean(s.teamB));
+    
+    d3.select("#w5-ta-avg").text(`Avg: ${avgA}`);
+    d3.select("#w5-tb-avg").text(`Avg: ${avgB}`);
+    
+    const probA = eloExpected(avgA, avgB);
+    d3.select("#w5-prob-a").text((probA * 100).toFixed(1) + "%");
+    d3.select("#w5-prob-b").text(((1 - probA) * 100).toFixed(1) + "%");
+    
+    const updatePlayers = (selId, data) => {
+      const sel = d3.select(selId).selectAll(".w5-player").data(data);
+      sel.exit().remove();
+      sel.enter().append("span").attr("class", "w5-player")
+        .merge(sel).text(d => d);
+    };
+    
+    updatePlayers("#w5-ta-players", s.teamA);
+    updatePlayers("#w5-tb-players", s.teamB);
+    
+    const flatDelta = eloUpdate(avgA, probA, 0, k) - avgA;
+    const tbody = d3.select("#w5-table-body");
+    tbody.html("");
+    
+    s.teamA.forEach(rating => {
+      const indProb = eloExpected(rating, avgB);
+      const indDelta = eloUpdate(rating, indProb, 0, k) - rating;
+      
+      const isHigh = rating === Math.max(...s.teamA);
+      
+      tbody.append("tr").html(`
+        <td style="font-family:monospace; font-weight:bold;">${rating} ELO</td>
+        <td style="color:#e07b39;">${Math.round(flatDelta)}</td>
+        <td style="color:#e07b39; font-weight:${isHigh ? 'bold' : 'normal'};">${Math.round(indDelta)}</td>
+      `);
+    });
+  }
+
+  d3.select("#w5-btn-fair").on("click", function() {
+    current = 'fair';
+    d3.select(this).style("background-color", "#31ac94").style("color", "white");
+    d3.select("#w5-btn-fast").style("background-color", "#eee").style("color", "#333");
+    renderScenario();
+  });
+  
+  d3.select("#w5-btn-fast").on("click", function() {
+    current = 'fast';
+    d3.select(this).style("background-color", "#31ac94").style("color", "white");
+    d3.select("#w5-btn-fair").style("background-color", "#eee").style("color", "#333");
+    renderScenario();
+  });
+
+  renderScenario();
+})();
+</script>

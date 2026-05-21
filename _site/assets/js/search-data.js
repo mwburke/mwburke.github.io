@@ -78,4 +78,14 @@ var store = [{
         "excerpt":"Optimizing Transaction Routing with Linear Programming A side project exploring cost-minimizing vendor allocation under uncertainty. When you process a large volume of transactions, you’re often not locked into a single vendor. Multiple vendors compete for your volume, each offering tiered pricing, volume commitments, and restrictions on which transaction types they’ll...","categories": [],
         "tags": [],
         "url": "http://localhost:4000/2026/05/16/traffic-routing.html"
+      },{
+        "title": "Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn't Work",
+        "excerpt":"In the first version of this project, I built a Codenames spymaster assistant using word embeddings and cosine similarity. It worked okay, but I called out the main weakness at the end: embeddings struggle with polysemy, proper nouns, and anything that requires a concrete, verifiable connection between words rather than...","categories": ["Data Science"],
+        "tags": ["python","ml","neo4j","llm"],
+        "url": "http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html"
+      },{
+        "title": "How ELO Works: An Interactive Guide",
+        "excerpt":"Why ELO Matters Originally invented for chess in 1960 by Arpad Elo, the ELO rating system has quietly become the backbone of modern competitive ranking. If you’ve ever played a ranked video game like League of Legends or Counter-Strike, or if you’ve tracked the rapidly shifting landscape of AI models...","categories": ["data","science"],
+        "tags": ["statistics","probability","gaming","interactive"],
+        "url": "http://localhost:4000/data/science/2026/05/21/elo-interactive.html"
       }]

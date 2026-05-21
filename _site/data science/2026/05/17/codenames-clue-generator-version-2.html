@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<!--
+    So Simple Jekyll Theme 3.2.0
+    Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/so-simple-theme/blob/master/LICENSE
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+
+  
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn’t Work | Matthew Burke’s Blog</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn’t Work" />
+<meta name="author" content="Matthew Burke" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Building the graph-based approach I promised in v1 — and discovering the yield gap isn’t where I expected it to be." />
+<meta property="og:description" content="Building the graph-based approach I promised in v1 — and discovering the yield gap isn’t where I expected it to be." />
+<link rel="canonical" href="http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html" />
+<meta property="og:url" content="http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html" />
+<meta property="og:site_name" content="Matthew Burke’s Blog" />
+<meta property="og:image" content="http://localhost:4000/images/codenames_cover.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-05-17T00:00:00-07:00" />
+<script type="application/ld+json">
+{"dateModified":"2026-05-17T00:00:00-07:00","datePublished":"2026-05-17T00:00:00-07:00","url":"http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/images/generative-art-31.png"},"name":"Matthew Burke"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/data%20science/2026/05/17/codenames-clue-generator-version-2.html"},"author":{"@type":"Person","name":"Matthew Burke"},"description":"Building the graph-based approach I promised in v1 — and discovering the yield gap isn’t where I expected it to be.","image":{"thumbnail":"/images/codenames_cover.jpg","url":"http://localhost:4000/images/codenames_cover.jpg","@type":"imageObject"},"@type":"BlogPosting","headline":"Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn’t Work","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="/assets/css/skins/light.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Lora:400,400i,700,700i">
+  <link rel="alternate" type="application/atom+xml" title="Matthew Burke&#39;s Blog" href="/atom.xml">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#31ac94">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#31ac94">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50J88PJLNB"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-50J88PJLNB');
+</script>
+
+</head>
+
+
+  <body class="layout--post  codenames-clue-generator-v2-wikipedia-graphs-gemini-embeddings-and-what-still-doesn-t-work">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+  <div class="navigation-wrapper">
+    <a href="#menu-toggle" id="menu-toggle">Menu</a>
+    <nav id="primary-nav" class="site-nav animated drop">
+      <ul><li><a href="/posts/">Posts</a></li><li><a href="/categories/">Categories</a></li><li><a href="/tags/">Tags</a></li><li><a href="/search/">Search</a></li><li><a href="/about">About</a></li></ul>
+    </nav>
+  </div><!-- /.navigation-wrapper -->
+
+
+    <header class="masthead">
+  <div class="wrap">
+    
+      <a href="/" class="site-logo" rel="home" title="Matthew Burke's Blog">
+        <img src="/images/generative-art-31.png" class="site-logo-img animated fadeInDown" alt="Matthew Burke's Blog">
+      </a>
+    
+    
+    
+  </div>
+</header><!-- /.masthead -->
+
+
+    <main id="main" class="main-content" aria-label="Content">
+  <article class="h-entry">
+    
+  
+  
+  
+
+  <div class="page-image">
+    <img src="/images/codenames_cover.jpg" class="entry-feature-image u-photo" alt="Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn't Work" >
+    
+  </div>
+
+
+    <div class="page-wrapper">
+      <header class="page-header">
+        
+        
+          <h1 id="page-title" class="page-title p-name">Codenames Clue Generator v2: Wikipedia Graphs, Gemini Embeddings, and What Still Doesn’t Work
+</h1>
+        
+      </header>
+
+      <div class="page-sidebar">
+        <div class="page-author h-card p-author"><img src="/images/matthew-burke-photo.jpg" class="author-avatar u-photo" alt="Matthew Burke"><div class="author-info"><div class="author-name">
+        <span class="p-name">Matthew Burke</span>
+      </div><ul class="author-links"><li class="author-link">
+            <a class="u-url" rel="me" href="https://instagram.com/yot_club_"><i class="fab fa-instagram fa-lg" title="Instagram"></i></a>
+          </li><li class="author-link">
+            <a class="u-url" rel="me" href="https://github.com/mwburke"><i class="fab fa-github-square fa-lg" title="GitHub"></i></a>
+          </li></ul>
+
+<span class="read-time">11 min read</span>
+
+    <time class="page-date dt-published" datetime="2026-05-17T00:00:00-07:00"><a class="u-url" href="">May 17, 2026</a>
+</time>
+
+  </div>
+</div>
+
+        
+  <h3 class="page-taxonomies-title">Categories</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a class="p-category" href="/categories/#data-science" title="Pages filed under Data Science">Data Science</a></li>
+  </ul>
+
+
+        
+  <h3 class="page-taxonomies-title">Tags</h3>
+  <ul class="page-taxonomies"><li class="page-taxonomy"><a href="/tags/#python" title="Pages tagged python" rel="tag">python</a></li><li class="page-taxonomy"><a href="/tags/#ml" title="Pages tagged ml" rel="tag">ml</a></li><li class="page-taxonomy"><a href="/tags/#neo4j" title="Pages tagged neo4j" rel="tag">neo4j</a></li><li class="page-taxonomy"><a href="/tags/#llm" title="Pages tagged llm" rel="tag">llm</a></li>
+  </ul>
+
+
+      </div>
+
+      <div class="page-content">
+        <div class="e-content">
+          <p>In the <a href="/data%20science/2021/12/12/codenames-clue-generator-version-1.html">first version of this project</a>, I built a Codenames spymaster assistant using word embeddings and cosine similarity. It worked okay, but I called out the main weakness at the end: embeddings struggle with polysemy, proper nouns, and anything that requires a concrete, verifiable connection between words rather than a vague semantic cloud. I said graph-based similarity would fix that, and I finally got around to building it.</p>
+
+<p>This post covers three approaches — a Wikipedia link graph via Neo4j, a pure LLM approach using Gemini, and the original GloVe baseline — alongside a real evaluation loop using the <a href="https://arxiv.org/abs/2112.09169">SALT-NLP dataset</a> of human-labeled Codenames games. The code is on <a href="https://github.com/mwburke/codenames-clue-generator-graph">GitHub</a>.</p>
+
+<p>The headline result: the graph approach is fast, auditable, and free at runtime — but it has a structural yield gap I couldn’t close with graph tuning alone. And the pure LLM approach, despite its limitations, just works.</p>
+
+<hr />
+
+<h2 id="three-approaches-at-a-glance">Three Approaches at a Glance</h2>
+
+<p>Before going deep, here’s how the three generators compare across the dimensions that matter for this problem:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Graph (Neo4j)</th>
+      <th>Pure LLM (Gemini)</th>
+      <th>GloVe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Yield</strong></td>
+      <td>68%</td>
+      <td>~100%</td>
+      <td>86%</td>
+    </tr>
+    <tr>
+      <td><strong>Avg latency</strong></td>
+      <td>40ms</td>
+      <td>2–5s</td>
+      <td>12ms</td>
+    </tr>
+    <tr>
+      <td><strong>Precision@K</strong></td>
+      <td>0.941</td>
+      <td>TBD</td>
+      <td>0.965*</td>
+    </tr>
+    <tr>
+      <td><strong>Legality guarantee</strong></td>
+      <td>Strong</td>
+      <td>Weak</td>
+      <td>Medium</td>
+    </tr>
+    <tr>
+      <td><strong>Handles polysemy</strong></td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Partially</td>
+    </tr>
+    <tr>
+      <td><strong>Infrastructure</strong></td>
+      <td>Neo4j + Docker</td>
+      <td>API key only</td>
+      <td>GloVe model file</td>
+    </tr>
+    <tr>
+      <td><strong>Cost per request</strong></td>
+      <td>~$0</td>
+      <td>~$0.002–0.005</td>
+      <td>$0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>GloVe Precision@K is inflated — the SALT dataset stores team words as targets, so any generator that returns team words scores near 1.0. Take that number with a grain of salt.</em></p>
+
+<hr />
+
+<h2 id="the-graph-pipeline">The Graph Pipeline</h2>
+
+<p>The core idea: two Codenames words are related if they share Wikipedia neighbors. If SHARK and OCEAN both link to the Wikipedia article for “Marine biology,” then “marine” is a candidate clue connecting them. The more team words a candidate connects, the better.</p>
+
+<p>The pipeline looks like this:</p>
+
+<p><img src="/images/codenames_v2_graph.png" alt="Network diagram showing SPACE and ROCKET as blue team-word nodes, both connected to a green Ballistics candidate node, with other gray candidate nodes also visible" /></p>
+
+<p><em>How the graph finds clues: SPACE and ROCKET both link to the Wikipedia article for “Ballistics”, making it a candidate clue. The generator scores all such shared neighbors across every team word pair.</em></p>
+
+<h3 id="a-quick-primer-on-graph-databases">A quick primer on graph databases</h3>
+
+<p>If you haven’t worked with a graph database before, the core idea is simpler than it sounds. Where a relational database stores data in tables (rows and columns), a graph database stores data as <strong>nodes</strong> (things) and <strong>edges</strong> (relationships between things). That’s it.</p>
+
+<p>For Wikipedia: every article is a node, and every hyperlink from one article to another is an edge. The full English Wikipedia graph has ~13.6 million nodes and hundreds of millions of edges.</p>
+
+<p>Querying a graph database works by <strong>pattern matching</strong> — you describe the shape of the data you want, and the database finds all subgraphs that match. In Cypher (Neo4j’s query language), <code class="language-plaintext highlighter-rouge">(a)--(b)</code> means “find node <code class="language-plaintext highlighter-rouge">a</code> connected to node <code class="language-plaintext highlighter-rouge">b</code> by any edge.” You can chain these: <code class="language-plaintext highlighter-rouge">(a)--(b)--(c)</code> finds any path of length two. No joins, no subqueries — just describe the shape.</p>
+
+<p>So “find all Wikipedia articles that both SPACE and ROCKET link to” is literally:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(space_node)--(candidate)--(rocket_node)
+</code></pre></div></div>
+
+<p>That’s the entire structural logic of the clue generator. Everything else is filtering and scoring on top of that pattern.</p>
+
+<h3 id="building-the-graph">Building the graph</h3>
+
+<p>The Wikipedia link graph lives in Neo4j. The first step on each request is mapping board words to Wikipedia page titles via an indexed <code class="language-plaintext highlighter-rouge">UNWIND</code> lookup:</p>
+
+<pre><code class="language-cypher">UNWIND $words as w
+MATCH (p:Page)
+WHERE p.title = w
+   OR p.title = toUpper(substring(w, 0, 1)) + substring(w, 1)
+   OR p.title = toUpper(w)
+RETURN p.title as title, w as lower_title
+</code></pre>
+
+<p>This runs in under 5ms. The first version used <code class="language-plaintext highlighter-rouge">toLower(p.title) IN $words</code>, which forced a function call on every node and bypassed the index — triggering a full scan of 13 million nodes that took 24 seconds. The <code class="language-plaintext highlighter-rouge">UNWIND</code> pattern with explicit equality checks hits the index on every lookup.</p>
+
+<h3 id="finding-candidates-with-goodclue-nodes">Finding candidates with GoodClue nodes</h3>
+
+<p>Not every Wikipedia page makes a good Codenames clue. “List of mammals by country” is technically connected to a lot of things, but it’s useless. To avoid polluting the candidate set, I precomputed a <code class="language-plaintext highlighter-rouge">GoodClue</code> label on nodes that pass a degree filter (200–10,000 links) and title pattern filters (no “List of”, no taxonomy suffixes, no linguistics meta-articles). This runs once offline via <code class="language-plaintext highlighter-rouge">precompute_graph.py</code> and takes about 12 minutes for ~950k nodes.</p>
+
+<p>At query time, finding candidates is the pattern match described above, with filters:</p>
+
+<pre><code class="language-cypher">MATCH (team:Page) WHERE team.title IN $team_words AND team.degree &lt; 5000
+MATCH (candidate:GoodClue)--(team)
+WHERE NOT candidate.title IN $team_words
+WITH candidate, collect(DISTINCT team.title) AS targets
+WHERE size(targets) &gt; 1 OR $team_words_count &lt; 3
+ORDER BY candidate.base_score DESC
+LIMIT 150
+</code></pre>
+
+<p>In plain English: <em>find all GoodClue nodes that are neighbors of at least two team-word nodes, collect which team words each candidate connects, and return the top 150 by precomputed score.</em></p>
+
+<p><code class="language-plaintext highlighter-rouge">base_score</code> is precomputed as <code class="language-plaintext highlighter-rouge">-log10(degree) * 25 + 10</code> (single-word bonus). Pages with middling degree get the highest scores — they’re specific enough to be useful, but connected enough to bridge multiple team words. The distribution across all 950k GoodClue nodes shows the two-population effect clearly: single-word titles cluster above the multi-word titles by exactly the +10 bonus.</p>
+
+<p><img src="/images/codenames_v2_score_dist.png" alt="Two-panel chart: left shows a histogram of base_score with single-word titles shifted right vs multi-word titles; right shows score vs log-degree scatter confirming the linear relationship" /></p>
+
+<p>The scoring pass runs after the <code class="language-plaintext highlighter-rouge">LIMIT 150</code> to avoid computing opponent/neutral overlaps on thousands of candidates:</p>
+
+<pre><code class="language-cypher">WITH candidate, targets,
+     [(candidate)--(opp:Page) WHERE opp.title IN $opp_words | opp.title] AS opp_targets,
+     [(candidate)--(neut:Page) WHERE neut.title IN $neut_words | neut.title] AS neut_targets
+RETURN candidate.title AS clue, targets,
+       (base_score + size(targets)² * team_weight
+                   - size(opp_targets) * opp_penalty
+                   - size(neut_targets) * neut_penalty) AS score
+ORDER BY score DESC LIMIT 50
+</code></pre>
+
+<hr />
+
+<h2 id="making-it-fast">Making It Fast</h2>
+
+<p>The first working version had an average latency of 4.9 seconds, with a worst case of 32 seconds for boards with high-degree words like “gold” or “lead.” The fix was three changes applied together:</p>
+
+<p><img src="/images/codenames_v2_latency.png" alt="Bar chart: before 4.9s average latency, after 0.04s" /></p>
+
+<p><em>Before and after latency. The 32-second outliers disappeared entirely.</em></p>
+
+<ol>
+  <li>
+    <p><strong>Precompute <code class="language-plaintext highlighter-rouge">GoodClue</code> labels and <code class="language-plaintext highlighter-rouge">base_score</code> offline.</strong> The runtime query was running 13 title-pattern filters and computing a log-degree penalty on every candidate on every request. Moving this to a one-time precompute step made the runtime query trivially cheap.</p>
+  </li>
+  <li>
+    <p><strong>Add <code class="language-plaintext highlighter-rouge">LIMIT 150</code> before the scoring pass.</strong> The opponent/neutral overlap subqueries are expensive and were running on thousands of candidates. Limiting to the top 150 by <code class="language-plaintext highlighter-rouge">base_score</code> first makes the scoring pass fast without meaningfully affecting result quality.</p>
+  </li>
+  <li>
+    <p><strong>Lower the team degree cutoff from 10,000 to 5,000.</strong> Words like “gold” (degree ~7,600) were triggering full neighborhood traversals. Filtering them out at the team-word stage — not the candidate stage — cuts the graph traversal early.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="optional-ai-layers">Optional AI Layers</h2>
+
+<p>With the graph running fast, I added two optional re-ranking steps that activate when a Google API key is provided:</p>
+
+<p><strong>Gemini Embedding Reranker</strong> — embeds the clue and all target words using <code class="language-plaintext highlighter-rouge">gemini-embedding-001</code>, then adds two signals: average clue-to-target cosine similarity (does the clue actually relate to the targets semantically?) and target cluster tightness (are the targets themselves a coherent group?). The graph can surface a clue like “Cladistics” that technically connects BIRD and FISH through Wikipedia, but the embedding reranker penalizes it because the connection is obscure.</p>
+
+<p><strong>LLM Scorer</strong> — sends the top 20 candidates to Gemini Flash and asks it to rate each one 1–10 on naturalness. The rating is folded into the composite score as a continuous term rather than a binary filter. This catches Wikipedia-jargon clues that the graph scores highly but no human would ever use in a game.</p>
+
+<p>One practical note on API quota: the free tier for Gemini Flash has per-minute and daily limits. To handle this without interrupting runs, all LLM calls go through a fallback chain that tries models in order — <code class="language-plaintext highlighter-rouge">gemini-2.5-flash-lite</code> → <code class="language-plaintext highlighter-rouge">gemini-2.5-flash</code> → <code class="language-plaintext highlighter-rouge">gemini-2.0-flash-lite</code> → <code class="language-plaintext highlighter-rouge">gemini-2.0-flash</code> — skipping to the next on any 429 or quota error.</p>
+
+<hr />
+
+<h2 id="evaluating-against-real-games">Evaluating Against Real Games</h2>
+
+<p>The <a href="https://arxiv.org/abs/2112.09169">SALT-NLP dataset</a> contains human spymaster clues for real Codenames boards, which makes it a useful benchmark. I ran all three generators against 50 SALT scenarios and tracked four metrics:</p>
+
+<ul>
+  <li><strong>Yield</strong>: fraction of scenarios that produced at least one clue</li>
+  <li><strong>Precision@K</strong>: how well the top clue’s targets match the human clue’s targets</li>
+  <li><strong>SingleWord rate</strong>: fraction of top clues that are plain alphabetic words (proxy for legality)</li>
+  <li><strong>Avg latency</strong>: generation time per scenario</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Generator</th>
+      <th>Yield</th>
+      <th>Precision@K</th>
+      <th>SingleWord</th>
+      <th>Avg latency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Neo4j</td>
+      <td>34/50 (68%)</td>
+      <td>0.941</td>
+      <td>66%</td>
+      <td>0.040s</td>
+    </tr>
+    <tr>
+      <td>Semantic (GloVe)</td>
+      <td>43/50 (86%)</td>
+      <td>0.965*</td>
+      <td>86%</td>
+      <td>0.012s</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>GloVe Precision@K inflated — see note above.</em></p>
+
+<p>To make this concrete, here’s what the generator actually returns for a war/medieval-themed board:</p>
+
+<p><img src="/images/codenames_v2_example_output.png" alt="Table showing top 7 clues for a board with SOLDIER, BATTLE, ARMY, SWORD, GUN, WAR, KNIGHT, BLOOD — top result is Insurgency connecting Army, Battle, Knight" /></p>
+
+<hr />
+
+<h2 id="the-yield-gap-what-i-got-wrong">The Yield Gap: What I Got Wrong</h2>
+
+<p>The 32% yield gap bothered me. My assumption was that this was a word-mapping problem — board words like “sub” or “boom” weren’t matching Wikipedia titles, so the graph had nothing to work with.</p>
+
+<p>To test this, I built a <code class="language-plaintext highlighter-rouge">WikipediaWordMapper</code> that uses full-text search on the <code class="language-plaintext highlighter-rouge">page_title</code> index, embedding similarity to rank candidates, and an LLM call to disambiguate when the top two matches are close. The idea was that “charge” would resolve to the “Charge” Wikipedia article, “bark” to “Bark (dog)”, and so on.</p>
+
+<p>After wiring it in and re-running the eval: <strong>yield unchanged at 68%.</strong></p>
+
+<p>Digging into the failing scenarios revealed the actual problem. The failing board words <em>do</em> map via the initial UNWIND lookup — “sub” resolves to the “Sub” Wikipedia article just fine. The issue is what happens next:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Word</th>
+      <th>Wikipedia title</th>
+      <th>Degree</th>
+      <th>GoodClue neighbors found</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sub</td>
+      <td>Sub</td>
+      <td>40</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>boom</td>
+      <td>Boom</td>
+      <td>100</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>“Sub” has 40 Wikipedia links total. None of its neighbors are <code class="language-plaintext highlighter-rouge">GoodClue</code> nodes (which require degree 200+), so the graph query returns no candidates. The <code class="language-plaintext highlighter-rouge">WikipediaWordMapper</code> can’t help here — the word <em>mapped</em>, it just mapped to a page with sparse connections.</p>
+
+<p>I tried lowering the GoodClue floor from degree 200 down to 50, which added ~200k new candidate nodes. Results: zero yield improvement, average latency increased 13x (40ms → 520ms), and the single-word rate dropped because the new low-degree nodes tend to have multi-word Wikipedia titles. Reverted.</p>
+
+<p>The 32% gap is structural for this dataset. Many SALT scenarios involve words that genuinely have thin Wikipedia footprints — they’re common English words, but their Wikipedia pages are stubs or disambiguation pages with few meaningful connections. The graph has nothing to bridge from.</p>
+
+<hr />
+
+<h2 id="the-pure-llm-approach">The Pure LLM Approach</h2>
+
+<p>Given the yield gap, I added a pure LLM baseline: send the full board to Gemini with a prompt asking for the best clues, parse the JSON response.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">prompt</span> <span class="o">=</span> <span class="n">f</span><span class="s">"""You are an expert Codenames spymaster. Generate the best clues for the board below.
+
+YOUR team words: {', '.join(w.upper() for w in my_team)}
+Opponent words (avoid): {', '.join(w.upper() for w in opponent)}
+Neutral words (avoid): {', '.join(w.upper() for w in neutral)}
+Assassin (instant loss if guessed): {assassin.upper()}
+
+Return ONLY valid JSON — a list of up to 10 clues, best first:
+[{"clue": "WORD", "targets": ["word1", "word2"], "justification": "brief reason"}]"""</span>
+</code></pre></div></div>
+
+<p>The LLM handles polysemy naturally (it knows BANK means money in a financial context), generates clues humans would actually use, and has 100% yield by definition. The tradeoffs: 2–5 second latency, no verifiability, and the occasional hallucinated connection.</p>
+
+<hr />
+
+<h2 id="recommendation">Recommendation</h2>
+
+<p>If you want a Codenames clue generator that works and you’re willing to pay a fraction of a cent per request, use the LLM approach. It has 100% yield, produces natural clues, handles proper nouns and slang, and requires nothing beyond an API key. LLMs are increasingly just solving this class of problem — structured reasoning over a constrained set of words is exactly what they’re good at.</p>
+
+<p>The graph approach is worth building if you care about <em>why</em> a clue is connected — you can trace exactly which Wikipedia articles link a clue to a team word, which is useful for understanding and tuning the system. It’s also genuinely fast (40ms with no API calls) and free at runtime after the Neo4j setup cost. But the yield gap means you’d want to pair it with an LLM fallback for boards where the graph comes up empty.</p>
+
+<p>For most people: prompt the LLM, ship it.</p>
+
+<hr />
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>A few obvious directions:</p>
+
+<ul>
+  <li><strong>LLM fallback for zero-candidate boards</strong> — run the graph first; if it returns nothing, fall back to LLM-Direct. Gets yield close to 100% while keeping the graph path for the majority of boards where it works</li>
+  <li><strong>Stricter eval metric</strong> — current Precision@K measures target word overlap, which is inflated for some generators. Comparing the generated clue <em>word</em> to the human clue word is a harder and more honest measure</li>
+  <li><strong>Grid tuning</strong> — the scoring weights (<code class="language-plaintext highlighter-rouge">team_weight</code>, <code class="language-plaintext highlighter-rouge">opp_penalty</code>, <code class="language-plaintext highlighter-rouge">neut_penalty</code>) haven’t been systematically tuned yet. <code class="language-plaintext highlighter-rouge">evaluation_framework.py</code> + <code class="language-plaintext highlighter-rouge">grid_tuner.py</code> are ready to run once the eval metric is trustworthy</li>
+</ul>
+
+<hr />
+
+<h2 id="side-note-managing-free-tier-api-quota">Side note: managing free-tier API quota</h2>
+
+<p>One thing that came up repeatedly during development: the Gemini free tier has both per-minute (RPM) and daily (RPD) limits, and they’re easy to exhaust when running evaluations in a loop.</p>
+
+<p>Running 50 eval scenarios back-to-back with LLM-Direct active burned through the daily <code class="language-plaintext highlighter-rouge">gemini-2.0-flash-lite</code> quota in a single run. The per-minute limits are just as easy to hit — 15 RPM means a 50-scenario eval takes at least 3–4 minutes minimum even if each call is fast.</p>
+
+<p>A few things that helped:</p>
+
+<p><strong>Build a fallback chain, not a single model reference.</strong> Instead of hardcoding a model name and getting a hard failure on quota exhaustion, keep an ordered list and retry down it on any 429 or <code class="language-plaintext highlighter-rouge">RESOURCE_EXHAUSTED</code> error:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">FLASH_FALLBACK_MODELS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">"gemini-2.5-flash-lite"</span><span class="p">,</span>   <span class="c1"># highest free-tier RPD
+</span>    <span class="s">"gemini-2.5-flash"</span><span class="p">,</span>
+    <span class="s">"gemini-2.0-flash-lite"</span><span class="p">,</span>
+    <span class="s">"gemini-2.0-flash"</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div></div>
+
+<p>This way a quota exhaustion on one model silently rolls to the next rather than crashing the run. You lose nothing on the happy path and gain resilience on the quota-hit path.</p>
+
+<p><strong>Probe availability before a long run.</strong> A quick <code class="language-plaintext highlighter-rouge">/quota-check</code> at the start of a session — hitting each model with a single cheap request and checking for 429s — tells you which models are available before committing to a 50-scenario eval. Saves the frustration of a run failing 40 scenarios in.</p>
+
+<p><strong>Different models have different daily limits, not just rate limits.</strong> The per-minute limits are well-documented, but the daily limits are less predictable and reset at midnight Pacific. If you’re hitting daily limits, spreading eval runs across days or using a paid tier is the cleaner solution than trying to optimize around the caps.</p>
+
+<hr />
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://github.com/mwburke/codenames-clue-generator-graph">GitHub repo</a></li>
+  <li><a href="/data%20science/2021/12/12/codenames-clue-generator-version-1.html">v1 blog post</a></li>
+  <li><a href="https://arxiv.org/abs/2112.09169">SALT-NLP dataset paper</a></li>
+  <li><a href="https://neo4j.com/">Neo4j</a></li>
+  <li><a href="https://ai.google.dev/">Google Gemini API</a></li>
+</ul>
+
+        </div>
+
+        
+
+        
+
+        <nav class="page-pagination" role="navigation">
+  
+    <a class="page-previous" href="/2026/05/16/traffic-routing.html">
+      <h4 class="page-pagination-label">Previous</h4>
+      <span class="page-pagination-title">
+        <i class="fas fa-arrow-left"></i> Traffic Routing
+
+      </span>
+    </a>
+  
+
+  
+    <a class="page-next" href="/data/science/2026/05/21/elo-interactive.html">
+      <h4 class="page-pagination-label">Next</h4>
+      <span class="page-pagination-title">
+        How ELO Works: An Interactive Guide
+ <i class="fas fa-arrow-right"></i>
+      </span>
+    </a>
+  
+</nav>
+
+      </div>
+    </div>
+  </article>
+</main>
+
+
+    <footer id="footer" class="site-footer">
+  <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+<div class="social-icons"><a class="social-icon" href="https://instagram.com/yot_club_"><i class="fab fa-instagram fa-2x" title="Instagram"></i></a><a class="social-icon" href="https://github.com/mwburke"><i class="fab fa-github-square fa-2x" title="GitHub"></i></a><a class="social-icon" href="/atom.xml"><i class="fas fa-rss-square fa-2x" title="Feed"></i></a></div><div class="copyright">
+    
+      <p>&copy; 2026 Matthew Burke's Blog. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/mmistakes/so-simple-theme" rel="nofollow">So Simple</a>.</p>
+    
+  </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  </body>
+
+</html>
